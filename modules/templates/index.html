@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body %}
+<title>Home</title>
+<body>
+<div class="jumbotron">
+  <h1 class="display-3">Hello, world!</h1>
+  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for
+    calling extra attention to featured content or information.</p>
+  <hr class="my-2">
+  <p>It uses utility classes for typography and
+    spacing to space content out within the larger container.</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="#" role="button">Some action</a>
+  </p>
+</div>
+<div class="card-deck">
+  {% for i in notes %}
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Card title</h4>
+      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+        This content is a little bit longer.</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</body>
+{% endblock %}

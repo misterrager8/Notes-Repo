@@ -1,19 +1,18 @@
-import os
+from modules import db
+from modules.model import Note
 
 
-class JsonCtrla:
+class NoteDB:
     def __init__(self): pass
 
     @staticmethod
-    def get_all():
-        _ = []
-        for i in os.listdir("./notes/"):
-            _.append(i.split(".json")[0])
-
-        return _
+    def get_all(): return db.session.query(Note).all()
 
     @staticmethod
-    def delete_all(): pass
+    def insert_many(stuff):
+        for i in stuff: i.insert()
 
     @staticmethod
-    def import_notes(): pass
+    def delete_all():
+        db.session.execute("TRUNCATE TABLE notes")
+        db.session.commit()

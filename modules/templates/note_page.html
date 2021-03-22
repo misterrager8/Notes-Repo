@@ -14,15 +14,6 @@
     <a class="btn btn-primary btn-lg" href="#" role="button">Some action</a>
   </p>
 </div>
-<div class="card-deck">
-  {% for i in notes %}
-  <div class="card">
-    <div class="card-body">
-      <h4 class="card-title">{{ i.title }}</h4>
-      <p class="card-text">{{ i.date_added }}</p>
-    </div>
-  </div>
-  {% endfor %}
-</div>
-</body>
+<h1>{{ note.title }}</h1>
+<p>{{ note.content }}</p></body>
 {% endblock %}

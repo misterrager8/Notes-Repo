@@ -3,7 +3,7 @@
 {% block body %}
 <title>Home</title>
 <body>
-<div class="jumbotron">
+<div class="jumbotron text-center">
   <h1 class="display-3">Hello, world!</h1>
   <p class="lead">This is a simple hero unit, a simple jumbotron-style component for
     calling extra attention to featured content or information.</p>
@@ -14,14 +14,14 @@
     <a class="btn btn-primary btn-lg" href="#" role="button">Some action</a>
   </p>
 </div>
-<div class="card-deck">
+<div class="row">
   {% for i in notes %}
-  <div class="card">
+  <a class="col-3" href="{{ url_for('note_pg', note_id=i.id) }}">
     <div class="card-body">
       <h4 class="card-title">{{ i.title }}</h4>
-      <p class="card-text">{{ i.date_added }}</p>
+      <p class="card-text">{{ i.get_date() }}</p>
     </div>
-  </div>
+  </a>
   {% endfor %}
 </div>
 </body>

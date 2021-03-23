@@ -35,6 +35,13 @@ class Note(db.Model):
     def update(self):
         pass
 
+    def get_date(self):
+        return self.date_added.strftime("%B %d, %Y")
+
+    def save(self):
+        file1 = open(self.title + ".txt", "w")
+        file1.write(self.content)
+
     def __repr__(self):
         return "%s\t%s\t%s" % (self.title,
                                self.date_added,

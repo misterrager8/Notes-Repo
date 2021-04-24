@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block body %}
+<title>Home</title>
+<div class="container">
+  <h1 class="text-center">Home</h1>
+  {% for i in pages %}
+  <p>{{ i.title }}</p>
+  {% endfor %}
+</div>
+{% endblock %}

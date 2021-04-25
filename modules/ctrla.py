@@ -1,5 +1,4 @@
 from modules import db
-from modules.model import Page
 
 
 class DB:
@@ -7,8 +6,8 @@ class DB:
         pass
 
     @staticmethod
-    def find_by_id(id_):
-        return db.session.query(Page).get(id_)
+    def find_by_id(type_, id_: int):
+        return db.session.query(type_).get(id_)
 
     @staticmethod
     def create(object_):
@@ -16,8 +15,8 @@ class DB:
         db.session.commit()
 
     @staticmethod
-    def read_all():
-        return db.session.query(Page).all()
+    def read_all(type_):
+        return db.session.query(type_).all()
 
     @staticmethod
     def delete(object_):

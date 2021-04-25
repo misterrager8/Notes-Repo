@@ -9,23 +9,37 @@
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a href="{{ url_for('index') }}" class="navbar-brand">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-circle-fill" viewBox="0 0 16 16">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-circle-fill" viewBox="0 0 16 16">
       <circle cx="8" cy="8" r="8"/>
     </svg>
   </a>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav">
-<!--      <li class="navbar-item"><a href="#" class="nav-link">-->
-<!--        Page 1-->
-<!--      </a></li>-->
-<!--      <li class="navbar-item"><a href="#" class="nav-link">-->
-<!--        Page 2-->
-<!--      </a></li>-->
+      <li class="navbar-item"><a href="#" class="nav-link" data-toggle="modal" data-target="#add-folder-modal">
+        +
+      </a></li>
     </ul>
   </div>
 </nav>
 <body>
 {% block body %}
 {% endblock %}
+
+<!--Add Folder Modal-->
+<div class="modal" id="add-folder-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h1>Add Folder</h1>
+        <form action="{{ url_for('add_folder') }}" method="POST" class="form-group">
+          <input type="text" autocomplete="off" placeholder="Name" class="form-control" name="name">
+          <input type="color" name="color" class="form-control">
+          <button type="submit" class="btn btn-secondary w-50">Add Folder</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

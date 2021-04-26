@@ -18,6 +18,14 @@
       <li class="navbar-item"><a href="#" class="nav-link" data-toggle="modal" data-target="#add-folder-modal">
         +
       </a></li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Folders</a>
+        <div class="dropdown-menu">
+          {% for i in folders %}
+          <a class="dropdown-item" href="{{ url_for('folder', id_=i.id) }}">{{ i.name }}</a>
+          {% endfor %}
+        </div>
+      </li>
     </ul>
   </div>
 </nav>

@@ -3,8 +3,9 @@
 {% block body %}
 <title>Add Page</title>
 <div class="container">
-  <form method="POST" action="{{ url_for('add_page') }}" class="form-group col-10 offset-1 text-center">
+  <form method="POST" action="{{ url_for('add_page', id_=folder.id) }}" class="form-group col-10 offset-1 text-center">
     <input type="text" autocomplete="off" placeholder="Title" name="title" class="form-control">
+    <a href="https://www.markdownguide.org/cheat-sheet/" class="unstyled-link text-info" target="_blank">Markdown Cheat Sheet</a>
     <textarea rows="25" placeholder="Content" name="content" class="form-control" autocomplete="off"></textarea>
     <button type="submit" class="btn btn-secondary w-50">Add Page</button>
   </form>

@@ -29,7 +29,8 @@ class Page(db.Model):
         self.last_modified = last_modified
         self.tag = tag
 
-    def edit_content(self, content: str):
+    def edit_page(self, title: str, content: str):
+        self.title = title
         self.content = content
         self.last_modified = datetime.now()
         db.session.commit()
@@ -37,6 +38,12 @@ class Page(db.Model):
     def content_to_html(self):
         html = markdown.markdown(self.content)
         return html
+
+    def get_last_modified(self):
+        return self.last_modified.strftime("%B %d, %Y %I:%M %p")
+
+    def get_date_created(self):
+        return self.date_created.strftime("%B %d, %Y %I:%M %p")
 
     def __str__(self):
         return "%d\t%s" % (self.id, self.title)
@@ -62,6 +69,9 @@ class Folder(db.Model):
     def add_page(self, page: Page):
         self.pages.append(page)
         db.session.commit()
+
+    def get_date_created(self):
+        return self.date_created.strftime("%B %d, %Y %I:%M %p")
 
     def __str__(self):
         return "%d\t%s" % (self.id, self.name)

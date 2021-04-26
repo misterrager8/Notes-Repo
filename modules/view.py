@@ -7,14 +7,20 @@ from modules.model import Page, Folder
 my_db = DB()
 
 
+@app.context_processor
+def inject_folders():
+    _ = my_db.read_all(Folder)
+    return dict(folders=_)
+
+
 @app.route("/")
 def index():
-    return render_template("index.html", folders=my_db.read_all(Folder))
+    return render_template("index.html")
 
 
 @app.route("/add_page", methods=["POST", "GET"])
 def add_page():
-    id_ = request.args.get("id_")
+    id_: int = request.args.get("id_")
     folder_: Folder = my_db.find_by_id(Folder, id_)
 
     if request.method == "POST":
@@ -43,10 +49,11 @@ def edit_page():
     page: Page = my_db.find_by_id(Page, id_)
 
     if request.method == "POST":
+        title = request.form["title"]
         content = request.form["content"]
-        page.edit_content(content)
+        page.edit_page(title, content)
 
-        return redirect(url_for("doc", id_=page.id))
+        return redirect(url_for("folder", id_=page.folder_id))
 
     return render_template("edit_page.html", page=page)
 
@@ -54,9 +61,11 @@ def edit_page():
 @app.route("/delete_page")
 def delete_page():
     id_ = request.args.get("id_")
-    my_db.delete(my_db.find_by_id(Page, id_))
+    _: Page = my_db.find_by_id(Page, id_)
+    folder_ = _.folders
+    my_db.delete(_)
 
-    return redirect(url_for("index"))
+    return redirect(url_for("folder", id_=folder_.id))
 
 
 @app.route("/folder", methods=["POST", "GET"])

@@ -7,6 +7,8 @@ from modules.model import Page, Folder
 my_db = DB()
 
 
+# --FOLDER FNS--
+
 @app.context_processor
 def inject_folders():
     _ = my_db.read_all(Folder)
@@ -16,6 +18,65 @@ def inject_folders():
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.route("/add_folder", methods=["POST", "GET"])
+def add_folder():
+    if request.method == "POST":
+        name = request.form["name"]
+        color = request.form["color"]
+
+        my_db.create(Folder(name, color))
+        return redirect(url_for("index"))
+
+
+@app.route("/delete_folder")
+def delete_folder():
+    id_ = request.args.get("id_")
+    _: Folder = my_db.find_by_id(Folder, id_)
+    my_db.delete(_)
+
+    return redirect(url_for("index"))
+
+
+@app.route("/edit_folder", methods=["POST", "GET"])
+def edit_folder():
+    id_ = request.args.get("id_")
+    folder_: Folder = my_db.find_by_id(Folder, id_)
+
+    if request.method == "POST":
+        name = request.form["name"]
+        color = request.form["color"]
+        folder_.edit_folder(name, color)
+
+        return redirect(url_for("index"))
+
+
+@app.route("/folder", methods=["POST", "GET"])
+def folder():
+    id_ = request.args.get("id_")
+    folder_: Folder = my_db.find_by_id(Folder, id_)
+
+    return render_template("folder.html", folder=folder_)
+
+
+# --PAGE FNS--
+
+
+@app.route("/page", methods=["POST", "GET"])
+def page():
+    id_ = request.args.get("id_")
+    page_: Page = my_db.find_by_id(Page, id_)
+
+    return render_template("page.html", page=page_)
+
+
+@app.route("/page_plain")
+def page_plain():
+    id_ = request.args.get("id_")
+    page_: Page = my_db.find_by_id(Page, id_)
+
+    return render_template("page_plain.html", page=page_)
 
 
 @app.route("/add_page", methods=["POST", "GET"])
@@ -33,31 +94,6 @@ def add_page():
     return render_template("add_page.html", folder=folder_)
 
 
-@app.route("/add_folder", methods=["POST", "GET"])
-def add_folder():
-    if request.method == "POST":
-        name = request.form["name"]
-        color = request.form["color"]
-
-        my_db.create(Folder(name, color))
-        return redirect(url_for("index"))
-
-
-@app.route("/edit_page", methods=["POST", "GET"])
-def edit_page():
-    id_ = request.args.get("id_")
-    page: Page = my_db.find_by_id(Page, id_)
-
-    if request.method == "POST":
-        title = request.form["title"]
-        content = request.form["content"]
-        page.edit_page(title, content)
-
-        return redirect(url_for("folder", id_=page.folder_id))
-
-    return render_template("edit_page.html", page=page)
-
-
 @app.route("/delete_page")
 def delete_page():
     id_ = request.args.get("id_")
@@ -68,25 +104,16 @@ def delete_page():
     return redirect(url_for("folder", id_=folder_.id))
 
 
-@app.route("/folder", methods=["POST", "GET"])
-def folder():
+@app.route("/edit_page", methods=["POST", "GET"])
+def edit_page():
     id_ = request.args.get("id_")
-    folder_: Folder = my_db.find_by_id(Folder, id_)
+    page_: Page = my_db.find_by_id(Page, id_)
 
-    return render_template("folder.html", folder=folder_)
+    if request.method == "POST":
+        title = request.form["title"]
+        content = request.form["content"]
+        page_.edit_page(title, content)
 
+        return redirect(url_for("folder", id_=page_.folder_id))
 
-@app.route("/doc", methods=["POST", "GET"])
-def doc():
-    id_ = request.args.get("id_")
-    page: Page = my_db.find_by_id(Page, id_)
-
-    return render_template("doc.html", page=page)
-
-
-@app.route("/doc_plain")
-def doc_plain():
-    id_ = request.args.get("id_")
-    page: Page = my_db.find_by_id(Page, id_)
-
-    return render_template("doc_plain.html", page=page)
+    return render_template("edit_page.html", page=page_)

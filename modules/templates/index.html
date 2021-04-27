@@ -1,21 +1,12 @@
 {% extends "base.html" %}
+{% from "macros.html" import folder_card with context %}
 
 {% block body %}
 <title>Home</title>
 <div class="container">
   <div class="row m-5">
     {% for i in folders %}
-    <div class="card col-3 border-0">
-      <div class="card-body text-center">
-        <a class="unstyled-link" href="{{ url_for('folder', id_=i.id) }}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="{{ i.color }}" class="bi bi-folder-fill" viewBox="0 0 16 16">
-            <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
-          </svg>
-          <h5 class="m-2">{{ i.name }}</h5>
-        </a>
-        <a href="#" data-toggle="modal" data-target="#info-modal-{{ i.id }}" class="badge badge-secondary">{{ i.pages | count }} page(s)</a>
-      </div>
-    </div>
+    {{ folder_card(i) }}
     {% endfor %}
   </div>
 </div>

@@ -1,13 +1,9 @@
 {% extends "base.html" %}
+{% from "macros.html" import page_form with context %}
 
 {% block body %}
 <title>Edit | {{ page.title }}</title>
 <div class="container">
-  <form method="POST" action="{{ url_for('edit_page', id_=page.id) }}" class="form-group col-10 offset-1 text-center">
-    <input type="text" autocomplete="off" placeholder="Title" name="title" class="form-control" value="{{ page.title }}">
-    <a href="https://www.markdownguide.org/cheat-sheet/" class="unstyled-link text-info" target="_blank">Markdown Cheat Sheet</a>
-    <textarea rows="25" placeholder="Content" name="content" class="form-control" autocomplete="off">{{ page.content }}</textarea>
-    <button type="submit" class="btn btn-secondary w-50">Edit</button>
-  </form>
+  {{ page_form('edit') }}
 </div>
 {% endblock %}

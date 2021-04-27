@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% from "macros.html" import add_folder_modal with context %}
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -18,6 +19,7 @@
       <li class="navbar-item"><a href="#" class="nav-link" data-toggle="modal" data-target="#add-folder-modal">
         +
       </a></li>
+      {{ add_folder_modal() }}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Folders</a>
         <div class="dropdown-menu">
@@ -32,22 +34,5 @@
 <body>
 {% block body %}
 {% endblock %}
-
-<!--Add Folder Modal-->
-<div class="modal" id="add-folder-modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body text-center">
-        <h1>Add Folder</h1>
-        <form action="{{ url_for('add_folder') }}" method="POST" class="form-group">
-          <input type="text" autocomplete="off" placeholder="Name" class="form-control" name="name">
-          <input type="color" name="color" class="form-control">
-          <button type="submit" class="btn btn-secondary w-50">Add Folder</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>

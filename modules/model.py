@@ -66,6 +66,11 @@ class Folder(db.Model):
         self.color = color
         self.date_created = date_created
 
+    def edit_folder(self, name: str, color: str):
+        self.name = name
+        self.color = color
+        db.session.commit()
+
     def add_page(self, page: Page):
         self.pages.append(page)
         db.session.commit()

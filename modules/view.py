@@ -1,3 +1,5 @@
+import random
+
 from flask import render_template, request, redirect, url_for
 
 from modules import app
@@ -25,7 +27,7 @@ def index():
 def add_folder():
     if request.method == "POST":
         name = request.form["name"]
-        color = request.form["color"]
+        color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
 
         my_db.create(Folder(name, color))
         return redirect(url_for("index"))

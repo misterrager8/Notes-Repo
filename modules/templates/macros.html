@@ -16,9 +16,10 @@
 <!--Page Card-->
 {% macro page_card(page) %}
 <div class="card col-4 border-0">
-  <div class="card-body p-0 border">
-    <div class="card-header">
+  <div class="card-body p-0 border m-3">
+    <div class="card-header d-flex justify-content-between">
       <a class="unstyled-link" href="{{ url_for('page', id_=page.id) }}">{{ page.title }}</a>
+      <a href="{{ url_for('folder', id_=page.folder_id) }}"><span class="badge badge-primary" style="background-color: {{ page.folders.color }}">{{ page.folders.name }}</span></a>
     </div>
     <div class="card-body">
       <small><span class="font-weight-bold">Last Modified:</span> {{ page.get_last_modified() }}</small><br>

@@ -16,15 +16,24 @@
   </a>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav">
-      <li class="navbar-item"><a href="#" class="nav-link" data-toggle="modal" data-target="#add-folder-modal">
-        +
-      </a></li>
       {{ add_folder_modal() }}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Folders</a>
         <div class="dropdown-menu">
-          {% for i in folders %}
+          <a href="#" class="dropdown-item text-success" data-toggle="modal" data-target="#add-folder-modal">New Folder</a>
+          <div class="dropdown-divider"></div>
+          {% for i in folders[:5] %}
           <a class="dropdown-item" href="{{ url_for('folder', id_=i.id) }}">{{ i.name }}</a>
+          {% endfor %}
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
+        <div class="dropdown-menu">
+          <a href="{{ url_for('all_pages') }}" class="dropdown-item">All Pages</a>
+          <div class="dropdown-divider"></div>
+          {% for i in pages[:5] %}
+          <a class="dropdown-item" href="{{ url_for('page', id_=i.id) }}">{{ i.title }}</a>
           {% endfor %}
         </div>
       </li>

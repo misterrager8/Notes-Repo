@@ -11,8 +11,9 @@ my_db = DB()
 
 @app.context_processor
 def inject_folders():
-    _ = my_db.read_all(Folder)
-    return dict(folders=_)
+    folders = my_db.read_all(Folder)
+    pages = my_db.read_all(Page)
+    return dict(folders=folders, pages=pages)
 
 
 @app.route("/")

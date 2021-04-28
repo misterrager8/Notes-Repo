@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from "macros.html" import page_card, title_div with context %}
+
+{% block body %}
+<title>All Pages</title>
+<div class="container">
+  {{ title_div('Pages') }}
+  <div class="ml-3">
+    Sort By:
+    <span class="badge"><a class="unstyled-link" href="{{ url_for('all_pages') }}">Title</a></span>
+    <span class="badge"><a class="unstyled-link" href="{{ url_for('all_pages') }}">Folder</a></span>
+    <span class="badge"><a class="unstyled-link" href="{{ url_for('all_pages') }}">Modified</a></span>
+  </div>
+  <div class="row">
+    {% for i in pages %}
+    {{ page_card(i) }}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

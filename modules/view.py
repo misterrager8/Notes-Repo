@@ -64,6 +64,11 @@ def folder():
 # --PAGE FNS--
 
 
+@app.route("/all_pages", methods=["POST", "GET"])
+def all_pages():
+    return render_template("all_pages.html")
+
+
 @app.route("/page", methods=["POST", "GET"])
 def page():
     id_ = request.args.get("id_")

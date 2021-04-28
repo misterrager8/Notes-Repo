@@ -1,3 +1,10 @@
+<!--Title Div-->
+{% macro title_div(title) %}
+<div class="text-center m-5">
+  <h1>{{ title }}</h1>
+</div>
+{% endmacro %}
+
 <!--Folder Card-->
 {% macro folder_card(folder) %}
 <div class="card col-3 border-0">
@@ -30,6 +37,14 @@
     </div>
   </div>
 </div>
+{% endmacro %}
+
+<!--Add Icon-->
+{% macro add_icon() %}
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="green" class="bi bi-plus-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+</svg>
 {% endmacro %}
 
 <!--Delete Icon-->
@@ -79,10 +94,7 @@
 <span>
   <!--Add to Folder-->
   <a href="{{ url_for('add_page', id_=folder.id) }}" class="unstyled-link mx-1">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="green" class="bi bi-plus-circle" viewBox="0 0 16 16">
-      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-    </svg>
+    {{ add_icon() }}
   </a>
   <!--Info for Folder-->
   <a href="#" class="unstyled-link mx-1" data-toggle="modal" data-target="#folder-info-modal-{{ folder.id }}">
@@ -138,7 +150,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body text-center">
-        <h1>Add Folder</h1>
+        {{ title_div('Add Folder') }}
         <form action="{{ url_for('add_folder') }}" method="POST" class="form-group">
           <input type="text" autocomplete="off" placeholder="Name" class="form-control" name="name">
           <input type="color" name="color" class="form-control">
@@ -156,7 +168,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body text-center">
-        <h1>Delete {{ folder.name }}?</h1>
+        {{ title_div('Delete '+folder.name+'?') }}
         <a href="{{ url_for('delete_folder', id_=folder.id) }}" class="btn btn-danger btn-lg">Delete Folder</a>
       </div>
     </div>
@@ -187,7 +199,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
-        <h2 class="text-center">{{ folder.name }}</h2>
+        {{ title_div(folder.name) }}
         <p>Created {{ folder.get_date_created() }}</p>
         <p>{{ folder.pages | count }} page(s)</p>
       </div>
@@ -201,8 +213,8 @@
 <div class="modal" id="delete-page-modal-{{ page.id }}">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-body text-center">
-        <h1>Delete {{ page.title }}?</h1>
+      <div class="modal-body">
+        {{ title_div('Delete '+page.title+'?') }}
         <a href="{{ url_for('delete_page', id_=page.id) }}" class="btn btn-danger btn-lg">Delete Page</a>
       </div>
     </div>

@@ -68,7 +68,9 @@ def folder():
 
 @app.route("/all_pages", methods=["POST", "GET"])
 def all_pages():
-    return render_template("all_pages.html")
+    order_by = request.args.get("order_by", default="title")
+
+    return render_template("all_pages.html", all_pages=my_db.read_all(Page, order_by))
 
 
 @app.route("/page", methods=["POST", "GET"])

@@ -23,14 +23,14 @@ class Page(db.Model):
                  date_created: datetime = datetime.now(),
                  last_modified: datetime = datetime.now(),
                  tag: str = ""):
-        self.title = title.capitalize()
+        self.title = title.title()
         self.content = content
         self.date_created = date_created
         self.last_modified = last_modified
         self.tag = tag
 
     def edit_page(self, title: str, content: str):
-        self.title = title
+        self.title = title.title()
         self.content = content
         self.last_modified = datetime.now()
         db.session.commit()
@@ -62,12 +62,12 @@ class Folder(db.Model):
                  name: str,
                  color: str,
                  date_created: datetime = datetime.now()):
-        self.name = name.capitalize()
+        self.name = name.title()
         self.color = color
         self.date_created = date_created
 
     def edit_folder(self, name: str, color: str):
-        self.name = name
+        self.name = name.title()
         self.color = color
         db.session.commit()
 

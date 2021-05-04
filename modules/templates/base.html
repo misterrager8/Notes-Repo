@@ -15,7 +15,10 @@
       <circle cx="8" cy="8" r="8"/>
     </svg>
   </a>
-  <div class="navbar-collapse">
+  <button data-toggle="collapse" data-target="#nav_content" class="navbar-toggler" type="button">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="nav_content">
     <ul class="navbar-nav">
       {{ add_folder_modal() }}
       <li class="nav-item dropdown">

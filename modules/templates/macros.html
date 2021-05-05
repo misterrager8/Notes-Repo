@@ -128,6 +128,35 @@
 </span>
 {% endmacro %}
 
+<!--Sort Pages Filter-->
+{% macro sort_pages_filter(class, view_fn) %}
+<div class="{{ class }}">
+  Sort By:
+  {% if order_by == 'title' %}
+  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='folders.name') }}">Folder</a></span>
+  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='last_modified desc') }}">Last Modified</a></span>
+  {% elif order_by == 'folders.name' %}
+  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='title') }}">Title</a></span>
+  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='last_modified desc') }}">Last Modified</a></span>
+  {% elif order_by == 'last_modified desc' %}
+  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='title') }}">Title</a></span>
+  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='folders.name') }}">Folder</a></span>
+  {% endif %}
+</div>
+{% endmacro %}
+
+<!--Sort Folders Filter-->
+{% macro sort_folders_filter(class, view_fn) %}
+<div class="{{ class }}">
+  Sort By:
+  {% if order_by == 'date_created desc' %}
+  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='name') }}">Name</a></span>
+  {% elif order_by == 'name' %}
+  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='date_created desc') }}">Date Created</a></span>
+  {% endif %}
+</div>
+{% endmacro %}
+
 <!--Page Form-->
 {% macro page_form(mode) %}
 <form method="POST"

@@ -1,11 +1,13 @@
 {% extends "base.html" %}
-{% from "macros.html" import folder_card with context %}
+{% from "macros.html" import folder_card, sort_folders_filter, title_div with context %}
 
 {% block body %}
 <title>Home</title>
 <div class="container">
-  <div class="row m-5">
-    {% for i in folders %}
+  {{ title_div('Folders') }}
+  {{ sort_folders_filter('text-center', 'index') }}
+  <div class="row">
+    {% for i in all_folders %}
     {{ folder_card(i) }}
     {% endfor %}
   </div>

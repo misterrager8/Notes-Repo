@@ -1,6 +1,7 @@
 import random
 
 from flask import render_template, request, redirect, url_for
+from sqlalchemy import text
 
 from modules import app
 from modules.ctrla import DB
@@ -20,7 +21,10 @@ def inject_folders():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    order_by = request.args.get("order_by", default="date_created desc")
+    _ = my_db.read_all(Folder).order_by(text(order_by))
+
+    return render_template("index.html", all_folders=_, order_by=order_by)
 
 
 @app.route("/add_folder", methods=["POST", "GET"])
@@ -68,9 +72,10 @@ def folder():
 
 @app.route("/all_pages", methods=["POST", "GET"])
 def all_pages():
-    order_by = request.args.get("order_by", default="title")
+    order_by = request.args.get("order_by", default="last_modified desc")
+    _ = my_db.read_all(Page).order_by(text(order_by)).join(Folder)
 
-    return render_template("all_pages.html", all_pages=my_db.read_all(Page, order_by))
+    return render_template("all_pages.html", all_pages=_, order_by=order_by)
 
 
 @app.route("/page", methods=["POST", "GET"])

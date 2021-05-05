@@ -3,3 +3,5 @@ Markdown
 SQLAlchemy
 python-dotenv
 flask_sqlalchemy
+gunicorn
+PyMySQL

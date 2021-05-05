@@ -14,9 +14,9 @@ my_db = DB()
 
 @app.context_processor
 def inject_folders():
-    folders = my_db.read_all(Folder)
-    pages = my_db.read_all(Page)
-    return dict(folders=folders, pages=pages)
+    recent_folders = my_db.read_all(Folder).order_by(text("date_created desc"))[:5]
+    recent_pages = my_db.read_all(Page).order_by(text("last_modified desc"))[:5]
+    return dict(recent_folders=recent_folders, recent_pages=recent_pages)
 
 
 @app.route("/")
@@ -129,6 +129,6 @@ def edit_page():
         content = request.form["content"]
         page_.edit_page(title, content)
 
-        return redirect(url_for("folder", id_=page_.folder_id))
+        return redirect(url_for("page", id_=page_.id))
 
     return render_template("edit_page.html", page=page_)

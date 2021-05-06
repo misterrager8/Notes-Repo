@@ -132,3 +132,12 @@ def edit_page():
         return redirect(url_for("page", id_=page_.id))
 
     return render_template("edit_page.html", page=page_)
+
+
+@app.route("/search", methods=["POST", "GET"])
+def search():
+    if request.method == "POST":
+        search_term = request.form["search_term"]
+        results = my_db.read_all(Page).filter(Page.title.ilike(f"%{search_term}%"))
+
+        return render_template("search.html", results=results, header="\"%s\"" % search_term)

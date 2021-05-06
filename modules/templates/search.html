@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros %}
+
+{% block body %}
+<title>Pages</title>
+<div class="container">
+  {{ macros.title_div(header) }}
+  <div class="row">
+    {% for i in results %}
+    {{ macros.page_card(i) }}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

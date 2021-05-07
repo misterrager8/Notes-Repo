@@ -141,3 +141,19 @@ def search():
         results = my_db.read_all(Page).filter(Page.title.ilike(f"%{search_term}%"))
 
         return render_template("search.html", results=results, header="\"%s\"" % search_term)
+
+
+@app.route("/bookmarks")
+def bookmarks():
+    _ = my_db.read_all(Page).filter(Page.bookmarked is True)
+    return render_template("bookmarks.html", bookmarks_=_)
+
+
+@app.route("/mark")
+def mark_page():
+    id_ = request.args.get("id_")
+    page_: Page = my_db.find_by_id(Page, id_)
+
+    page_.toggle_marked()
+
+    return redirect(url_for("bookmarks"))

@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import markdown
-from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey
+from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
 from modules import db
@@ -15,6 +15,7 @@ class Page(db.Model):
     date_created = Column(DateTime)
     last_modified = Column(DateTime)
     folder_id = Column(Integer, ForeignKey("folders.id"))
+    bookmarked = Column(Boolean, default=False)
     id = Column(Integer, primary_key=True)
 
     def __init__(self,
@@ -27,7 +28,7 @@ class Page(db.Model):
         self.content = content
         self.date_created = date_created
         self.last_modified = last_modified
-        self.tag = tag
+        self.bookmarked = bookmarked
 
     def edit_page(self, title: str, content: str):
         self.title = title.title()
@@ -44,6 +45,10 @@ class Page(db.Model):
 
     def get_date_created(self):
         return self.date_created.strftime("%B %d, %Y %I:%M %p")
+
+    def toggle_marked(self):
+        self.bookmarked = not self.bookmarked
+        db.session.commit()
 
     def __str__(self):
         return "%d\t%s" % (self.id, self.title)

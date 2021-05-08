@@ -145,7 +145,7 @@ def search():
 
 @app.route("/bookmarks")
 def bookmarks():
-    _ = my_db.read_all(Page).filter(Page.bookmarked is True)
+    _ = my_db.read_all(Page).filter(Page.bookmarked.is_(True))
     return render_template("bookmarks.html", bookmarks_=_)
 
 
@@ -156,4 +156,4 @@ def mark_page():
 
     page_.toggle_marked()
 
-    return redirect(url_for("bookmarks"))
+    return redirect(request.referrer)

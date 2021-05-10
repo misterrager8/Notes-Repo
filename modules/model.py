@@ -87,4 +87,24 @@ class Folder(db.Model):
         return "%d\t%s" % (self.id, self.name)
 
 
+class Link(db.Model):
+    __tablename__ = "links"
+
+    url = Column(Text)
+    title = Column(Text)
+    date_added = Column(DateTime)
+    id = Column(Integer, primary_key=True)
+
+    def __init__(self,
+                 url: str,
+                 title: str,
+                 date_added: datetime = datetime.now()):
+        self.url = url
+        self.title = title
+        self.date_added = date_added
+
+    def __str__(self):
+        return "%d\t%s" % (self.id, self.title)
+
+
 db.create_all()

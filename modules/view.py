@@ -5,7 +5,7 @@ from sqlalchemy import text
 
 from modules import app
 from modules.ctrla import DB
-from modules.model import Page, Folder
+from modules.model import Page, Folder, Link
 
 my_db = DB()
 
@@ -147,6 +147,18 @@ def search():
 def bookmarks():
     _ = my_db.read_all(Page).filter(Page.bookmarked.is_(True))
     return render_template("bookmarks.html", bookmarks_=_)
+
+
+@app.route("/links", methods=["POST", "GET"])
+def links():
+    if request.method == "POST":
+        url = request.form["url"]
+        title = request.form["title"]
+
+        my_db.create(Link(url, title))
+        return redirect(url_for("links"))
+
+    return render_template("links.html", links=my_db.read_all(Link))
 
 
 @app.route("/mark")

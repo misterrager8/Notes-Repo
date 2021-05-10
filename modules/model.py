@@ -103,6 +103,9 @@ class Link(db.Model):
         self.title = title
         self.date_added = date_added
 
+    def get_date_added(self) -> str:
+        return self.date_added.strftime("%B %d, %Y %I:%M %p")
+
     def __str__(self):
         return "%d\t%s" % (self.id, self.title)
 

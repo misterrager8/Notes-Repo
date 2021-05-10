@@ -1,5 +1,7 @@
 import random
 
+import requests
+from bs4 import BeautifulSoup
 from flask import render_template, request, redirect, url_for
 from sqlalchemy import text
 
@@ -153,12 +155,21 @@ def bookmarks():
 def links():
     if request.method == "POST":
         url = request.form["url"]
-        title = request.form["title"]
+        title = BeautifulSoup(requests.get(url).content, "html.parser").find("title").string
 
         my_db.create(Link(url, title))
         return redirect(url_for("links"))
 
-    return render_template("links.html", links=my_db.read_all(Link))
+    return render_template("links.html", links=my_db.read_all(Link).order_by(text("date_added desc")))
+
+
+@app.route("/delete_link")
+def delete_link():
+    id_ = request.args.get("id_")
+    link = my_db.find_by_id(Link, id_)
+
+    my_db.delete(link)
+    return redirect(url_for("links"))
 
 
 @app.route("/mark")

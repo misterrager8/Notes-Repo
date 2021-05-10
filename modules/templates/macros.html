@@ -20,6 +20,18 @@
 </div>
 {% endmacro %}
 
+<!--Link List Item-->
+{% macro linked_list_item(link) %}
+<div class="list-group-item list-group-item-action border-0 d-flex justify-content-between rounded">
+  <a href="{{ link.url }}" target="_blank" class="unstyled-link">{{ link.title }}</a>
+  <div>
+    <small class="text-muted mr-3">{{ link.get_date_added() }}</small>
+    <a href="" data-toggle="modal" data-target="#delete-link-modal-{{ link.id }}">{{ delete_icon() }}</a>
+  </div>
+</div>
+{{ delete_link_modal(link) }}
+{% endmacro %}
+
 <!--Page Card-->
 {% macro page_card(page) %}
 <div class="card col-xl-4 border-0">
@@ -194,6 +206,14 @@
 </form>
 {% endmacro %}
 
+<!--Add Link Form-->
+{% macro add_link_form() %}
+<form action="{{ url_for('links') }}" method="POST" class="form-group form-inline shadow rounded mb-5">
+  <input class="form-control flex-grow-1" name="url" placeholder="URL" autocomplete="off">
+  <button type="submit" class="btn btn-success">+</button>
+</form>
+{% endmacro %}
+
 <!--Add Folder Modal-->
 {% macro add_folder_modal() %}
 <div class="modal" id="add-folder-modal">
@@ -265,6 +285,20 @@
       <div class="modal-body">
         {{ title_div('Delete '+page.title+'?') }}
         <a href="{{ url_for('delete_page', id_=page.id) }}" class="btn btn-danger btn-lg">Delete Page</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+<!--Delete Link Modal-->
+{% macro delete_link_modal(link) %}
+<div class="modal" id="delete-link-modal-{{ link.id }}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        {{ title_div('Delete '+link.title+'?') }}
+        <a href="{{ url_for('delete_link', id_=link.id) }}" class="btn btn-danger btn-lg">Delete Link</a>
       </div>
     </div>
   </div>

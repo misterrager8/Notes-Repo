@@ -5,3 +5,5 @@ python-dotenv
 flask_sqlalchemy
 gunicorn
 PyMySQL
+requests
+beautifulsoup4

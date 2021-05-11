@@ -1,14 +1,16 @@
 {% extends "base.html" %}
-{% from "macros.html" import page_card, title_div, sort_pages_filter with context %}
+{% import "macros.html" as macros with context %}
 
 {% block body %}
 <title>Pages</title>
 <div class="container">
-  {{ title_div('Pages') }}
-  {{ sort_pages_filter('text-center', 'all_pages') }}
+  {% call macros.title_div_content('Pages') %}
+  <small style="font-size:.5em" class="badge badge-pill badge-dark">{{ all_pages | length }}</small>
+  {% endcall %}
+  {{ macros.sort_pages_filter('text-center', 'all_pages') }}
   <div class="row">
     {% for i in all_pages %}
-    {{ page_card(i) }}
+    {{ macros.page_card(i) }}
     {% endfor %}
   </div>
 </div>

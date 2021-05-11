@@ -24,7 +24,7 @@ def inject_folders():
 @app.route("/")
 def index():
     order_by = request.args.get("order_by", default="date_created desc")
-    _ = my_db.read_all(Folder).order_by(text(order_by))
+    _ = my_db.read_all(Folder).order_by(text(order_by)).all()
 
     return render_template("index.html", all_folders=_, order_by=order_by)
 
@@ -75,7 +75,7 @@ def folder():
 @app.route("/all_pages", methods=["POST", "GET"])
 def all_pages():
     order_by = request.args.get("order_by", default="last_modified desc")
-    _ = my_db.read_all(Page).order_by(text(order_by)).join(Folder)
+    _ = my_db.read_all(Page).order_by(text(order_by)).join(Folder).all()
 
     return render_template("all_pages.html", all_pages=_, order_by=order_by)
 
@@ -160,7 +160,7 @@ def links():
         my_db.create(Link(url, title))
         return redirect(url_for("links"))
 
-    return render_template("links.html", links=my_db.read_all(Link).order_by(text("date_added desc")))
+    return render_template("links.html", links=my_db.read_all(Link).order_by(text("date_added desc")).all())
 
 
 @app.route("/delete_link")

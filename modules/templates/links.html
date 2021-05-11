@@ -4,7 +4,9 @@
 {% block body %}
 <title>Links</title>
 <div class="container">
-  {{ macros.title_div('Links') }}
+  {% call macros.title_div_content('Links') %}
+  <small style="font-size:.5em" class="badge badge-pill badge-dark">{{ links | length }}</small>
+  {% endcall %}
   {{ macros.add_link_form() }}
   {% for i in links %}
   {{ macros.linked_list_item(i) }}

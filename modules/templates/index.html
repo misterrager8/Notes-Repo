@@ -1,14 +1,16 @@
 {% extends "base.html" %}
-{% from "macros.html" import folder_card, sort_folders_filter, title_div with context %}
+{% import "macros.html" as macros with context %}
 
 {% block body %}
 <title>Notes-Repo</title>
 <div class="container">
-  {{ title_div('Folders') }}
-  {{ sort_folders_filter('text-center', 'index') }}
+  {% call macros.title_div_content('Folders') %}
+  <small style="font-size:.5em" class="badge badge-pill badge-dark">{{ all_folders | length }}</small>
+  {% endcall %}
+  {{ macros.sort_folders_filter('text-center', 'index') }}
   <div class="row">
     {% for i in all_folders %}
-    {{ folder_card(i) }}
+    {{ macros.folder_card(i) }}
     {% endfor %}
   </div>
 </div>

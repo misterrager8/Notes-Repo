@@ -43,7 +43,7 @@
 <!--Page Card-->
 {% macro page_card(page) %}
 <div class="card col-xl-4 border-0">
-  <div class="card-body p-0 border m-3">
+  <div class="card-body p-0 border m-3 rounded shadow-sm">
     <div class="card-header d-flex justify-content-between">
       <a class="unstyled-link text-truncate" href="{{ url_for('page', id_=page.id) }}" data-toggle="tooltip" data-placement="top" title="{{ page.title }}">{{ page.title }}</a>
       <a href="{{ url_for('folder', id_=page.folder_id) }}"><span class="badge badge-primary" style="background-color: {{ page.folders.color }}">{{ page.folders.name }}</span></a>

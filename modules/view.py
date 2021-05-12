@@ -172,6 +172,18 @@ def delete_link():
     return redirect(url_for("links"))
 
 
+@app.route("/edit", methods=["POST"])
+def edit_link():
+    if request.method == "POST":
+        id_ = request.args.get("id_")
+        link = my_db.find_by_id(Link, id_)
+        title = request.form["title_"]
+
+        link.set_title(title)
+
+        return redirect(url_for("links"))
+
+
 @app.route("/mark")
 def mark_page():
     id_ = request.args.get("id_")

@@ -103,6 +103,10 @@ class Link(db.Model):
         self.title = title
         self.date_added = date_added
 
+    def set_title(self, title: str):
+        self.title = title
+        db.session.commit()
+
     def get_date_added(self) -> str:
         return self.date_added.strftime("%B %d, %Y %I:%M %p")
 

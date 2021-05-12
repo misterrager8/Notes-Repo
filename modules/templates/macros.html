@@ -34,10 +34,12 @@
   <a href="{{ link.url }}" target="_blank" class="unstyled-link">{{ link.title }}</a>
   <div>
     <small class="text-muted mr-3">{{ link.get_date_added() }}</small>
-    <a href="" data-toggle="modal" data-target="#delete-link-modal-{{ link.id }}">{{ delete_icon() }}</a>
+    <a href="" data-toggle="modal" data-target="#delete-link-modal-{{ link.id }}" class="mx-1">{{ delete_icon() }}</a>
+    <a href="" data-toggle="modal" data-target="#edit-link-modal-{{ link.id }}" class="mx-1">{{ edit_icon() }}</a>
   </div>
 </div>
 {{ delete_link_modal(link) }}
+{{ edit_link_modal(link) }}
 {% endmacro %}
 
 <!--Page Card-->
@@ -314,6 +316,22 @@
       <div class="modal-body">
         {{ title_div('Delete '+link.title+'?') }}
         <a href="{{ url_for('delete_link', id_=link.id) }}" class="btn btn-danger btn-lg">Delete Link</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+<!--Edit Link Modal-->
+{% macro edit_link_modal(link) %}
+<div class="modal" id="edit-link-modal-{{ link.id }}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form method="POST" action="{{ url_for('edit_link', id_=link.id) }}">
+          <input type="text" class="form-control" placeholder="Title" name="title_" value="{{ link.title }}" autocomplete="off">
+          <button type="submit" class="btn btn-secondary">Edit</button>
+        </form>
       </div>
     </div>
   </div>

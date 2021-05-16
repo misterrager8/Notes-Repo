@@ -7,7 +7,7 @@ from sqlalchemy import text
 
 from modules import app
 from modules.ctrla import DB
-from modules.model import Page, Folder, Link
+from modules.model import Page, Folder, Link, Draft
 
 my_db = DB()
 
@@ -143,6 +143,12 @@ def search():
         results = my_db.read_all(Page).filter(Page.title.ilike(f"%{search_term}%"))
 
         return render_template("search.html", results=results, header="\"%s\"" % search_term)
+
+
+@app.route("/drafts")
+def drafts():
+    _ = my_db.read_all(Draft).all()
+    return render_template("drafts.html", drafts=_)
 
 
 @app.route("/bookmarks")

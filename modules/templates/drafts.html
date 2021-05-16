@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros with context %}
+
+{% block body %}
+<title>Pages</title>
+<div class="container">
+  {% call macros.title_div_content('Drafts') %}
+  <small style="font-size:.5em" class="badge badge-pill badge-dark">{{ drafts | length }}</small>
+  {% endcall %}
+  <div class="row">
+    {% for i in drafts %}
+    {{ macros.page_card(i) }}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

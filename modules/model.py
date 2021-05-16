@@ -87,6 +87,79 @@ class Folder(db.Model):
         return "%d\t%s" % (self.id, self.name)
 
 
+class Draft(db.Model):
+    __tablename__ = "drafts"
+
+    title = Column(Text)
+    content = Column(Text)
+    date_created = Column(DateTime)
+    last_modified = Column(DateTime)
+    id = Column(Integer, primary_key=True)
+
+    def __init__(self,
+                 title: str,
+                 content: str,
+                 date_created: datetime = datetime.now(),
+                 last_modified: datetime = datetime.now()):
+        """
+
+
+        Args:
+            title:
+            content:
+            date_created:
+            last_modified:
+        """
+        self.title = title.title()
+        self.content = content
+        self.date_created = date_created
+        self.last_modified = last_modified
+
+    def edit_draft(self, title: str, content: str):
+        """
+
+
+        Args:
+            title:
+            content:
+        """
+        self.title = title.title()
+        self.content = content
+        self.last_modified = datetime.now()
+        db.session.commit()
+
+    def content_to_html(self) -> str:
+        """
+
+
+        Returns:
+
+        """
+        html = markdown.markdown(self.content)
+        return html
+
+    def get_last_modified(self) -> str:
+        """
+
+
+        Returns:
+
+        """
+        return self.last_modified.strftime("%B %d, %Y %I:%M %p")
+
+    def get_date_created(self) -> str:
+        """
+
+
+        Returns:
+
+        """
+        return self.date_created.strftime("%B %d, %Y %I:%M %p")
+
+    def __str__(self):
+        return "%d\t%s" % (self.id, self.title)
+
+
 class Link(db.Model):
     __tablename__ = "links"
 

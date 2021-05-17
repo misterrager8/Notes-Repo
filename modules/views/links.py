@@ -17,7 +17,7 @@ def all_links():
         title = BeautifulSoup(requests.get(url).content, "html.parser").find("title").string
 
         my_db.create(Link(url, title))
-        return redirect(url_for("all_links"))
+        return redirect(url_for("links.all_links"))
 
     return render_template("links/all_links.html", links=my_db.read_all(Link).order_by(text("date_added desc")).all())
 
@@ -28,7 +28,7 @@ def delete_link():
     link = my_db.find_by_id(Link, id_)
 
     my_db.delete(link)
-    return redirect(url_for("all_links"))
+    return redirect(url_for("links.all_links"))
 
 
 @saved_links.route("/edit", methods=["POST"])
@@ -40,4 +40,4 @@ def edit_link():
 
         link.set_title(title)
 
-        return redirect(url_for("all_links"))
+        return redirect(url_for("links.all_links"))

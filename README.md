@@ -1,5 +1,3 @@
-README
-—
 # Notes-Repo
 
 ## Description

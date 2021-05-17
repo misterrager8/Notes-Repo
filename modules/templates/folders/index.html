@@ -5,9 +5,9 @@
 <title>Notes-Repo</title>
 <div class="container">
   {% call macros.title_div_content('Folders') %}
-  <small style="font-size:.5em" class="badge badge-pill badge-dark">{{ all_folders | length }}</small>
+  <small class="badge badge-pill badge-dark" style="font-size:.5em">{{ all_folders | length }}</small>
   {% endcall %}
-  {{ macros.sort_folders_filter('text-center', 'index') }}
+  {{ macros.sort_folders_filter('text-center', 'folders.index') }}
   <div class="row">
     {% for i in all_folders %}
     {{ macros.folder_card(i) }}

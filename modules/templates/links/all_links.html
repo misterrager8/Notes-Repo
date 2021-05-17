@@ -5,7 +5,7 @@
 <title>Links</title>
 <div class="container">
   {% call macros.title_div_content('Links') %}
-  <small style="font-size:.5em" class="badge badge-pill badge-dark">{{ links | length }}</small>
+  <small class="badge badge-pill badge-dark" style="font-size:.5em">{{ links | length }}</small>
   {% endcall %}
   {{ macros.add_link_form() }}
   {% for i in links %}

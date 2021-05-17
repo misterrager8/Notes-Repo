@@ -1,9 +1,9 @@
 import os
 
 import dotenv
+import pymysql
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import pymysql
 
 pymysql.install_as_MySQLdb()
 app = Flask(__name__)
@@ -20,3 +20,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100, 'pool_recycle': 280}
 
 db = SQLAlchemy(app)
+
+from modules.views.folders import folders
+from modules.views.links import saved_links
+from modules.views.pages import pages
+
+app.register_blueprint(folders)
+app.register_blueprint(pages)
+app.register_blueprint(saved_links)

@@ -6,7 +6,7 @@
 <div class="container">
   <div class="text-center m-5">
     <h1>{{ page.title }}</h1>
-    <a href="{{ url_for('folder', id_=page.folder_id) }}" class="d-block mb-2" target="_blank">
+    <a class="d-block mb-2" href="{{ url_for('folders.folder', id_=page.folder_id) }}" target="_blank">
       <span class="badge badge-primary" style="background-color: {{ page.folders.color }}">{{ page.folders.name }}</span>
     </a>
     {{ page_options(page) }}

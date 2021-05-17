@@ -4,7 +4,7 @@ import markdown
 from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
-from modules import db
+from modules import app, db
 
 
 class Page(db.Model):
@@ -187,4 +187,5 @@ class Link(db.Model):
         return "%d\t%s" % (self.id, self.title)
 
 
-db.create_all()
+with app.app_context():
+    db.create_all()

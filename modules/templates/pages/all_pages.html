@@ -4,11 +4,12 @@
 {% block body %}
 <title>Pages</title>
 <div class="container">
-  {% call macros.title_div_content('Drafts') %}
-  <small style="font-size:.5em" class="badge badge-pill badge-dark">{{ drafts | length }}</small>
+  {% call macros.title_div_content('Pages') %}
+  <small class="badge badge-pill badge-dark" style="font-size:.5em">{{ all_pages | length }}</small>
   {% endcall %}
+  {{ macros.sort_pages_filter('text-center', 'pages.all_pages') }}
   <div class="row">
-    {% for i in drafts %}
+    {% for i in all_pages %}
     {{ macros.page_card(i) }}
     {% endfor %}
   </div>

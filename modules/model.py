@@ -187,5 +187,22 @@ class Link(db.Model):
         return "%d\t%s" % (self.id, self.title)
 
 
+class Idea(db.Model):
+    __tablename__ = "ideas"
+
+    title = Column(Text)
+    date_added = Column(DateTime)
+    id = Column(Integer, primary_key=True)
+
+    def __init__(self,
+                 title: str,
+                 date_added: datetime = datetime.now()):
+        self.title = title
+        self.date_added = date_added
+
+    def __str__(self):
+        return "%d\t%s" % (self.id, self.title)
+
+
 with app.app_context():
     db.create_all()

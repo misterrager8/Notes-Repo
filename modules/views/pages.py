@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template, redirect, url_for
 from sqlalchemy import text
 
 from modules.ctrla import DB
-from modules.model import Page, Folder, Draft
+from modules.model import Page, Folder, Draft, Idea
 
 pages = Blueprint("pages", __name__)
 my_db = DB()
@@ -93,8 +93,9 @@ def search():
 
 @pages.route("/drafts")
 def drafts():
-    _ = my_db.read_all(Draft).all()
-    return render_template("pages/drafts.html", drafts=_)
+    all_drafts = my_db.read_all(Draft).all()
+    ideas = my_db.read_all(Idea).all()
+    return render_template("pages/drafts.html", drafts=all_drafts, ideas=ideas)
 
 
 @pages.route("/bookmarks")

@@ -2,14 +2,17 @@
 {% import "macros.html" as macros with context %}
 
 {% block body %}
-<title>Pages</title>
+<title>Drafts</title>
 <div class="container">
   {% call macros.title_div_content('Drafts') %}
   <small class="badge badge-pill badge-dark" style="font-size:.5em">{{ drafts | length }}</small>
   {% endcall %}
+  {% for i in ideas %}
+  <p>{{ i.title }}</p>
+  {% endfor %}
   <div class="row">
     {% for i in drafts %}
-    {{ macros.page_card(i) }}
+    {{ i.title }}
     {% endfor %}
   </div>
 </div>

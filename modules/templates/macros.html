@@ -125,9 +125,11 @@
 {% macro page_options(page) %}
 <span>
   <!--Preview Page-->
+  {% if request.url_rule.endpoint != "pages.page" %}
   <a class="unstyled-link mx-1" data-target="#preview-{{ page.id }}" data-toggle="modal" href="">
     {{ view_icon() }}
   </a>
+  {% endif %}
   <!--Edit Page-->
   <a class="unstyled-link mx-1" href="{{ url_for('pages.edit_page', id_=page.id) }}">
     {{ edit_icon() }}

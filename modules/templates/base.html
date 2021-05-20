@@ -25,7 +25,7 @@
         <div class="dropdown-menu">
           <a class="dropdown-item text-success" data-target="#add-folder-modal" data-toggle="modal" href="#">New Folder</a>
           <div class="dropdown-divider"></div>
-          {% for i in recent_folders %}
+          {% for i in folders_[:5] %}
           <a class="dropdown-item" href="{{ url_for('folders.folder', id_=i.id) }}">{{ macros.circle_icon(10, i.color) }} {{ i.name }}</a>
           {% endfor %}
         </div>
@@ -35,7 +35,7 @@
         <div class="dropdown-menu">
           <a class="dropdown-item" href="{{ url_for('pages.all_pages') }}">All Pages</a>
           <div class="dropdown-divider"></div>
-          {% for i in recent_pages %}
+          {% for i in pages_[:5] %}
           <a class="dropdown-item" href="{{ url_for('pages.page', id_=i.id) }}">{{ macros.circle_icon(10, i.folders.color) }} {{ i.title }}</a>
           {% endfor %}
         </div>

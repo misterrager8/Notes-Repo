@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% from "macros.html" import page_form with context %}
+{% from "macros.html" import page_add_form with context %}
 
 {% block body %}
 <title>Add Page</title>
 <div class="container">
-  {{ page_form('add') }}
+  {{ page_add_form() }}
 </div>
 {% endblock %}

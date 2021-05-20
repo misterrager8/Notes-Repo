@@ -208,26 +208,33 @@
 </div>
 {% endmacro %}
 
-<!--Page Form-->
-{% macro page_form(mode) %}
-<form action="{% if mode == 'add' %} {{ url_for('pages.add_page', id_=folder.id) }} {% else %} {{ url_for('pages.edit_page', id_=page.id) }} {% endif %}"
-      class="form-group col-10 offset-1 text-center"
-      method="POST">
-  <input autocomplete="off"
-         class="form-control"
-         name="title"
-         placeholder="Title"
-         type="text"
-         value="{% if mode == 'edit' %}{{ page.title }}{% endif %}">
+<!--Page Add Form-->
+{% macro page_add_form() %}
+<form action="{{ url_for('pages.add_page', id_=folder.id) }}" class="form-group col-10 offset-1 text-center" method="POST">
+  <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text">
   <a class="unstyled-link text-info" href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown Cheat Sheet</a>
-  <textarea autocomplete="off"
-            class="form-control"
-            name="content"
-            placeholder="Content"
-            rows="25">{% if mode == 'edit' %}{{ page.content }}{% endif %}</textarea>
-  <button class="btn btn-secondary w-50"
-          type="submit">{% if mode == 'add' %}Add{% elif mode == 'edit' %}Edit{% endif %} Page
-  </button>
+  <textarea autocomplete="off" class="form-control" name="content" placeholder="Content" rows="25"></textarea>
+  <button class="btn btn-secondary w-50" type="submit">Add Page</button>
+</form>
+{% endmacro %}
+
+<!--Page Edit Form-->
+{% macro page_edit_form() %}
+<form action="{{ url_for('pages.edit_page', id_=page.id) }}" class="form-group col-10 offset-1 text-center" method="POST">
+  <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text" value="{{ page.title }}">
+  <a class="unstyled-link text-info" href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown Cheat Sheet</a>
+  <textarea autocomplete="off" class="form-control" name="content" placeholder="Content" rows="25">{{ page.content }}</textarea>
+  <button class="btn btn-secondary w-50" type="submit">Edit Page</button>
+</form>
+{% endmacro %}
+
+<!--Draft Edit Form-->
+{% macro draft_edit_form() %}
+<form action="{{ url_for('pages.edit_draft', id_=draft.id) }}" class="form-group col-10 offset-1 text-center" method="POST">
+  <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text" value="{{ draft.title }}">
+  <a class="unstyled-link text-info" href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown Cheat Sheet</a>
+  <textarea autocomplete="off" class="form-control" name="content" placeholder="Content" rows="25">{{ draft.content }}</textarea>
+  <button class="btn btn-secondary w-50" type="submit">Edit Draft</button>
 </form>
 {% endmacro %}
 

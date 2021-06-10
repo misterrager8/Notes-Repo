@@ -12,8 +12,8 @@ class Page(db.Model):
 
     title = Column(Text)
     content = Column(Text)
-    date_created = Column(DateTime)
-    last_modified = Column(DateTime)
+    date_created = Column(DateTime, default=datetime.now())
+    last_modified = Column(DateTime, default=datetime.now())
     folder_id = Column(Integer, ForeignKey("folders.id"))
     bookmarked = Column(Boolean, default=False)
     id = Column(Integer, primary_key=True)
@@ -46,12 +46,13 @@ class Page(db.Model):
     def get_date_created(self):
         return self.date_created.strftime("%B %d, %Y %I:%M %p")
 
-    def toggle_marked(self):
-        self.bookmarked = not self.bookmarked
-        db.session.commit()
-
     def __str__(self):
-        return "%d\t%s" % (self.id, self.title)
+        return "%s,%s,%s,%s,%s,%s" % (self.title,
+                                      self.content,
+                                      self.date_created,
+                                      self.last_modified,
+                                      self.folder_id,
+                                      self.bookmarked)
 
 
 class Folder(db.Model):
@@ -59,7 +60,7 @@ class Folder(db.Model):
 
     name = Column(Text)
     color = Column(Text)
-    date_created = Column(DateTime)
+    date_created = Column(DateTime, default=datetime.now())
     pages = relationship("Page", backref="folders")
     id = Column(Integer, primary_key=True)
 
@@ -84,80 +85,9 @@ class Folder(db.Model):
         return self.date_created.strftime("%B %d, %Y %I:%M %p")
 
     def __str__(self):
-        return "%d\t%s" % (self.id, self.name)
-
-
-class Draft(db.Model):
-    __tablename__ = "drafts"
-
-    title = Column(Text)
-    content = Column(Text)
-    date_created = Column(DateTime)
-    last_modified = Column(DateTime)
-    id = Column(Integer, primary_key=True)
-
-    def __init__(self,
-                 title: str,
-                 content: str,
-                 date_created: datetime = datetime.now(),
-                 last_modified: datetime = datetime.now()):
-        """
-
-
-        Args:
-            title:
-            content:
-            date_created:
-            last_modified:
-        """
-        self.title = title.title()
-        self.content = content
-        self.date_created = date_created
-        self.last_modified = last_modified
-
-    def edit_draft(self, title: str, content: str):
-        """
-
-
-        Args:
-            title:
-            content:
-        """
-        self.title = title.title()
-        self.content = content
-        self.last_modified = datetime.now()
-        db.session.commit()
-
-    def content_to_html(self) -> str:
-        """
-
-
-        Returns:
-
-        """
-        html = markdown.markdown(self.content)
-        return html
-
-    def get_last_modified(self) -> str:
-        """
-
-
-        Returns:
-
-        """
-        return self.last_modified.strftime("%B %d, %Y %I:%M %p")
-
-    def get_date_created(self) -> str:
-        """
-
-
-        Returns:
-
-        """
-        return self.date_created.strftime("%B %d, %Y %I:%M %p")
-
-    def __str__(self):
-        return "%d\t%s" % (self.id, self.title)
+        return "%s,%s,%s" % (self.name,
+                             self.color,
+                             self.date_created)
 
 
 class Link(db.Model):
@@ -165,43 +95,33 @@ class Link(db.Model):
 
     url = Column(Text)
     title = Column(Text)
-    date_added = Column(DateTime)
+    date_added = Column(DateTime, default=datetime.now())
     id = Column(Integer, primary_key=True)
 
-    def __init__(self,
-                 url: str,
-                 title: str,
-                 date_added: datetime = datetime.now()):
-        self.url = url
-        self.title = title
-        self.date_added = date_added
-
-    def set_title(self, title: str):
-        self.title = title
-        db.session.commit()
+    def __init__(self, **kwargs):
+        super(Link, self).__init__(**kwargs)
 
     def get_date_added(self) -> str:
         return self.date_added.strftime("%B %d, %Y %I:%M %p")
 
     def __str__(self):
-        return "%d\t%s" % (self.id, self.title)
+        return "%s,%s,%s" % (self.url,
+                             self.title,
+                             self.date_added)
 
 
 class Idea(db.Model):
     __tablename__ = "ideas"
 
     title = Column(Text)
-    date_added = Column(DateTime)
+    date_added = Column(DateTime, default=datetime.now())
     id = Column(Integer, primary_key=True)
 
-    def __init__(self,
-                 title: str,
-                 date_added: datetime = datetime.now()):
-        self.title = title
-        self.date_added = date_added
+    def __init__(self, **kwargs):
+        super(Idea, self).__init__(**kwargs)
 
     def __str__(self):
-        return "%d\t%s" % (self.id, self.title)
+        return "%s,%s" % (self.title, self.date_added)
 
 
 with app.app_context():

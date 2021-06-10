@@ -1,21 +1,67 @@
-<!--Title Div w/ Content-->
-{% macro title_div_content(title) %}
-<div class="text-center m-5">
-  <h1>{{ title }} {{ caller() }}</h1>
+<!--Generic Paragraph-->
+{% macro paragraph(txt, size='3', class='', color='black') %}
+<p class="{{ class }}" style="font-size:{{ size }}em; color:{{ color }}">{{ txt }}</p>
+{% endmacro %}
+
+<!--Generic Modal-->
+{% macro modal(modal_id, class='', large=false) %}
+<div class="modal {{ class }}" role="dialog" id="{{ modal_id }}">
+  <div class="modal-dialog {% if large %}modal-lg{% endif %}">
+    <div class="modal-content p-3">
+      {{ caller() }}
+    </div>
+  </div>
 </div>
+{% endmacro %}
+
+<!--Generic Link-->
+{% macro unstyled_link(class='', href='#', color='black', newtab=false, modal_id=none) %}
+<!--suppress HtmlUnknownAttribute -->
+<a class="{{ class }}"
+   href="{{ href }}"
+   style="text-decoration:none; color:{{ color }}"
+   {% if newtab %}
+   target="_blank"
+   {% endif %}
+
+   {% if modal_id %}
+   data-target="#{{ modal_id }}"
+   data-toggle="modal"
+   {% endif %}
+>
+  {{ caller() }}
+</a>
+{% endmacro %}
+
+<!--Generic Badge-->
+{% macro badge(txt, class='', href='#', txt_color='white', bg_color='black', newtab=false, modal_id=none) %}
+<span>
+<!--suppress HtmlUnknownAttribute -->
+<a class="badge {{ class }}"
+   href="{{ href }}"
+   style="text-decoration:none; color:{{ txt_color }}; background-color:{{ bg_color }}"
+   {% if newtab %}
+   target="_blank"
+   {% endif %}
+
+   {% if modal_id %}
+   data-target="#{{ modal_id }}"
+   data-toggle="modal"
+   {% endif %}
+>
+  {{ txt }}
+</a>
+</span>
 {% endmacro %}
 
 <!--Folder Card-->
 {% macro folder_card(folder) %}
 <div class="card col-xl-3 border-0">
   <div class="card-body text-center">
-    <a class="unstyled-link" href="{{ url_for('folders.folder', id_=folder.id) }}">
-      <svg class="bi bi-folder-fill" fill="{{ folder.color }}" height="100" viewBox="0 0 16 16" width="100" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
-      </svg>
-      <h5>{{ folder.name }}
-        <span class="badge badge-pill badge-dark" style="font-size:0.6em">{{ folder.pages | length }}</span></h5>
-    </a>
+    {% call unstyled_link(href=url_for('folders.folder', id_=folder.id)) %}
+    {{ folder_icon(size='100', color=folder.color) }}
+    {{ paragraph(folder.name, size='1.5', class='mb-1') }}
+    {% endcall %}
     {{ folder_options(folder) }}
   </div>
 </div>
@@ -24,15 +70,23 @@
 <!--Link List Item-->
 {% macro link_list_item(link) %}
 <div class="list-group-item list-group-item-action border-0 d-flex justify-content-between rounded">
-  <a class="unstyled-link" href="{{ link.url }}" target="_blank">{{ link.title }}</a>
+  {% call unstyled_link(href=link.url, newtab=true) %}{{ link.title }}{% endcall %}
   <div>
     <small class="text-muted mr-3">{{ link.get_date_added() }}</small>
-    <a class="unstyled-link mx-1" data-target="#delete-link-modal-{{ link.id }}" data-toggle="modal" href="">{{ delete_icon() }}</a>
-    <a class="unstyled-link mx-1" data-target="#edit-link-modal-{{ link.id }}" data-toggle="modal" href="">{{ edit_icon() }}</a>
+    {% call unstyled_link(class='mx-1', modal_id='delete_link_'+link.id|string) %}{{ delete_icon() }}{% endcall %}
+    {% call unstyled_link(class='mx-1', modal_id='edit_link_'+link.id|string) %}{{ edit_icon() }}{% endcall %}
   </div>
 </div>
-{{ delete_link_modal(link) }}
-{{ edit_link_modal(link) }}
+
+{% call modal('delete_link_'+link.id|string, class='text-center') %}
+{{ paragraph('Delete Link?') }}
+{% call unstyled_link(class='btn btn-danger btn-lg', href=url_for('saved_links.delete_link', id_=link.id), color='white') %}Delete Link{% endcall %}
+{% endcall %}
+
+{% call modal('edit_link_'+link.id|string, class='text-center') %}
+{{ link_edit_form(link) }}
+{% endcall %}
+
 {% endmacro %}
 
 <!--Page Card-->
@@ -41,7 +95,7 @@
   <div class="card-body p-0 border m-3 rounded shadow-sm">
     <div class="card-header d-flex justify-content-between">
       <a class="unstyled-link text-truncate" data-placement="top" data-toggle="tooltip" href="{{ url_for('pages.page', id_=page.id) }}" title="{{ page.title }}">{{ page.title }}</a>
-      <a href="{{ url_for('folders.folder', id_=page.folder_id) }}"><span class="badge badge-primary" style="background-color: {{ page.folders.color }}">{{ page.folders.name }}</span></a>
+      {{ badge(page.folders.name, href=url_for('folders.folder', id_=page.folder_id), bg_color=page.folders.color) }}
     </div>
     <div class="card-body">
       <small><span class="font-weight-bold">Last Modified:</span> {{ page.get_last_modified() }}</small><br>
@@ -55,60 +109,75 @@
 {% endmacro %}
 
 <!--Navbar Brand Icon-->
-{% macro navbar_brand_icon() %}
-<svg class="bi bi-stickies-fill" fill="LightGray" height="20" viewBox="0 0 16 16" width="20" xmlns="http://www.w3.org/2000/svg">
+{% macro navbar_brand_icon(size='20', color='LightGray') %}
+<svg class="bi bi-stickies-fill" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5A1.5 1.5 0 0 0 0 1.5z"/>
   <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zm6 8.5a1 1 0 0 1 1-1h4.396a.25.25 0 0 1 .177.427l-5.146 5.146a.25.25 0 0 1-.427-.177V10.5z"/>
 </svg>
 {% endmacro %}
 
+<!--Folder Icon-->
+{% macro folder_icon(size='20', color='black') %}
+<svg class="bi bi-folder-fill" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
+  <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+</svg>
+{% endmacro %}
+
 <!--Add Icon-->
-{% macro add_icon() %}
-<svg class="bi bi-plus-circle" fill="green" height="20" viewBox="0 0 16 16" width="20" xmlns="http://www.w3.org/2000/svg">
+{% macro add_icon(size='20', color='green') %}
+<svg class="bi bi-plus-circle" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
 </svg>
 {% endmacro %}
 
 <!--Delete Icon-->
-{% macro delete_icon() %}
-<svg class="bi bi-x-circle" fill="red" height="20" viewBox="0 0 16 16" width="20" xmlns="http://www.w3.org/2000/svg">
+{% macro delete_icon(size='20', color='red') %}
+<svg class="bi bi-x-circle" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
 </svg>
 {% endmacro %}
 
 <!--Edit Icon-->
-{% macro edit_icon() %}
-<svg class="bi bi-pencil" fill="gray" height="20" viewBox="0 0 16 16" width="20" xmlns="http://www.w3.org/2000/svg">
+{% macro edit_icon(size='20', color='gray') %}
+<svg class="bi bi-pencil" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
 </svg>
 {% endmacro %}
 
+<!--Info Icon-->
+{% macro info_icon(size='20', color='black') %}
+<svg class="bi bi-info-circle" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+</svg>
+{% endmacro %}
+
 <!--Save Icon-->
-{% macro save_icon() %}
-<svg class="bi bi-download" fill="black" height="20" viewBox="0 0 16 16" width="20" xmlns="http://www.w3.org/2000/svg">
+{% macro save_icon(size='20', color='black') %}
+<svg class="bi bi-download" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
   <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
 </svg>
 {% endmacro %}
 
 <!--View Icon-->
-{% macro view_icon() %}
-<svg class="bi bi-eye" fill="black" height="20" viewBox="0 0 16 16" width="20" xmlns="http://www.w3.org/2000/svg">
+{% macro view_icon(size='20', color='black') %}
+<svg class="bi bi-eye" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
   <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
 </svg>
 {% endmacro %}
 
 <!--Star Icon-->
-{% macro star_icon(marked) %}
+{% macro star_icon(marked, size='20') %}
 {% if marked == true %}
-<svg class="bi bi-star-fill" fill="orange" height="20" viewBox="0 0 16 16" width="20" xmlns="http://www.w3.org/2000/svg">
+<svg class="bi bi-star-fill" fill="orange" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
 </svg>
 {% else %}
-<svg class="bi bi-star" fill="currentColor" height="20" viewBox="0 0 16 16" width="20" xmlns="http://www.w3.org/2000/svg">
+<svg class="bi bi-star" fill="black" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
 </svg>
 {% endif %}
@@ -126,57 +195,57 @@
 <span>
   <!--Preview Page-->
   {% if request.url_rule.endpoint != "pages.page" %}
-  <a class="unstyled-link mx-1" data-target="#preview-{{ page.id }}" data-toggle="modal" href="">
-    {{ view_icon() }}
-  </a>
+  {% call unstyled_link(class='mx-1', modal_id='preview_page_'+page.id|string) %}{{ view_icon() }}{% endcall %}
   {% endif %}
   <!--Edit Page-->
-  <a class="unstyled-link mx-1" href="{{ url_for('pages.edit_page', id_=page.id) }}">
-    {{ edit_icon() }}
-  </a>
+  {% call unstyled_link(class='mx-1', href=url_for('pages.edit_page', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
   <!--Save Page-->
-  <a class="unstyled-link mx-1" href="{{ url_for('pages.page_plain', id_=page.id) }}" target="_blank">
-    {{ save_icon() }}
-  </a>
+  {% call unstyled_link(class='mx-1', href=url_for('pages.page_plain', id_=page.id)) %}{{ save_icon() }}{% endcall %}
   <!--Bookmark Page-->
-  <a class="unstyled-link mx-1" href="{{ url_for('pages.mark_page', id_=page.id) }}">
-    {{ star_icon(page.bookmarked) }}
-  </a>
+  {% call unstyled_link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked) }}{% endcall %}
   <!--Delete Page-->
-  <a class="unstyled-link mx-1" data-target="#delete-page-modal-{{ page.id }}" data-toggle="modal" href="#">
-    {{ delete_icon() }}
-  </a>
-  {{ page_preview_modal(page) }}
-  {{ delete_page_modal(page) }}
+  {% call unstyled_link(class='mx-1', modal_id='delete_page_'+page.id|string) %}{{ delete_icon() }}{% endcall %}
 </span>
+
+{% call modal('preview_page_'+page.id|string, large=true) %}
+{{ paragraph(page.content_to_html()|safe, size='1') }}
+{% endcall %}
+
+{% call modal('delete_page_'+page.id|string, class='text-center') %}
+{{ paragraph('Delete '+page.title+'?', class='m-3') }}
+{% call unstyled_link(class='btn btn-danger btn-lg', href=url_for('pages.delete_page', id_=page.id), color='white') %}Delete Page{% endcall %}
+{% endcall %}
+
 {% endmacro %}
 
 <!--Folder Options Panel-->
 {% macro folder_options(folder) %}
 <span>
   <!--Add to Folder-->
-  <a class="unstyled-link mx-1" href="{{ url_for('pages.add_page', id_=folder.id) }}">
-    {{ add_icon() }}
-  </a>
+  {% call unstyled_link(href=url_for('pages.add_page', id_=folder.id), class='mx-1') %}{{ add_icon() }}{% endcall %}
   <!--Info for Folder-->
-  <a class="unstyled-link mx-1" data-target="#folder-info-modal-{{ folder.id }}" data-toggle="modal" href="#">
-    <svg class="bi bi-info-circle" fill="black" height="20" viewBox="0 0 16 16" width="20" xmlns="http://www.w3.org/2000/svg">
-      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-      <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-    </svg>
-  </a>
-  {{ folder_info_modal(folder) }}
+  {% call unstyled_link(modal_id='info_folder_'+folder.id|string, class='mx-1') %}{{ info_icon() }}{% endcall %}
   <!--Edit Folder-->
-  <a class="unstyled-link mx-1" data-target="#edit-folder-modal-{{ folder.id }}" data-toggle="modal" href="#">
-    {{ edit_icon() }}
-  </a>
-  {{ edit_folder_modal(folder) }}
+  {% call unstyled_link(modal_id='edit_folder_'+folder.id|string, class='mx-1') %}{{ edit_icon() }}{% endcall %}
   <!--Delete Folder-->
-  <a class="unstyled-link mx-1" data-target="#delete-folder-modal-{{ folder.id }}" data-toggle="modal" href="#">
-    {{ delete_icon() }}
-  </a>
-  {{ delete_folder_modal(folder) }}
+  {% call unstyled_link(modal_id='delete_folder_'+folder.id|string, class='mx-1') %}{{ delete_icon() }}{% endcall %}
 </span>
+
+{% call modal('delete_folder_'+folder.id|string) %}
+{{ paragraph('Delete '+folder.name+'?', class='m-3') }}
+{% call unstyled_link(class='btn btn-danger btn-lg', href=url_for('folders.delete_folder', id_=folder.id), color='white') %}Delete Folder{% endcall %}
+{% endcall %}
+
+{% call modal('edit_folder_'+folder.id|string, class='text-center') %}
+{{ folder_edit_form(folder) }}
+{% endcall %}
+
+{% call modal('info_folder_'+folder.id|string, class='text-center') %}
+{{ paragraph(folder.name, class='m-3') }}
+{{ paragraph('Created '+folder.get_date_created(), size='1') }}
+{{ paragraph(folder.pages|count|string+' page(s)', size='1') }}
+{% endcall %}
+
 {% endmacro %}
 
 <!--Sort Pages Filter-->
@@ -184,14 +253,14 @@
 <div class="{{ class }}">
   Sort By:
   {% if order_by == 'title' %}
-  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='folders.name') }}">Folder</a></span>
-  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='last_modified desc') }}">Last Modified</a></span>
+  {{ badge('Folder', href=url_for(view_fn, order_by='folders.name'), bg_color='white', txt_color='black') }}
+  {{ badge('Last Modified', href=url_for(view_fn, order_by='last_modified desc'), bg_color='white', txt_color='black') }}
   {% elif order_by == 'folders.name' %}
-  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='title') }}">Title</a></span>
-  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='last_modified desc') }}">Last Modified</a></span>
+  {{ badge('Title', href=url_for(view_fn, order_by='title'), bg_color='white', txt_color='black') }}
+  {{ badge('Last Modified', href=url_for(view_fn, order_by='last_modified desc'), bg_color='white', txt_color='black') }}
   {% elif order_by == 'last_modified desc' %}
-  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='title') }}">Title</a></span>
-  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='folders.name') }}">Folder</a></span>
+  {{ badge('Title', href=url_for(view_fn, order_by='title'), bg_color='white', txt_color='black') }}
+  {{ badge('Folder', href=url_for(view_fn, order_by='folders.name'), bg_color='white', txt_color='black') }}
   {% endif %}
 </div>
 {% endmacro %}
@@ -201,11 +270,28 @@
 <div class="{{ class }}">
   Sort By:
   {% if order_by == 'date_created desc' %}
-  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='name') }}">Name</a></span>
+  {{ badge('Name', href=url_for(view_fn, order_by='name'), txt_color='black', bg_color='white') }}
   {% elif order_by == 'name' %}
-  <span class="badge"><a class="unstyled-link" href="{{ url_for(view_fn, order_by='date_created desc') }}">Date Created</a></span>
+  {{ badge('Date Created', href=url_for(view_fn, order_by='date_created desc'), txt_color='black', bg_color='white') }}
   {% endif %}
 </div>
+{% endmacro %}
+
+<!--Folder Add Form-->
+{% macro folder_add_form() %}
+<form action="{{ url_for('folders.add_folder') }}" class="form-group" method="POST">
+  <input autocomplete="off" class="form-control mb-2" name="name" placeholder="Name" type="text">
+  <button class="btn btn-secondary w-100" type="submit">Add Folder</button>
+</form>
+{% endmacro %}
+
+<!--Folder Edit Form-->
+{% macro folder_edit_form(folder) %}
+<form action="{{ url_for('folders.edit_folder', id_=folder.id) }}" class="form-group" method="POST">
+  <input autocomplete="off" class="form-control mb-2" name="name" placeholder="name" type="text" value="{{ folder.name }}">
+  <input class="form-control mb-2" name="color" type="color" value="{{ folder.color }}">
+  <button class="btn btn-secondary btn-lg w-100">Edit Folder</button>
+</form>
 {% endmacro %}
 
 <!--Page Add Form-->
@@ -228,140 +314,18 @@
 </form>
 {% endmacro %}
 
-<!--Draft Edit Form-->
-{% macro draft_edit_form() %}
-<form action="{{ url_for('pages.edit_draft', id_=draft.id) }}" class="form-group col-10 offset-1 text-center" method="POST">
-  <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text" value="{{ draft.title }}">
-  <a class="unstyled-link text-info" href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown Cheat Sheet</a>
-  <textarea autocomplete="off" class="form-control" name="content" placeholder="Content" rows="25">{{ draft.content }}</textarea>
-  <button class="btn btn-secondary w-50" type="submit">Edit Draft</button>
-</form>
-{% endmacro %}
-
-<!--Add Link Form-->
-{% macro add_link_form() %}
+<!--Link Add Form-->
+{% macro link_add_form() %}
 <form action="{{ url_for('saved_links.all_links') }}" class="form-group form-inline shadow rounded mb-5" method="POST">
-  <input autocomplete="off" class="form-control flex-grow-1" name="url" placeholder="URL">
-  <button class="btn btn-success" type="submit">+</button>
+  <input autocomplete="off" class="form-control flex-grow-1 m-1" name="url" placeholder="URL">
+  <button class="btn btn-success m-1" type="submit">+</button>
 </form>
 {% endmacro %}
 
-<!--Add Folder Modal-->
-{% macro add_folder_modal() %}
-<div class="modal" id="add-folder-modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body text-center">
-        {% call title_div_content('Add Folder') %}{% endcall %}
-        <form action="{{ url_for('folders.add_folder') }}" class="form-group" method="POST">
-          <input autocomplete="off" class="form-control" name="name" placeholder="Name" type="text">
-          <button class="btn btn-secondary w-50" type="submit">Add Folder</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-{% endmacro %}
-
-<!--Delete Folder Modal-->
-{% macro delete_folder_modal(folder) %}
-<div class="modal" id="delete-folder-modal-{{ folder.id }}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body text-center">
-        {% call title_div_content('Delete '+folder.name+'?') %}{% endcall %}
-        <a class="btn btn-danger btn-lg" href="{{ url_for('folders.delete_folder', id_=folder.id) }}">Delete Folder</a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endmacro %}
-
-<!--Edit Folder Modal-->
-{% macro edit_folder_modal(folder) %}
-<div class="modal" id="edit-folder-modal-{{ folder.id }}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body text-center">
-        <form action="{{ url_for('folders.edit_folder', id_=folder.id) }}" class="form-group" method="POST">
-          <input autocomplete="off" class="form-control" name="name" placeholder="name" type="text" value="{{ folder.name }}">
-          <input class="form-control" name="color" type="color" value="{{ folder.color }}">
-          <button class="btn btn-secondary btn-lg">Edit Folder</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-{% endmacro %}
-
-<!--Folder Info Modal-->
-{% macro folder_info_modal(folder) %}
-<div class="modal" id="folder-info-modal-{{ folder.id }}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        {% call title_div_content(folder.name) %}{% endcall %}
-        <p>Created {{ folder.get_date_created() }}</p>
-        <p>{{ folder.pages | count }} page(s)</p>
-      </div>
-    </div>
-  </div>
-</div>
-{% endmacro %}
-
-<!--Delete Page Modal-->
-{% macro delete_page_modal(page) %}
-<div class="modal" id="delete-page-modal-{{ page.id }}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        {% call title_div_content('Delete '+page.title+'?') %}{% endcall %}
-        <a class="btn btn-danger btn-lg" href="{{ url_for('pages.delete_page', id_=page.id) }}">Delete Page</a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endmacro %}
-
-<!--Delete Link Modal-->
-{% macro delete_link_modal(link) %}
-<div class="modal" id="delete-link-modal-{{ link.id }}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        {% call title_div_content('Delete '+link.title+'?') %}{% endcall %}
-        <a class="btn btn-danger btn-lg" href="{{ url_for('saved_links.delete_link', id_=link.id) }}">Delete Link</a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endmacro %}
-
-<!--Edit Link Modal-->
-{% macro edit_link_modal(link) %}
-<div class="modal" id="edit-link-modal-{{ link.id }}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form action="{{ url_for('saved_links.edit_link', id_=link.id) }}" method="POST">
-          <input autocomplete="off" class="form-control" name="title_" placeholder="Title" type="text" value="{{ link.title }}">
-          <button class="btn btn-secondary" type="submit">Edit</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-{% endmacro %}
-
-<!--Page Preview Modal-->
-{% macro page_preview_modal(page) %}
-<div class="modal" id="preview-{{ page.id }}">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="container">
-        <p>{{ page.content_to_html() | safe }}</p>
-      </div>
-    </div>
-  </div>
-</div>
+<!--Link Edit Form-->
+{% macro link_edit_form(link) %}
+<form action="{{ url_for('saved_links.edit_link', id_=link.id) }}" method="POST">
+  <input autocomplete="off" class="form-control mb-2" name="title_" placeholder="Title" type="text" value="{{ link.title }}">
+  <button class="btn btn-secondary w-100" type="submit">Edit</button>
+</form>
 {% endmacro %}

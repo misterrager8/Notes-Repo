@@ -16,6 +16,7 @@ class Page(db.Model):
     last_modified = Column(DateTime, default=datetime.now())
     folder_id = Column(Integer, ForeignKey("folders.id"))
     bookmarked = Column(Boolean, default=False)
+    is_draft = Column(Boolean, default=False)
     id = Column(Integer, primary_key=True)
 
     def __init__(self,

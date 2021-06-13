@@ -35,13 +35,15 @@ def page_plain():
 @pages.route("/add_page", methods=["POST", "GET"])
 def add_page():
     id_: int = request.args.get("id_")
-    folder_: Folder = my_db.find_by_id(Folder, id_)
+    folder_: Folder = db.session.query(Folder).get(id_)
 
     if request.method == "POST":
         title = request.form["title"]
         content = request.form["content"]
+        is_draft = bool(request.form.get("is_draft"))
 
-        folder_.add_page(Page(title, content))
+        folder_.pages.append(Page(title=title.title(), content=content, is_draft=is_draft))
+        db.session.commit()
         return redirect(url_for("folders.folder", id_=folder_.id))
 
     return render_template("pages/add_page.html", folder=folder_)
@@ -93,9 +95,31 @@ def search():
 
 @pages.route("/drafts")
 def drafts():
-    all_drafts = my_db.read_all(Draft).all()
-    ideas = my_db.read_all(Idea).all()
-    return render_template("pages/drafts.html", drafts=all_drafts, ideas=ideas)
+    ideas = db.session.query(Idea).all()
+    return render_template("pages/drafts.html", drafts=db.session.query(Page).filter(Page.is_draft).all(),
+                           ideas=ideas)
+
+
+@pages.route("/add_idea", methods=["POST", "GET"])
+def add_idea():
+    if request.method == "POST":
+        title: str = request.form["title"]
+        folder_id: int = request.form["folder_id"]
+
+        folder_: Folder = db.session.query(Folder).get(folder_id)
+        folder_.ideas.append(Idea(title=title.title()))
+        db.session.commit()
+        return redirect(url_for("pages.drafts"))
+
+
+@pages.route("/delete_idea")
+def delete_idea():
+    id_ = request.args.get("id_")
+    idea_: Idea = db.session.query(Idea).get(id_)
+
+    db.session.delete(idea_)
+    db.session.commit()
+    return redirect(url_for("pages.drafts"))
 
 
 @pages.route("/bookmarks")

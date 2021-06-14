@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros with context %}
+
+{% block body %}
+<title>Edit | {{ page.title }}</title>
+<div class="container">
+  {{ macros.paragraph('Editor', class='m-3 text-center') }}
+  {{ macros.page_editor_form(page) }}
+</div>
+{% endblock %}

@@ -213,8 +213,8 @@
 {% endmacro %}
 
 <!--Folder Options Panel-->
-{% macro folder_options(folder) %}
-<span>
+{% macro folder_options(folder, class='') %}
+<span class="{{ class }}">
   <!--Add to Folder-->
   {% call unstyled_link(modal_id='add_page_to_'+folder.id|string, class='mx-1') %}{{ add_icon() }}{% endcall %}
   <!--Info for Folder-->

@@ -58,7 +58,7 @@ def delete_page():
     db.session.delete(_)
     db.session.commit()
 
-    return redirect(url_for("folders.folder", id_=folder_.id))
+    return redirect(request.referrer)
 
 
 @pages.route("/edit_page", methods=["POST", "GET"])

@@ -19,11 +19,10 @@
   </button>
   <div class="collapse navbar-collapse" id="nav_content">
     <ul class="navbar-nav mr-auto">
-      {{ macros.add_folder_modal() }}
       <li class="nav-item dropdown">
         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">Folders</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item text-success" data-target="#add-folder-modal" data-toggle="modal" href="#">New Folder</a>
+          {% call macros.unstyled_link(modal_id='add_folder', class='dropdown-item text-success') %}New Folder{% endcall %}
           <div class="dropdown-divider"></div>
           {% for i in folders_[:5] %}
           <a class="dropdown-item" href="{{ url_for('folders.folder', id_=i.id) }}">{{ macros.circle_icon(10, i.color) }} {{ i.name }}</a>
@@ -59,6 +58,12 @@
       </button>
     </form>
   </div>
+
+  {% call macros.modal('add_folder', class='text-center') %}
+  {{ macros.paragraph('Add Folder', class='m-3') }}
+  {{ macros.folder_add_form() }}
+  {% endcall %}
+
 </nav>
 <body>
 {% block body %}

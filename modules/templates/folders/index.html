@@ -4,9 +4,7 @@
 {% block body %}
 <title>Notes-Repo</title>
 <div class="container">
-  {% call macros.title_div_content('Folders') %}
-  <small class="badge badge-pill badge-dark" style="font-size:.5em">{{ all_folders | length }}</small>
-  {% endcall %}
+  {{ macros.paragraph('Folders', class='m-3 text-center') }}
   {{ macros.sort_folders_filter('text-center', 'folders.index') }}
   <div class="row">
     {% for i in all_folders %}

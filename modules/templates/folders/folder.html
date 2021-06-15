@@ -1,12 +1,16 @@
 {% extends "base.html" %}
-{% from "macros.html" import page_card, folder_options with context %}
+{% import "macros.html" as macros with context %}
 
 {% block body %}
 <title>{{ folder.name }}</title>
 <div class="container">
-  <div class="text-center m-5">
-    <h1>{{ folder.name }}</h1>
-    {{ folder_options(folder) }}
+
+  <div class="row my-5">
+    {{ macros.paragraph(folder.name, class='col-12 mb-0 text-center') }}
+    {{ macros.folder_options(folder, class='col-12 text-center mb-5') }}
+    {% for i in public_pages %}
+    {{ macros.page_card(i) }}
+    {% endfor %}
   </div>
   <div class="row">
     {% for i in folder.pages %}

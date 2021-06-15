@@ -39,10 +39,10 @@ def add_page():
 
     if request.method == "POST":
         title = request.form["title"]
-        content = request.form["content"]
         is_draft = bool(request.form.get("is_draft"))
 
-        folder_.pages.append(Page(title=title.title(), content=content, is_draft=is_draft))
+        _ = Page(title=title.title(), content="", is_draft=is_draft)
+        folder_.pages.append(_)
         db.session.commit()
         return redirect(url_for("folders.folder", id_=folder_.id))
 

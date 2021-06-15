@@ -46,9 +46,7 @@ def add_page():
         _ = Page(title=title.title(), content="", is_draft=is_draft)
         folder_.pages.append(_)
         db.session.commit()
-        return redirect(url_for("folders.folder", id_=folder_.id))
-
-    return render_template("pages/add_page.html", folder=folder_)
+        return redirect(url_for("pages.editor", id_=_.id))
 
 
 @pages.route("/delete_page")
@@ -61,19 +59,28 @@ def delete_page():
     return redirect(request.referrer)
 
 
-@pages.route("/edit_page", methods=["POST", "GET"])
-def edit_page():
+@pages.route("/editor", methods=["POST", "GET"])
+def editor():
     id_ = request.args.get("id_")
     page_: Page = db.session.query(Page).get(id_)
 
     if request.method == "POST":
         title = request.form["title"]
+        folder_id: int = request.form.get("folder_id")
         content = request.form["content"]
-        page_.edit_page(title, content)
+        is_draft = bool(request.form.get("is_draft"))
+
+        page_.title = title.title()
+        page_.folder_id = folder_id
+        page_.content = content
+        page_.last_modified = datetime.now()
+        page_.is_draft = is_draft
+
+        db.session.commit()
 
         return redirect(url_for("pages.page", id_=page_.id))
 
-    return render_template("pages/edit_page.html", page=page_)
+    return render_template("pages/editor.html", page=page_)
 
 
 @pages.route("/mark")

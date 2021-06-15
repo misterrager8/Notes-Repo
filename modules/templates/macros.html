@@ -192,7 +192,7 @@
   {% call unstyled_link(class='mx-1', modal_id='preview_page_'+page.id|string) %}{{ view_icon() }}{% endcall %}
   {% endif %}
   <!--Edit Page-->
-  {% call unstyled_link(class='mx-1', href=url_for('pages.edit_page', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
+  {% call unstyled_link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
   <!--Save Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.page_plain', id_=page.id)) %}{{ save_icon() }}{% endcall %}
   <!--Bookmark Page-->

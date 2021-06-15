@@ -27,10 +27,10 @@ class Page(db.Model):
         html = markdown.markdown(self.content)
         return html
 
-    def get_last_modified(self):
+    def get_last_modified(self) -> str:
         return self.last_modified.strftime("%B %d, %Y %I:%M %p")
 
-    def get_date_created(self):
+    def get_date_created(self) -> str:
         return self.date_created.strftime("%B %d, %Y %I:%M %p")
 
     def __str__(self):

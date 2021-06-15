@@ -4,19 +4,7 @@
 {% block body %}
 <title>Drafts</title>
 <div class="container">
-  <div class="my-5 text-center">
-    {{ macros.paragraph('Ideas', class='m-0') }}
-    {% call macros.unstyled_link(modal_id='add_idea') %}{{ macros.add_icon() }}{% endcall %}
-    {% call macros.modal('add_idea') %}
-    {{ macros.idea_add_form() }}
-    {% endcall %}
-  </div>
-  {% for i in ideas %}
-  {{ macros.idea_badge(i) }}
-  {% endfor %}
-  <div class="my-5 text-center">
-    {{ macros.paragraph('Drafts', class='m-0') }}
-  </div>
+  {{ macros.paragraph('Drafts', class='m-3 text-center') }}
   <div class="row">
     {% for i in drafts %}
     {{ macros.page_card(i) }}

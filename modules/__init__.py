@@ -22,9 +22,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100, 'pool_recycle': 280
 db = SQLAlchemy(app)
 
 from modules.views.folders import folders
-from modules.views.links import saved_links
 from modules.views.pages import pages
 
 app.register_blueprint(folders)
 app.register_blueprint(pages)
-app.register_blueprint(saved_links)

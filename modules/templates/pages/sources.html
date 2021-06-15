@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros %}
+
+{% block body %}
+<title>Sources</title>
+<div class="container">
+  {{ macros.paragraph('Sources', class='text-center my-5') }}
+  {% for i in sources_ %}
+  {{ macros.source_list_item(i) }}
+  {% endfor %}
+</div>
+{% endblock %}

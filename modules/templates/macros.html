@@ -72,26 +72,15 @@
 </div>
 {% endmacro %}
 
-<!--Link List Item-->
-{% macro link_list_item(link) %}
+<!--Source List Item-->
+{% macro source_list_item(source) %}
 <div class="list-group-item list-group-item-action border-0 d-flex justify-content-between rounded">
-  {% call unstyled_link(href=link.url, newtab=true) %}{{ link.title }}{% endcall %}
+  {% call unstyled_link(href=source.url, newtab=true, class='font-weight-bold') %}"{{ source.title }}"{% endcall %}
   <div>
-    <small class="text-muted mr-3">{{ link.get_date_added() }}</small>
-    {% call unstyled_link(class='mx-1', modal_id='delete_link_'+link.id|string) %}{{ delete_icon() }}{% endcall %}
-    {% call unstyled_link(class='mx-1', modal_id='edit_link_'+link.id|string) %}{{ edit_icon() }}{% endcall %}
+    {% call unstyled_link(href=url_for('pages.page', id_=source.pages.id), class='font-weight-light font-italic') %}{{ source.pages.title }}{% endcall %}
+    {{ badge(source.folders.name, bg_color=source.folders.color, class='ml-2', href=url_for('folders.folder', id_=source.folders.id)) }}
   </div>
 </div>
-
-{% call modal('delete_link_'+link.id|string, class='text-center') %}
-{{ paragraph('Delete Link?') }}
-{% call unstyled_link(class='btn btn-danger btn-lg', href=url_for('saved_links.delete_link', id_=link.id), color='white') %}Delete Link{% endcall %}
-{% endcall %}
-
-{% call modal('edit_link_'+link.id|string, class='text-center') %}
-{{ link_edit_form(link) }}
-{% endcall %}
-
 {% endmacro %}
 
 <!--Page Card-->
@@ -316,28 +305,24 @@
 </form>
 {% endmacro %}
 
-<!--Page Edit Form-->
-{% macro page_edit_form() %}
-<form action="{{ url_for('pages.edit_page', id_=page.id) }}" class="form-group col-10 offset-1 text-center" method="POST">
-  <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text" value="{{ page.title }}">
-  <a class="unstyled-link text-info" href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown Cheat Sheet</a>
-  <textarea autocomplete="off" class="form-control" name="content" placeholder="Content" rows="25">{{ page.content }}</textarea>
-  <button class="btn btn-secondary w-50" type="submit">Edit Page</button>
-</form>
-{% endmacro %}
-
-<!--Link Add Form-->
-{% macro link_add_form() %}
-<form action="{{ url_for('saved_links.all_links') }}" class="form-group form-inline shadow rounded mb-5" method="POST">
-  <input autocomplete="off" class="form-control flex-grow-1 m-1" name="url" placeholder="URL">
-  <button class="btn btn-success m-1" type="submit">+</button>
-</form>
-{% endmacro %}
-
-<!--Link Edit Form-->
-{% macro link_edit_form(link) %}
-<form action="{{ url_for('saved_links.edit_link', id_=link.id) }}" method="POST">
-  <input autocomplete="off" class="form-control mb-2" name="title_" placeholder="Title" type="text" value="{{ link.title }}">
-  <button class="btn btn-secondary w-100" type="submit">Edit</button>
+<!--Page Editor Form-->
+{% macro page_editor_form(page) %}
+<form action="{{ url_for('pages.editor', id_=page.id) }}" class="form-group col-10 offset-1 text-center" method="POST">
+  <input autocomplete="off" class="form-control my-2" name="title" placeholder="Title" type="text" value="{{ page.title }}">
+  <select class="form-control mb-2" name="folder_id">
+    <option>Select Folder</option>
+    {% for i in folders_ %}
+    <!--suppress HtmlUnknownAttribute -->
+    <option value="{{ i.id }}" {% if i.id== page.folder_id %}selected{% endif %}>{{ i.name }}</option>
+    {% endfor %}
+  </select>
+  {% call unstyled_link(class='text-info', href='https://www.markdownguide.org/cheat-sheet/', newtab=true) %}Markdown Cheat Sheet{% endcall %}
+  <textarea autocomplete="off" class="form-control mb-2" name="content" placeholder="Content" rows="25">{{ page.content }}</textarea>
+  <div class="form-check mb-2">
+    <!--suppress HtmlUnknownAttribute -->
+    <input id="draft_check2" type="checkbox" name="is_draft" class="form-check-input" value="True" {% if page.is_draft %}checked{% endif %}>
+    <label class="form-check-label" for="draft_check2">Save As Draft</label>
+  </div>
+  {{ button('Save') }}
 </form>
 {% endmacro %}

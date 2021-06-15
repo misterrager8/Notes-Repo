@@ -3,17 +3,16 @@ import random
 from flask import Blueprint, request, url_for, redirect, render_template
 from sqlalchemy import text
 
-from modules.ctrla import DB
-from modules.model import Folder
+from modules import db
+from modules.model import Folder, Page
 
 folders = Blueprint("folders", __name__)
-my_db = DB()
 
 
 @folders.route("/")
 def index():
     order_by = request.args.get("order_by", default="date_created desc")
-    _ = my_db.read_all(Folder).order_by(text(order_by)).all()
+    _ = db.session.query(Folder).order_by(text(order_by)).all()
 
     return render_template("folders/index.html", all_folders=_, order_by=order_by)
 
@@ -24,15 +23,16 @@ def add_folder():
         name = request.form["name"]
         color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
 
-        my_db.create(Folder(name, color))
+        db.session.add(Folder(name=name.title(), color=color))
+        db.session.commit()
         return redirect(url_for("folders.index"))
 
 
 @folders.route("/delete_folder")
 def delete_folder():
     id_ = request.args.get("id_")
-    _: Folder = my_db.find_by_id(Folder, id_)
-    my_db.delete(_)
+    _: Folder = db.session.query(Folder).get(id_)
+    db.session.delete(_)
 
     return redirect(url_for("folders.index"))
 
@@ -40,12 +40,15 @@ def delete_folder():
 @folders.route("/edit_folder", methods=["POST", "GET"])
 def edit_folder():
     id_ = request.args.get("id_")
-    folder_: Folder = my_db.find_by_id(Folder, id_)
+    folder_: Folder = db.session.query(Folder).get(id_)
 
     if request.method == "POST":
         name = request.form["name"]
         color = request.form["color"]
-        folder_.edit_folder(name, color)
+
+        folder_.name = name.title()
+        folder_.color = color
+        db.session.commit()
 
         return redirect(url_for("folders.index"))
 
@@ -53,6 +56,8 @@ def edit_folder():
 @folders.route("/folder", methods=["POST", "GET"])
 def folder():
     id_ = request.args.get("id_")
-    folder_: Folder = my_db.find_by_id(Folder, id_)
+    folder_: Folder = db.session.query(Folder).get(id_)
+    public_pages = db.session.query(Page).filter_by(folder_id=folder_.id, is_draft=False).all()
+    private_pages = db.session.query(Page).filter_by(folder_id=folder_.id, is_draft=True).all()
 
     return render_template("folders/folder.html", folder=folder_)

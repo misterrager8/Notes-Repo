@@ -31,7 +31,7 @@ def page_plain():
     id_ = request.args.get("id_")
     page_: Page = db.session.query(Page).get(id_)
 
-    return render_template("pages/page_plain.html", page=page_)
+    return "<title>%s [PLAIN]</title><div style=\"white-space: pre-wrap;\">%s</div>" % (page_.title, page_.content)
 
 
 @pages.route("/add_page", methods=["POST", "GET"])

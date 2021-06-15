@@ -12,11 +12,15 @@
     {{ macros.page_card(i) }}
     {% endfor %}
   </div>
-  <div class="row">
-    {% for i in folder.pages %}
-    {{ page_card(i) }}
+
+  {% if private_pages %}
+  <div class="row my-5">
+    {{ macros.paragraph('Drafts', class='font-italic col-12 text-center mb-5', size='1.75') }}
+    {% for i in private_pages %}
+    {{ macros.page_card(i) }}
     {% endfor %}
   </div>
+  {% endif %}
 </div>
 
 {% endblock %}

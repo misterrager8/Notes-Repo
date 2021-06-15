@@ -38,7 +38,8 @@ class Page(db.Model):
                                       self.date_created,
                                       self.last_modified,
                                       self.folder_id,
-                                      self.bookmarked)
+                                      self.bookmarked,
+                                      self.is_draft)
 
 
 class Folder(db.Model):

@@ -60,4 +60,7 @@ def folder():
     public_pages = db.session.query(Page).filter_by(folder_id=folder_.id, is_draft=False).all()
     private_pages = db.session.query(Page).filter_by(folder_id=folder_.id, is_draft=True).all()
 
-    return render_template("folders/folder.html", folder=folder_)
+    return render_template("folders/folder.html",
+                           folder=folder_,
+                           public_pages=public_pages,
+                           private_pages=private_pages)

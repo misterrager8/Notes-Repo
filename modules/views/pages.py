@@ -119,7 +119,7 @@ def sources():
     url_regex = "http[s]?://[^)]+"
     markup_regex = "\[({0})]\(\s*({1})\s*\)".format(name_regex, url_regex)
     _ = []
-    for i in db.session.query(Page).order_by(Page.title).all():
+    for i in db.session.query(Page).filter_by(is_draft=False).order_by(Page.title).all():
         for match in re.findall(markup_regex, i.content):
             _.append(Source(url=match[1], title=match[0], folders=i.folders, pages=i))
 

@@ -189,6 +189,21 @@
 </svg>
 {% endmacro %}
 
+<!--User Icon-->
+{% macro user_icon(size='20', color='LightGray') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-person-circle" viewBox="0 0 16 16">
+  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+</svg>
+{% endmacro %}
+
+<!--Search Icon-->
+{% macro search_icon(size='20', color='LightGray') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+</svg>
+{% endmacro %}
+
 <!--Page Options Panel-->
 {% macro page_options(page) %}
 <span>
@@ -331,5 +346,23 @@
     <label class="form-check-label" for="draft_check2">Save As Draft</label>
   </div>
   {{ button('Save') }}
+</form>
+{% endmacro %}
+
+<!--User Login Form-->
+{% macro user_login_form() %}
+<form method="post" action="{{ url_for('users.login') }}">
+  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Username" name="username">
+  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
+  {{ button('Log-In') }}
+</form>
+{% endmacro %}
+
+<!--User SignUp Form-->
+{% macro user_signup_form() %}
+<form method="post" action="{{ url_for('users.signup') }}">
+  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Username" name="username">
+  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
+  {{ button('Sign Up') }}
 </form>
 {% endmacro %}

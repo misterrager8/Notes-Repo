@@ -65,8 +65,9 @@
   <div class="card-body text-center">
     {% call unstyled_link(href=url_for('folders.folder', id_=folder.id)) %}
     {{ folder_icon(size='100', color=folder.color) }}
-    {{ paragraph(folder.name, size='1.5', class='mb-1') }}
+    {{ paragraph(folder.name, size='1.5', class='mb-0') }}
     {% endcall %}
+    <div><small>{{ folder.users.username }}</small></div>
     {{ folder_options(folder) }}
   </div>
 </div>
@@ -97,6 +98,7 @@
       </div>
     </div>
     <div class="card-body">
+      <small><span class="font-weight-bold">Author: </span>{{ page.users.username }}</small><br>
       <small><span class="font-weight-bold">Last Modified:</span> {{ page.get_last_modified() }}</small><br>
       <small><span class="font-weight-bold">Date Created:</span> {{ page.get_date_created() }}</small>
     </div>
@@ -211,16 +213,18 @@
   {% if request.url_rule.endpoint != "pages.page" %}
   {% call unstyled_link(class='mx-1', modal_id='preview_page_'+page.id|string) %}{{ view_icon() }}{% endcall %}
   {% endif %}
-  <!--Edit Page-->
-  {% call unstyled_link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
   <!--Save Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.page_plain', id_=page.id)) %}{{ save_icon() }}{% endcall %}
+  {% if current_user.is_authenticated %}
+  <!--Edit Page-->
+  {% call unstyled_link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
   <!--Bookmark Page-->
   {% if not page.is_draft %}
   {% call unstyled_link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked) }}{% endcall %}
   {% endif %}
   <!--Delete Page-->
   {% call unstyled_link(class='mx-1', modal_id='delete_page_'+page.id|string) %}{{ delete_icon() }}{% endcall %}
+  {% endif %}
 </span>
 
 {% call modal('preview_page_'+page.id|string, large=true) %}
@@ -237,14 +241,16 @@
 <!--Folder Options Panel-->
 {% macro folder_options(folder, class='') %}
 <span class="{{ class }}">
-  <!--Add to Folder-->
-  {% call unstyled_link(modal_id='add_page_to_'+folder.id|string, class='mx-1') %}{{ add_icon() }}{% endcall %}
   <!--Info for Folder-->
   {% call unstyled_link(modal_id='info_folder_'+folder.id|string, class='mx-1') %}{{ info_icon() }}{% endcall %}
+  {% if current_user.is_authenticated %}
+  <!--Add to Folder-->
+  {% call unstyled_link(modal_id='add_page_to_'+folder.id|string, class='mx-1') %}{{ add_icon() }}{% endcall %}
   <!--Edit Folder-->
   {% call unstyled_link(modal_id='edit_folder_'+folder.id|string, class='mx-1') %}{{ edit_icon() }}{% endcall %}
   <!--Delete Folder-->
   {% call unstyled_link(modal_id='delete_folder_'+folder.id|string, class='mx-1') %}{{ delete_icon() }}{% endcall %}
+  {% endif %}
 </span>
 
 {% call modal('add_page_to_'+folder.id|string) %}

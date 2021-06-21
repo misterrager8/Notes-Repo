@@ -1,7 +1,8 @@
 from datetime import datetime
 
 import markdown
-from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean
+from flask_login import UserMixin
+from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean, Date
 from sqlalchemy.orm import relationship
 
 from modules import app, db
@@ -14,6 +15,7 @@ class Page(db.Model):
     content = Column(Text)
     date_created = Column(DateTime, default=datetime.now())
     last_modified = Column(DateTime, default=datetime.now())
+    author_id = Column(Integer, ForeignKey("users.id"))
     folder_id = Column(Integer, ForeignKey("folders.id"))
     bookmarked = Column(Boolean, default=False)
     is_draft = Column(Boolean, default=False)
@@ -34,12 +36,14 @@ class Page(db.Model):
         return self.date_created.strftime("%B %d, %Y %I:%M %p")
 
     def __str__(self):
-        return "%s,%s,%s,%s,%s,%s" % (self.title,
-                                      self.date_created,
-                                      self.last_modified,
-                                      self.folder_id,
-                                      self.bookmarked,
-                                      self.is_draft)
+        return "%s,%s,%s,%s,%s,%s,%s,%s" % (self.id,
+                                            self.title,
+                                            self.date_created,
+                                            self.last_modified,
+                                            self.users.username,
+                                            self.folder_id,
+                                            self.bookmarked,
+                                            self.is_draft)
 
 
 class Folder(db.Model):
@@ -48,6 +52,7 @@ class Folder(db.Model):
     name = Column(Text)
     color = Column(Text)
     date_created = Column(DateTime, default=datetime.now())
+    author_id = Column(Integer, ForeignKey("users.id"))
     pages = relationship("Page", backref="folders")
     sources = relationship("Source", backref="folders")
     id = Column(Integer, primary_key=True)
@@ -59,9 +64,11 @@ class Folder(db.Model):
         return self.date_created.strftime("%B %d, %Y %I:%M %p")
 
     def __str__(self):
-        return "%s,%s,%s" % (self.name,
-                             self.color,
-                             self.date_created)
+        return "%s,%s,%s,%s,%s" % (self.id,
+                                   self.name,
+                                   self.color,
+                                   self.date_created,
+                                   self.users.username)
 
 
 class Source(db.Model):
@@ -79,6 +86,25 @@ class Source(db.Model):
     def __str__(self):
         return "%s,%s" % (self.url,
                           self.title)
+
+
+class User(UserMixin, db.Model):
+    __tablename__ = "users"
+
+    username = Column(Text)
+    password = Column(Text)
+    pages = relationship("Page", backref="users")
+    folders = relationship("Folder", backref="users")
+    date_added = Column(Date, default=datetime.today())
+    id = Column(Integer, primary_key=True)
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+
+    def __str__(self):
+        return "%s,%s,%s" % (self.id,
+                             self.username,
+                             self.date_added)
 
 
 with app.app_context():

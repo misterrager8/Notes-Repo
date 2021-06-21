@@ -1,6 +1,7 @@
 import random
 
 from flask import Blueprint, request, url_for, redirect, render_template
+from flask_login import current_user
 from sqlalchemy import text
 
 from modules import db
@@ -14,7 +15,7 @@ def index():
     order_by = request.args.get("order_by", default="date_created desc")
     _ = db.session.query(Folder).order_by(text(order_by)).all()
 
-    return render_template("folders/index.html", all_folders=_, order_by=order_by)
+    return render_template("folders/index.html", all_folders=_, order_by=order_by, current_user=current_user)
 
 
 @folders.route("/add_folder", methods=["POST", "GET"])
@@ -23,7 +24,7 @@ def add_folder():
         name = request.form["name"]
         color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
 
-        db.session.add(Folder(name=name.title(), color=color))
+        db.session.add(Folder(name=name.title(), color=color, users=current_user))
         db.session.commit()
         return redirect(url_for("folders.index"))
 

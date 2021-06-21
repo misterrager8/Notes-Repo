@@ -4,6 +4,7 @@
 {% block body %}
 <title>Notes-Repo</title>
 <div class="container">
+  {% if current_user.is_authenticated %}
   {{ macros.paragraph('Folders', class='m-3 text-center') }}
   {{ macros.sort_folders_filter('text-center', 'folders.index') }}
   <div class="row">
@@ -11,5 +12,6 @@
     {{ macros.folder_card(i) }}
     {% endfor %}
   </div>
+  {% endif %}
 </div>
 {% endblock %}

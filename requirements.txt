@@ -7,3 +7,4 @@ gunicorn
 PyMySQL
 requests
 beautifulsoup4
+Werkzeug

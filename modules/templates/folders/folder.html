@@ -5,8 +5,8 @@
 <title>{{ folder.name }}</title>
 <div class="container">
 
-  <div class="row my-5">
-    {{ macros.paragraph(folder.name, class='col-12 mb-0 text-center') }}
+  <div class="row mb-5">
+    {{ macros.paragraph(folder.name, class='col-12 mb-0 mt-3 text-center') }}
     {{ macros.folder_options(folder, class='col-12 text-center mb-5') }}
     {% for i in public_pages %}
     {{ macros.page_card(i) }}

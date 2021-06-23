@@ -93,8 +93,8 @@ class User(UserMixin, db.Model):
 
     username = Column(Text)
     password = Column(Text)
-    pages = relationship("Page", backref="users")
-    folders = relationship("Folder", backref="users")
+    pages = relationship("Page", backref="users", lazy="dynamic")
+    folders = relationship("Folder", backref="users", lazy="dynamic")
     date_added = Column(Date, default=datetime.today())
     id = Column(Integer, primary_key=True)
 

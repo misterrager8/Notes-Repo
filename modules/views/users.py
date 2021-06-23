@@ -13,6 +13,14 @@ def authors():
     return render_template("users/authors.html", authors=db.session.query(User))
 
 
+@users.route("/profile")
+def profile():
+    id_ = request.args.get("id_")
+    user_: User = db.session.query(User).get(id_)
+
+    return render_template("users/profile.html", author=user_)
+
+
 @users.route("/login", methods=["POST"])
 def login():
     if request.method == "POST":

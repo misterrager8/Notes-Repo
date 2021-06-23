@@ -96,8 +96,13 @@
   {% endcall %}
 
 </nav>
-<body>
+<body class="mb-5">
 {% block body %}
 {% endblock %}
 </body>
+<footer class="p-3 fixed-bottom bg-light text-center text-muted">
+  {% call macros.unstyled_link(class='mx-5', newtab=true) %}About{% endcall %}
+  {% call macros.unstyled_link(class='mx-5', newtab=true, href='https://github.com/misterrager8/Notes-Repo') %}-{{ macros.github_icon() }}-{% endcall %}
+  {% call macros.unstyled_link(class='mx-5', newtab=true) %}Contact{% endcall %}
+</footer>
 </html>

@@ -67,7 +67,7 @@
     {{ folder_icon(size='100', color=folder.color) }}
     {{ paragraph(folder.name, size='1.5', class='mb-0') }}
     {% endcall %}
-    <div><small>{{ folder.users.username }}</small></div>
+    <small>{% call unstyled_link(href=url_for('users.profile', id_=folder.author_id)) %}{{ folder.users.username }}{% endcall %}</small><br>
     {{ folder_options(folder) }}
   </div>
 </div>
@@ -98,7 +98,7 @@
       </div>
     </div>
     <div class="card-body">
-      <small><span class="font-weight-bold">Author: </span>{{ page.users.username }}</small><br>
+      <small><span class="font-weight-bold">Author:</span> {% call unstyled_link(href=url_for('users.profile', id_=page.author_id)) %}{{ page.users.username }}{% endcall %}</small><br>
       <small><span class="font-weight-bold">Last Modified:</span> {{ page.get_last_modified() }}</small><br>
       <small><span class="font-weight-bold">Date Created:</span> {{ page.get_date_created() }}</small>
     </div>

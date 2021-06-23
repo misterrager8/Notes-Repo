@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 
 from flask import Blueprint, request, render_template, redirect, url_for
+from flask_login import current_user
 from sqlalchemy import text
 
 from modules import db
@@ -43,7 +44,7 @@ def add_page():
         title = request.form["title"]
         is_draft = bool(request.form.get("is_draft"))
 
-        _ = Page(title=title.title(), content="", is_draft=is_draft)
+        _ = Page(title=title.title(), content="", is_draft=is_draft, users=current_user)
         folder_.pages.append(_)
         db.session.commit()
         return redirect(url_for("pages.editor", id_=_.id))
@@ -98,19 +99,19 @@ def mark_page():
 def search():
     if request.method == "POST":
         search_term = request.form["search_term"]
-        results = db.session.query(Page).filter(Page.title.ilike(f"%{search_term}%"))
+        results = db.session.query(Page).filter_by(is_draft=False).filter(Page.title.ilike(f"%{search_term}%"))
 
         return render_template("pages/search.html", results=results, header="\"%s\"" % search_term)
 
 
 @pages.route("/drafts")
 def drafts():
-    return render_template("pages/drafts.html", drafts=db.session.query(Page).filter(Page.is_draft).all())
+    return render_template("pages/drafts.html", drafts=current_user.pages.filter(Page.is_draft))
 
 
 @pages.route("/bookmarks")
 def bookmarks():
-    return render_template("pages/bookmarks.html", bookmarks_=db.session.query(Page).filter(Page.bookmarked.is_(True)))
+    return render_template("pages/bookmarks.html", bookmarks_=current_user.pages.filter(Page.bookmarked.is_(True)))
 
 
 @pages.route("/sources")
@@ -119,7 +120,7 @@ def sources():
     url_regex = "http[s]?://[^)]+"
     markup_regex = "\[({0})]\(\s*({1})\s*\)".format(name_regex, url_regex)
     _ = []
-    for i in db.session.query(Page).filter_by(is_draft=False).order_by(Page.title).all():
+    for i in current_user.pages.filter_by(is_draft=False).order_by(Page.title).all():
         for match in re.findall(markup_regex, i.content):
             _.append(Source(url=match[1], title=match[0], folders=i.folders, pages=i))
 

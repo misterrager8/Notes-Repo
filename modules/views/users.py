@@ -2,15 +2,10 @@ from flask import Blueprint, url_for, redirect, request, render_template
 from flask_login import login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from modules import login_manager, db
+from modules import db
 from modules.model import User
 
 users = Blueprint("users", __name__)
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return db.session.query(User).get(int(user_id))
 
 
 @users.route("/authors")

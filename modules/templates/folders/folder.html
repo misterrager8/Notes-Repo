@@ -13,7 +13,7 @@
     {% endfor %}
   </div>
 
-  {% if private_pages and current_user.is_authenticated %}
+  {% if private_pages and current_user.id == folder.author_id %}
   <div class="row my-5">
     {{ macros.paragraph('Drafts', class='font-italic col-12 text-center mb-5', size='1.75') }}
     {% for i in private_pages %}

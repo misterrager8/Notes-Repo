@@ -232,7 +232,7 @@
   {% endif %}
   <!--Save Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.page_plain', id_=page.id)) %}{{ save_icon() }}{% endcall %}
-  {% if current_user.is_authenticated %}
+  {% if current_user.id == page.users.id %}
   <!--Edit Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
   <!--Bookmark Page-->
@@ -260,7 +260,7 @@
 <span class="{{ class }}">
   <!--Info for Folder-->
   {% call unstyled_link(modal_id='info_folder_'+folder.id|string, class='mx-1') %}{{ info_icon() }}{% endcall %}
-  {% if current_user.is_authenticated %}
+  {% if current_user.id == folder.users.id %}
   <!--Add to Folder-->
   {% call unstyled_link(modal_id='add_page_to_'+folder.id|string, class='mx-1') %}{{ add_icon() }}{% endcall %}
   <!--Edit Folder-->

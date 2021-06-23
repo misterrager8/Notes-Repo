@@ -11,12 +11,12 @@ from modules.model import Page, Folder, Source
 pages = Blueprint("pages", __name__)
 
 
-@pages.route("/all_pages", methods=["POST", "GET"])
-def all_pages():
+@pages.route("/my_pages", methods=["POST", "GET"])
+def my_pages():
     order_by = request.args.get("order_by", default="last_modified desc")
-    _ = db.session.query(Page).filter_by(is_draft=False).order_by(text(order_by)).join(Folder).all()
+    _ = current_user.pages.order_by(text(order_by)).filter_by(is_draft=False)
 
-    return render_template("pages/all_pages.html", all_pages=_, order_by=order_by)
+    return render_template("pages/my_pages.html", all_pages=_, order_by=order_by)
 
 
 @pages.route("/page", methods=["POST", "GET"])

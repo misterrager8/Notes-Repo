@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros with context %}
+
+{% block body %}
+<title>Notes-Repo</title>
+<div class="container">
+  {% if my_folders %}
+  {{ macros.paragraph('Folders', class='m-3 text-center') }}
+  {{ macros.sort_folders_filter('text-center', 'folders.my_folders') }}
+  <div class="row">
+    {% for i in my_folders %}
+    {{ macros.folder_card(i) }}
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

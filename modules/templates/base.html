@@ -24,6 +24,7 @@
         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">Folders</a>
         <div class="dropdown-menu">
           {% call macros.unstyled_link(modal_id='add_folder', class='dropdown-item text-success') %}New Folder{% endcall %}
+          {% call macros.unstyled_link(href=url_for('folders.my_folders'), class='dropdown-item') %}My Folders{% endcall %}
           <div class="dropdown-divider"></div>
           {% for i in folders_[:5] %}
           <a class="dropdown-item" href="{{ url_for('folders.folder', id_=i.id) }}">{{ macros.circle_icon(10, i.color) }} {{ i.name }}</a>
@@ -33,7 +34,7 @@
       <li class="nav-item dropdown">
         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">Pages</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="{{ url_for('pages.all_pages') }}">All Pages</a>
+          <a class="dropdown-item" href="{{ url_for('pages.my_pages') }}">My Pages</a>
           <div class="dropdown-divider"></div>
           {% for i in pages_[:5] %}
           <a class="dropdown-item" href="{{ url_for('pages.page', id_=i.id) }}">{{ macros.circle_icon(10, i.folders.color) }} {{ i.title }}</a>
@@ -73,6 +74,8 @@
           {% call macros.unstyled_link(class='dropdown-item', modal_id='login') %}Log-In{% endcall %}
           {% call macros.unstyled_link(class='dropdown-item', modal_id='signup') %}Sign Up{% endcall %}
           {% else %}
+          {{ macros.paragraph(current_user.username, size=1, class='text-center m-1 font-weight-bold') }}
+          <div class="dropdown-divider"></div>
           {% call macros.unstyled_link(href=url_for('users.logout'), class='dropdown-item') %}Sign Out{% endcall %}
           {% endif %}
         </div>

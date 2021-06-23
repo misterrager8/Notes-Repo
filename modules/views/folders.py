@@ -12,10 +12,17 @@ folders = Blueprint("folders", __name__)
 
 @folders.route("/")
 def index():
-    order_by = request.args.get("order_by", default="date_created desc")
-    _ = db.session.query(Folder).order_by(text(order_by)).all()
+    return render_template("folders/index.html",
+                           featured_folders=db.session.query(Folder).order_by(text("date_created desc")).all(),
+                           featured_pages=db.session.query(Page).order_by(text("last_modified desc")).filter_by(is_draft=False).all())
 
-    return render_template("folders/index.html", all_folders=_, order_by=order_by, current_user=current_user)
+
+@folders.route("/my_folders", methods=["POST", "GET"])
+def my_folders():
+    order_by = request.args.get("order_by", default="date_created desc")
+    _ = current_user.folders.order_by(text(order_by)).all()
+
+    return render_template("folders/my_folders.html", my_folders=_, order_by=order_by)
 
 
 @folders.route("/add_folder", methods=["POST", "GET"])
@@ -26,7 +33,7 @@ def add_folder():
 
         db.session.add(Folder(name=name.title(), color=color, users=current_user))
         db.session.commit()
-        return redirect(url_for("folders.index"))
+        return redirect(url_for("folders.my_folders"))
 
 
 @folders.route("/delete_folder")
@@ -35,7 +42,7 @@ def delete_folder():
     _: Folder = db.session.query(Folder).get(id_)
     db.session.delete(_)
 
-    return redirect(url_for("folders.index"))
+    return redirect(url_for("folders.my_folders"))
 
 
 @folders.route("/edit_folder", methods=["POST", "GET"])
@@ -51,7 +58,7 @@ def edit_folder():
         folder_.color = color
         db.session.commit()
 
-        return redirect(url_for("folders.index"))
+        return redirect(url_for("folders.my_folders"))
 
 
 @folders.route("/folder", methods=["POST", "GET"])

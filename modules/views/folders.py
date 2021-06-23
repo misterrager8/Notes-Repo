@@ -41,6 +41,7 @@ def delete_folder():
     id_ = request.args.get("id_")
     _: Folder = db.session.query(Folder).get(id_)
     db.session.delete(_)
+    db.session.commit()
 
     return redirect(url_for("folders.my_folders"))
 

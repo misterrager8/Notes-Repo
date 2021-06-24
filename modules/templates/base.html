@@ -74,7 +74,7 @@
           {% call macros.unstyled_link(class='dropdown-item', modal_id='login') %}Log-In{% endcall %}
           {% call macros.unstyled_link(class='dropdown-item', modal_id='signup') %}Sign Up{% endcall %}
           {% else %}
-          {{ macros.paragraph(current_user.username, size=1, class='text-center m-1 font-weight-bold') }}
+          {% call macros.unstyled_link(href=url_for('users.profile', id_=current_user.id), class='font-weight-bold') %}{{ current_user.username }}{% endcall %}
           <div class="dropdown-divider"></div>
           {% call macros.unstyled_link(href=url_for('users.logout'), class='dropdown-item') %}Sign Out{% endcall %}
           {% endif %}

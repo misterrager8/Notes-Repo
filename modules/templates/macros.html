@@ -390,3 +390,13 @@
   {{ button('Sign Up') }}
 </form>
 {% endmacro %}
+
+<!--User Edit Form-->
+{% macro user_edit_form(user) %}
+<form method="post" action="{{ url_for('users.edit_profile', id_=user.id) }}">
+  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Username" name="username" value="{{ user.username }}">
+  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password" value="{{ user.password }}">
+  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Confirm Password" name="password2" value="{{ user.password }}">
+  {{ button('Edit Profile') }}
+</form>
+{% endmacro %}

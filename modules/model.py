@@ -91,6 +91,7 @@ class Source(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = "users"
 
+    email = Column(Text)
     username = Column(Text)
     password = Column(Text)
     pages = relationship("Page", backref="users", lazy="dynamic")

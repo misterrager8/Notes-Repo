@@ -384,6 +384,7 @@
 <!--User SignUp Form-->
 {% macro user_signup_form() %}
 <form method="post" action="{{ url_for('users.signup') }}">
+  <input type="email" class="form-control mb-2" autocomplete="off" placeholder="@" name="email">
   <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Username" name="username">
   <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
   {{ button('Sign Up') }}

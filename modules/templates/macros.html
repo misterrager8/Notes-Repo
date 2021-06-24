@@ -231,7 +231,7 @@
   {% call unstyled_link(class='mx-1', modal_id='preview_page_'+page.id|string) %}{{ view_icon() }}{% endcall %}
   {% endif %}
   <!--Save Page-->
-  {% call unstyled_link(class='mx-1', href=url_for('pages.page_plain', id_=page.id)) %}{{ save_icon() }}{% endcall %}
+  {% call unstyled_link(class='mx-1', href=url_for('pages.page_plain', id_=page.id), newtab=true) %}{{ save_icon() }}{% endcall %}
   {% if current_user.id == page.users.id %}
   <!--Edit Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}

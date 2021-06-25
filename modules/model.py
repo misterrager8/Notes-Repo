@@ -17,8 +17,8 @@ class Page(db.Model):
     last_modified = Column(DateTime, default=datetime.now())
     author_id = Column(Integer, ForeignKey("users.id"))
     folder_id = Column(Integer, ForeignKey("folders.id"))
-    bookmarked = Column(Boolean, default=False)
     is_draft = Column(Boolean, default=False)
+    bookmarks = relationship("Bookmark", backref="pages", lazy="dynamic")
     sources = relationship("Source", backref="pages")
     id = Column(Integer, primary_key=True)
 
@@ -29,6 +29,12 @@ class Page(db.Model):
         html = markdown.markdown(self.content)
         return html
 
+    def bookmarked_by(self, user) -> bool:
+        if user.bookmarks.filter(Bookmark.user_id == user.id, Bookmark.page_id == self.id).first():
+            return True
+        else:
+            return False
+
     def get_last_modified(self) -> str:
         return self.last_modified.strftime("%B %d, %Y %I:%M %p")
 
@@ -36,14 +42,13 @@ class Page(db.Model):
         return self.date_created.strftime("%B %d, %Y %I:%M %p")
 
     def __str__(self):
-        return "%s,%s,%s,%s,%s,%s,%s,%s" % (self.id,
-                                            self.title,
-                                            self.date_created,
-                                            self.last_modified,
-                                            self.users.username,
-                                            self.folder_id,
-                                            self.bookmarked,
-                                            self.is_draft)
+        return "%s,%s,%s,%s,%s,%s,%s" % (self.id,
+                                         self.title,
+                                         self.date_created,
+                                         self.last_modified,
+                                         self.users.username,
+                                         self.folders.name,
+                                         self.is_draft)
 
 
 class Folder(db.Model):
@@ -96,6 +101,7 @@ class User(UserMixin, db.Model):
     password = Column(Text)
     pages = relationship("Page", backref="users", lazy="dynamic")
     folders = relationship("Folder", backref="users", lazy="dynamic")
+    bookmarks = relationship("Bookmark", backref="users", lazy="dynamic")
     date_added = Column(Date, default=datetime.today())
     id = Column(Integer, primary_key=True)
 
@@ -106,6 +112,17 @@ class User(UserMixin, db.Model):
         return "%s,%s,%s" % (self.id,
                              self.username,
                              self.date_added)
+
+
+class Bookmark(db.Model):
+    __tablename__ = "bookmarks"
+
+    user_id = Column(Integer, ForeignKey("users.id"))
+    page_id = Column(Integer, ForeignKey("pages.id"))
+    id = Column(Integer, primary_key=True)
+
+    def __init__(self, **kwargs):
+        super(Bookmark, self).__init__(**kwargs)
 
 
 with app.app_context():

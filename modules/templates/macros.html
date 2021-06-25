@@ -232,13 +232,13 @@
   {% endif %}
   <!--Save Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.page_plain', id_=page.id), newtab=true) %}{{ save_icon() }}{% endcall %}
+  <!--Bookmark Page-->
+  {% if not page.is_draft and current_user.is_authenticated %}
+  {% call unstyled_link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked_by(current_user)) }}{% endcall %}
+  {% endif %}
   {% if current_user.id == page.users.id %}
   <!--Edit Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
-  <!--Bookmark Page-->
-  {% if not page.is_draft %}
-  {% call unstyled_link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked) }}{% endcall %}
-  {% endif %}
   <!--Delete Page-->
   {% call unstyled_link(class='mx-1', modal_id='delete_page_'+page.id|string) %}{{ delete_icon() }}{% endcall %}
   {% endif %}

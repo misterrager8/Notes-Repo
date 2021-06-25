@@ -6,7 +6,7 @@ from flask_login import current_user
 from sqlalchemy import text
 
 from modules import db
-from modules.model import Page, Folder, Source
+from modules.model import Page, Folder, Source, Bookmark
 
 pages = Blueprint("pages", __name__)
 
@@ -89,7 +89,12 @@ def mark_page():
     id_ = request.args.get("id_")
     page_: Page = db.session.query(Page).get(id_)
 
-    page_.bookmarked = not page_.bookmarked
+    if page_.bookmarked_by(current_user):
+        dup = current_user.bookmarks.filter(Bookmark.user_id == current_user.id, Bookmark.page_id == page_.id).first()
+        current_user.bookmarks.remove(dup)
+    else:
+        current_user.bookmarks.append(Bookmark(user_id=current_user.id, page_id=id_))
+
     db.session.commit()
 
     return redirect(request.referrer)
@@ -111,7 +116,7 @@ def drafts():
 
 @pages.route("/bookmarks")
 def bookmarks():
-    return render_template("pages/bookmarks.html", bookmarks_=current_user.pages.filter(Page.bookmarked.is_(True)))
+    return render_template("pages/bookmarks.html", bookmarks_=current_user.bookmarks)
 
 
 @pages.route("/sources")

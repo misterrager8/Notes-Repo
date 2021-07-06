@@ -3,6 +3,7 @@ Markdown
 SQLAlchemy
 python-dotenv
 flask_sqlalchemy
+flask_login
 gunicorn
 PyMySQL
 requests

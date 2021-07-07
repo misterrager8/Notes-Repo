@@ -23,7 +23,6 @@
    {% if newtab %}
    target="_blank"
    {% endif %}
-
    {% if modal_id %}
    data-target="#{{ modal_id }}"
    data-toggle="modal"
@@ -48,7 +47,6 @@
    {% if newtab %}
    target="_blank"
    {% endif %}
-
    {% if modal_id %}
    data-target="#{{ modal_id }}"
    data-toggle="modal"
@@ -177,8 +175,8 @@
 {% endmacro %}
 
 <!--Star Icon-->
-{% macro star_icon(marked, size='20') %}
-{% if marked == true %}
+{% macro star_icon(bookmarked, size='20') %}
+{% if bookmarked == true %}
 <svg class="bi bi-star-fill" fill="orange" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
 </svg>
@@ -220,7 +218,7 @@
 
 <!--Page Options Panel-->
 {% macro page_options(page) %}
-<span>
+<div>
   <!--Preview Page-->
   {% if request.url_rule.endpoint != "pages.page" %}
   {% call unstyled_link(class='mx-1', modal_id='preview_page_'+page.id|string) %}{{ view_icon() }}{% endcall %}
@@ -234,7 +232,7 @@
   <!--Delete Page-->
   {% call unstyled_link(class='mx-1', modal_id='delete_page_'+page.id|string) %}{{ delete_icon() }}{% endcall %}
   {% endif %}
-</span>
+</div>
 
 {% call modal('preview_page_'+page.id|string, large=true) %}
 {{ paragraph(page.content_to_html()|safe, size='1') }}
@@ -249,7 +247,7 @@
 
 <!--Folder Options Panel-->
 {% macro folder_options(folder, class='') %}
-<span class="{{ class }}">
+<div class="{{ class }}">
   <!--Info for Folder-->
   {% call unstyled_link(modal_id='info_folder_'+folder.id|string, class='mx-1') %}{{ info_icon() }}{% endcall %}
   {% if current_user.id == folder.users.id %}
@@ -260,7 +258,7 @@
   <!--Delete Folder-->
   {% call unstyled_link(modal_id='delete_folder_'+folder.id|string, class='mx-1') %}{{ delete_icon() }}{% endcall %}
   {% endif %}
-</span>
+</div>
 
 {% call modal('add_page_to_'+folder.id|string) %}
 {{ paragraph('New Page', class='m-3') }}

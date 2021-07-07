@@ -1,4 +1,3 @@
-import re
 from datetime import datetime
 
 from flask import Blueprint, request, render_template, redirect, url_for

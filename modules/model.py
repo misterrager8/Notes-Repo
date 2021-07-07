@@ -2,7 +2,7 @@ from datetime import datetime
 
 import markdown
 from flask_login import UserMixin
-from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean, Date
+from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
 from modules import app, db
@@ -17,9 +17,6 @@ class Page(db.Model):
     last_modified = Column(DateTime, default=datetime.now())
     author_id = Column(Integer, ForeignKey("users.id"))
     folder_id = Column(Integer, ForeignKey("folders.id"))
-    is_draft = Column(Boolean, default=False)
-    bookmarks = relationship("Bookmark", backref="pages", lazy="dynamic")
-    sources = relationship("Source", backref="pages")
     id = Column(Integer, primary_key=True)
 
     def __init__(self, **kwargs):
@@ -28,18 +25,6 @@ class Page(db.Model):
     def content_to_html(self) -> str:
         html = markdown.markdown(self.content)
         return html
-
-    def bookmarked_by(self, user) -> bool:
-        if user.bookmarks.filter(Bookmark.user_id == user.id, Bookmark.page_id == self.id).first():
-            return True
-        else:
-            return False
-
-    def get_last_modified(self) -> str:
-        return self.last_modified.strftime("%B %d, %Y %I:%M %p")
-
-    def get_date_created(self) -> str:
-        return self.date_created.strftime("%B %d, %Y %I:%M %p")
 
     def __str__(self):
         return "%s,%s,%s,%s,%s,%s,%s" % (self.id,
@@ -59,14 +44,10 @@ class Folder(db.Model):
     date_created = Column(DateTime, default=datetime.now())
     author_id = Column(Integer, ForeignKey("users.id"))
     pages = relationship("Page", backref="folders")
-    sources = relationship("Source", backref="folders")
     id = Column(Integer, primary_key=True)
 
     def __init__(self, **kwargs):
         super(Folder, self).__init__(**kwargs)
-
-    def get_date_created(self) -> str:
-        return self.date_created.strftime("%B %d, %Y %I:%M %p")
 
     def __str__(self):
         return "%s,%s,%s,%s,%s" % (self.id,
@@ -76,27 +57,10 @@ class Folder(db.Model):
                                    self.users.username)
 
 
-class Source(db.Model):
-    __tablename__ = "sources"
 
-    url = Column(Text)
-    title = Column(Text)
-    folder_id = Column(Integer, ForeignKey("folders.id"))
-    page_id = Column(Integer, ForeignKey("pages.id"))
-    id = Column(Integer, primary_key=True)
+class Admin(UserMixin, db.Model):
+    __tablename__ = "admin"
 
-    def __init__(self, **kwargs):
-        super(Source, self).__init__(**kwargs)
-
-    def __str__(self):
-        return "%s,%s" % (self.url,
-                          self.title)
-
-
-class User(UserMixin, db.Model):
-    __tablename__ = "users"
-
-    email = Column(Text)
     username = Column(Text)
     password = Column(Text)
     pages = relationship("Page", backref="users", lazy="dynamic")

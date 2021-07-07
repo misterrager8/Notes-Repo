@@ -6,10 +6,7 @@
 <div class="container">
   <div class="text-center m-5">
     {{ paragraph(page.title, size='2.5', class='m-0') }}
-    {{ badge(page.folders.name, bg_color=page.folders.color, href=url_for('folders.folder', id_=page.folder_id), class='my-2') }}
-    {% if page.is_draft %}
-    {{ badge('Draft', href=url_for('pages.drafts')) }}
-    {% endif %}<br>
+    {{ badge(page.folders.name, bg_color=page.folders.color, href=url_for('folders.folder', id_=page.folder_id), class='my-2') }}<br>
     {{ page_options(page) }}
   </div>
   {{ paragraph(page.content_to_html()|safe, size='1') }}

@@ -6,7 +6,7 @@ from flask_login import current_user
 from sqlalchemy import text
 
 from modules import db
-from modules.model import Page, Folder, Source, Bookmark
+from modules.model import Page, Folder
 
 pages = Blueprint("pages", __name__)
 
@@ -42,10 +42,8 @@ def add_page():
 
     if request.method == "POST":
         title = request.form["title"]
-        is_draft = bool(request.form.get("is_draft"))
 
-        _ = Page(title=title.title(), content="", is_draft=is_draft, users=current_user)
-        folder_.pages.append(_)
+        _ = Page(title=title.title(), content="", folders=folder_)
         db.session.commit()
         return redirect(url_for("pages.editor", id_=_.id))
 
@@ -69,13 +67,11 @@ def editor():
         title = request.form["title"]
         folder_id: int = request.form.get("folder_id")
         content = request.form["content"]
-        is_draft = bool(request.form.get("is_draft"))
 
         page_.title = title.title()
         page_.folder_id = folder_id
         page_.content = content
         page_.last_modified = datetime.now()
-        page_.is_draft = is_draft
 
         db.session.commit()
 
@@ -104,29 +100,11 @@ def mark_page():
 def search():
     if request.method == "POST":
         search_term = request.form["search_term"]
-        results = db.session.query(Page).filter_by(is_draft=False).filter(Page.title.ilike(f"%{search_term}%"))
+        results = db.session.query(Page).filter(Page.title.ilike(f"%{search_term}%"))
 
         return render_template("pages/search.html", results=results, header="\"%s\"" % search_term)
 
 
-@pages.route("/drafts")
-def drafts():
-    return render_template("pages/drafts.html", drafts=current_user.pages.filter(Page.is_draft))
-
-
 @pages.route("/bookmarks")
 def bookmarks():
-    return render_template("pages/bookmarks.html", bookmarks_=current_user.bookmarks)
-
-
-@pages.route("/sources")
-def sources():
-    name_regex = "[^]]+"
-    url_regex = "http[s]?://[^)]+"
-    markup_regex = "\[({0})]\(\s*({1})\s*\)".format(name_regex, url_regex)
-    _ = []
-    for i in current_user.pages.filter_by(is_draft=False).order_by(Page.title).all():
-        for match in re.findall(markup_regex, i.content):
-            _.append(Source(url=match[1], title=match[0], folders=i.folders, pages=i))
-
-    return render_template("pages/sources.html", sources_=_)
+    return render_template("pages/bookmarks.html", bookmarks_=db.session.query(Page).filter(Page.bookmarked))

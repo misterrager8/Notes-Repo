@@ -8,19 +8,10 @@
   <div class="row mb-5">
     {{ macros.paragraph(folder.name, class='col-12 mb-0 mt-3 text-center') }}
     {{ macros.folder_options(folder, class='col-12 text-center mb-5') }}
-    {% for i in public_pages %}
+    {% for i in folder.pages %}
     {{ macros.page_card(i) }}
     {% endfor %}
   </div>
-
-  {% if private_pages and current_user.id == folder.author_id %}
-  <div class="row my-5">
-    {{ macros.paragraph('Drafts', class='font-italic col-12 text-center mb-5', size='1.75') }}
-    {% for i in private_pages %}
-    {{ macros.page_card(i) }}
-    {% endfor %}
-  </div>
-  {% endif %}
 </div>
 
 {% endblock %}

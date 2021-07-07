@@ -73,29 +73,13 @@
 </div>
 {% endmacro %}
 
-<!--Source List Item-->
-{% macro source_list_item(source) %}
-<div class="list-group-item list-group-item-action border-0 d-flex justify-content-between rounded">
-  {% call unstyled_link(href=source.url, newtab=true, class='font-weight-bold') %}"{{ source.title }}"{% endcall %}
-  <div>
-    {% call unstyled_link(href=url_for('pages.page', id_=source.pages.id), class='font-weight-light font-italic') %}{{ source.pages.title }}{% endcall %}
-    {{ badge(source.folders.name, bg_color=source.folders.color, class='ml-2', href=url_for('folders.folder', id_=source.folders.id)) }}
-  </div>
-</div>
-{% endmacro %}
-
 <!--Page Card-->
 {% macro page_card(page) %}
 <div class="card col-xl-4 border-0">
   <div class="card-body p-0 border m-3 rounded shadow-sm">
     <div class="card-header d-flex justify-content-between">
       <a class="text-body text-truncate" data-placement="top" data-toggle="tooltip" href="{{ url_for('pages.page', id_=page.id) }}" title="{{ page.title }}">{{ page.title }}</a>
-      <div>
-        {{ badge(page.folders.name, href=url_for('folders.folder', id_=page.folder_id), bg_color=page.folders.color) }}
-        {% if page.is_draft %}
-        {{ badge('Draft', href=url_for('pages.drafts')) }}
-        {% endif %}
-      </div>
+      {{ badge(page.folders.name, href=url_for('folders.folder', id_=page.folder_id), bg_color=page.folders.color) }}
     </div>
     <div class="card-body">
       <small><span class="font-weight-bold">Author:</span> {% call unstyled_link(href=url_for('users.profile', id_=page.author_id)) %}{{ page.users.username }}{% endcall %}</small><br>
@@ -233,10 +217,7 @@
   <!--Save Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.page_plain', id_=page.id), newtab=true) %}{{ save_icon() }}{% endcall %}
   <!--Bookmark Page-->
-  {% if not page.is_draft and current_user.is_authenticated %}
-  {% call unstyled_link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked_by(current_user)) }}{% endcall %}
-  {% endif %}
-  {% if current_user.id == page.users.id %}
+  {% call unstyled_link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked) }}{% endcall %}
   <!--Edit Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
   <!--Delete Page-->
@@ -286,8 +267,7 @@
 
 {% call modal('info_folder_'+folder.id|string, class='text-center') %}
 {{ paragraph(folder.name, class='m-3') }}
-{{ paragraph('Created '+folder.get_date_created(), size='1') }}
-{{ paragraph(folder.pages|count|string+' page(s)', size='1') }}
+{{ paragraph('Created '+folder.date_created.strftime("%B %d, %Y %I:%M %p"), size='1') }}
 {% endcall %}
 
 {% endmacro %}
@@ -342,10 +322,6 @@
 {% macro page_add_form(folder) %}
 <form action="{{ url_for('pages.add_page', id_=folder.id) }}" class="form-group" method="POST">
   <input autocomplete="off" class="form-control my-2" name="title" placeholder="Title" type="text">
-  <div class="form-check mb-2">
-    <input id="draft_check" type="checkbox" name="is_draft" class="form-check-input" value="True">
-    <label class="form-check-label" for="draft_check">Save As Draft</label>
-  </div>
   {{ button('Add Page') }}
 </form>
 {% endmacro %}
@@ -363,11 +339,6 @@
   </select>
   {% call unstyled_link(class='text-info', href='https://www.markdownguide.org/cheat-sheet/', newtab=true) %}Markdown Cheat Sheet{% endcall %}
   <textarea autocomplete="off" class="form-control mb-2" name="content" placeholder="Content" rows="25">{{ page.content }}</textarea>
-  <div class="form-check mb-2">
-    <!--suppress HtmlUnknownAttribute -->
-    <input id="draft_check2" type="checkbox" name="is_draft" class="form-check-input" value="True" {% if page.is_draft %}checked{% endif %}>
-    <label class="form-check-label" for="draft_check2">Save As Draft</label>
-  </div>
   {{ button('Save') }}
 </form>
 {% endmacro %}

@@ -15,7 +15,7 @@ class Page(db.Model):
     content = Column(Text)
     date_created = Column(DateTime, default=datetime.now())
     last_modified = Column(DateTime, default=datetime.now())
-    author_id = Column(Integer, ForeignKey("users.id"))
+    bookmarked = Column(Boolean, default=False)
     folder_id = Column(Integer, ForeignKey("folders.id"))
     id = Column(Integer, primary_key=True)
 
@@ -27,13 +27,10 @@ class Page(db.Model):
         return html
 
     def __str__(self):
-        return "%s,%s,%s,%s,%s,%s,%s" % (self.id,
-                                         self.title,
-                                         self.date_created,
-                                         self.last_modified,
-                                         self.users.username,
-                                         self.folders.name,
-                                         self.is_draft)
+        return "%s,%s,%s,%s" % (self.title,
+                                self.date_created,
+                                self.last_modified,
+                                self.folders.name)
 
 
 class Folder(db.Model):
@@ -42,7 +39,6 @@ class Folder(db.Model):
     name = Column(Text)
     color = Column(Text)
     date_created = Column(DateTime, default=datetime.now())
-    author_id = Column(Integer, ForeignKey("users.id"))
     pages = relationship("Page", backref="folders")
     id = Column(Integer, primary_key=True)
 
@@ -50,12 +46,9 @@ class Folder(db.Model):
         super(Folder, self).__init__(**kwargs)
 
     def __str__(self):
-        return "%s,%s,%s,%s,%s" % (self.id,
-                                   self.name,
-                                   self.color,
-                                   self.date_created,
-                                   self.users.username)
-
+        return "%s,%s,%s" % (self.name,
+                             self.color,
+                             self.date_created)
 
 
 class Admin(UserMixin, db.Model):
@@ -63,30 +56,10 @@ class Admin(UserMixin, db.Model):
 
     username = Column(Text)
     password = Column(Text)
-    pages = relationship("Page", backref="users", lazy="dynamic")
-    folders = relationship("Folder", backref="users", lazy="dynamic")
-    bookmarks = relationship("Bookmark", backref="users", lazy="dynamic")
-    date_added = Column(Date, default=datetime.today())
     id = Column(Integer, primary_key=True)
 
     def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
-
-    def __str__(self):
-        return "%s,%s,%s" % (self.id,
-                             self.username,
-                             self.date_added)
-
-
-class Bookmark(db.Model):
-    __tablename__ = "bookmarks"
-
-    user_id = Column(Integer, ForeignKey("users.id"))
-    page_id = Column(Integer, ForeignKey("pages.id"))
-    id = Column(Integer, primary_key=True)
-
-    def __init__(self, **kwargs):
-        super(Bookmark, self).__init__(**kwargs)
+        super(Admin, self).__init__(**kwargs)
 
 
 with app.app_context():

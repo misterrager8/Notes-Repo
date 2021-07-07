@@ -75,7 +75,6 @@
     {{ paragraph(folder.name, size='1.5', class='m-0') }}
     {{ badge('%s page(s)' % folder.pages|count|string, class='mb-2 p-1', size=0.6, bg_color='gray', pill=true) }}
     {% endcall %}
-    <small>{% call unstyled_link(href=url_for('users.profile', id_=folder.author_id)) %}{{ folder.users.username }}{% endcall %}</small><br>
     {{ folder_options(folder) }}
   </div>
 </div>
@@ -90,24 +89,13 @@
       {{ badge(page.folders.name, href=url_for('folders.folder', id_=page.folder_id), bg_color=page.folders.color) }}
     </div>
     <div class="card-body">
-      <small><span class="font-weight-bold">Author:</span> {% call unstyled_link(href=url_for('users.profile', id_=page.author_id)) %}{{ page.users.username }}{% endcall %}</small><br>
-      <small><span class="font-weight-bold">Last Modified:</span> {{ page.get_last_modified() }}</small><br>
-      <small><span class="font-weight-bold">Date Created:</span> {{ page.get_date_created() }}</small>
+      <small><span class="font-weight-bold">Last Modified:</span> {{ page.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
+      <small><span class="font-weight-bold">Date Created:</span> {{ page.date_created.strftime("%B %d, %Y %I:%M %p") }}</small>
     </div>
     <div class="card-footer">
       {{ page_options(page) }}
     </div>
   </div>
-</div>
-{% endmacro %}
-
-<!--Author Card-->
-{% macro author_card(author) %}
-<div class="card border-0 col-3">
-  {% call unstyled_link(href=url_for('users.profile', id_=author.id), class='card-body text-center m-2 rounded') %}
-  {{ user_icon(size=100) }}
-  {{ paragraph(author.username) }}
-  {% endcall %}
 </div>
 {% endmacro %}
 
@@ -193,14 +181,6 @@
 </svg>
 {% endmacro %}
 
-<!--User Icon-->
-{% macro user_icon(size='20', color='LightGray') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-person-circle" viewBox="0 0 16 16">
-  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-</svg>
-{% endmacro %}
-
 <!--Search Icon-->
 {% macro search_icon(size='20', color='LightGray') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-search" viewBox="0 0 16 16">
@@ -215,6 +195,19 @@
 </svg>
 {% endmacro %}
 
+<!--Lock Icon-->
+{% macro lock_icon(size='20') %}
+{% if current_user.is_authenticated %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="white" class="bi bi-unlock-fill" viewBox="0 0 16 16">
+  <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"/>
+</svg>
+{% else %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="white" class="bi bi-lock-fill" viewBox="0 0 16 16">
+  <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+</svg>
+{% endif %}
+{% endmacro %}
+
 <!--Page Options Panel-->
 {% macro page_options(page) %}
 <div>
@@ -224,6 +217,7 @@
   {% endif %}
   <!--Save Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.page_plain', id_=page.id), newtab=true) %}{{ save_icon() }}{% endcall %}
+  {% if current_user.is_authenticated %}
   <!--Bookmark Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked) }}{% endcall %}
   <!--Edit Page-->
@@ -249,7 +243,7 @@
 <div class="{{ class }}">
   <!--Info for Folder-->
   {% call unstyled_link(modal_id='info_folder_'+folder.id|string, class='mx-1') %}{{ info_icon() }}{% endcall %}
-  {% if current_user.id == folder.users.id %}
+  {% if current_user.is_authenticated %}
   <!--Add to Folder-->
   {% call unstyled_link(modal_id='add_page_to_'+folder.id|string, class='mx-1') %}{{ add_icon() }}{% endcall %}
   <!--Edit Folder-->
@@ -343,29 +337,9 @@
 
 <!--User Login Form-->
 {% macro user_login_form() %}
-<form method="post" action="{{ url_for('users.login') }}">
+<form method="post" action="{{ url_for('login') }}">
   <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Username" name="username">
   <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
   {{ button('Log-In') }}
-</form>
-{% endmacro %}
-
-<!--User SignUp Form-->
-{% macro user_signup_form() %}
-<form method="post" action="{{ url_for('users.signup') }}">
-  <input type="email" class="form-control mb-2" autocomplete="off" placeholder="@" name="email">
-  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Username" name="username">
-  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
-  {{ button('Sign Up') }}
-</form>
-{% endmacro %}
-
-<!--User Edit Form-->
-{% macro user_edit_form(user) %}
-<form method="post" action="{{ url_for('users.edit_profile', id_=user.id) }}">
-  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Username" name="username" value="{{ user.username }}">
-  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password" value="{{ user.password }}">
-  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Confirm Password" name="password2" value="{{ user.password }}">
-  {{ button('Edit Profile') }}
 </form>
 {% endmacro %}

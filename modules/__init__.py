@@ -31,8 +31,6 @@ db = SQLAlchemy(app)
 
 from modules.views.folders import folders
 from modules.views.pages import pages
-from modules.views.users import users
 
 app.register_blueprint(folders)
 app.register_blueprint(pages)
-app.register_blueprint(users)

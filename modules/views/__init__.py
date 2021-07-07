@@ -1,18 +1,40 @@
-from flask_login import current_user
+from flask import request, url_for
+from flask_login import login_user, logout_user
 from sqlalchemy import text
+from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import redirect
 
 from modules import app, db, login_manager
-from modules.model import User
+from modules.model import Folder, Page, Admin
 
 
 @app.context_processor
 def inject_recent():
-    folders_ = current_user.folders.order_by(text("date_created desc")) if not current_user.is_anonymous else []
-    pages_ = current_user.pages.filter_by(is_draft=False).order_by(
-        text("last_modified desc")) if not current_user.is_anonymous else []
+    folders_ = db.session.query(Folder).order_by(text("date_created desc"))
+    pages_ = db.session.query(Page).order_by(text("last_modified desc"))
     return dict(folders_=folders_, pages_=pages_)
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return db.session.query(User).get(int(user_id))
+    return db.session.query(Admin).get(int(user_id))
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        user_: Admin = db.session.query(Admin).filter_by(username=username).first()
+        if user_ and check_password_hash(generate_password_hash(user_.password), password):
+            login_user(user_)
+            return redirect(url_for("folders.index"))
+        else:
+            return "Login failed."
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("folders.index"))

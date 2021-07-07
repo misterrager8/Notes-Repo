@@ -20,12 +20,13 @@
   </button>
   <div class="collapse navbar-collapse" id="nav_content">
     <ul class="navbar-nav mr-auto">
-      {% if current_user.is_authenticated %}
       <li class="nav-item dropdown">
         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">Folders</a>
         <div class="dropdown-menu">
+          {% if current_user.is_authenticated %}
           {% call macros.unstyled_link(modal_id='add_folder', class='dropdown-item text-success') %}New Folder{% endcall %}
           <div class="dropdown-divider"></div>
+          {% endif %}
           {% for i in folders_[:5] %}
           <a class="dropdown-item" href="{{ url_for('folders.folder', id_=i.id) }}">{{ macros.circle_icon(10, i.color) }} {{ i.name }}</a>
           {% endfor %}
@@ -34,20 +35,18 @@
       <li class="nav-item dropdown">
         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">Pages</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="{{ url_for('pages.my_pages') }}">My Pages</a>
+          <a class="dropdown-item" href="{{ url_for('pages.my_pages') }}">All Pages</a>
           <div class="dropdown-divider"></div>
           {% for i in pages_[:5] %}
           <a class="dropdown-item" href="{{ url_for('pages.page', id_=i.id) }}">{{ macros.circle_icon(10, i.folders.color) }} {{ i.title }}</a>
           {% endfor %}
         </div>
       </li>
+      {% if current_user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('pages.bookmarks') }}">Bookmarks</a>
       </li>
       {% endif %}
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('users.authors') }}">Authors</a>
-      </li>
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
@@ -62,15 +61,12 @@
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a href="" data-toggle="dropdown" class="nav-link dropdown-toggle">{{ macros.user_icon() }}</a>
+        <a href="" data-toggle="dropdown" class="nav-link dropdown-toggle">{{ macros.lock_icon() }}</a>
         <div class="dropdown-menu dropdown-menu-right text-center">
-          {% if not current_user.is_authenticated %}
-          {% call macros.unstyled_link(class='dropdown-item', modal_id='login') %}Log-In{% endcall %}
-          {% call macros.unstyled_link(class='dropdown-item', modal_id='signup') %}Sign Up{% endcall %}
+          {% if current_user.is_authenticated %}
+          {% call macros.unstyled_link(href=url_for('logout'), class='dropdown-item') %}Sign Out{% endcall %}
           {% else %}
-          {% call macros.unstyled_link(href=url_for('users.profile', id_=current_user.id), class='font-weight-bold') %}{{ current_user.username }}{% endcall %}
-          <div class="dropdown-divider"></div>
-          {% call macros.unstyled_link(href=url_for('users.logout'), class='dropdown-item') %}Sign Out{% endcall %}
+          {% call macros.unstyled_link(class='dropdown-item', modal_id='login') %}Log-In{% endcall %}
           {% endif %}
         </div>
       </li>
@@ -83,13 +79,7 @@
   {% endcall %}
 
   {% call macros.modal('login') %}
-  {{ macros.paragraph('Log-In', class='m-3 text-center') }}
   {{ macros.user_login_form() }}
-  {% endcall %}
-
-  {% call macros.modal('signup') %}
-  {{ macros.paragraph('Sign Up', class='m-3 text-center') }}
-  {{ macros.user_signup_form() }}
   {% endcall %}
 
 </nav>

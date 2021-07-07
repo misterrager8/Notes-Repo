@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from flask import Blueprint, request, render_template, redirect, url_for
-from flask_login import current_user
 from sqlalchemy import text
 
 from modules import db
@@ -13,7 +12,7 @@ pages = Blueprint("pages", __name__)
 @pages.route("/my_pages", methods=["POST", "GET"])
 def my_pages():
     order_by = request.args.get("order_by", default="last_modified desc")
-    _ = current_user.pages.order_by(text(order_by)).filter_by(is_draft=False)
+    _ = db.session.query(Page).join(Folder).order_by(text(order_by))
 
     return render_template("pages/my_pages.html", all_pages=_, order_by=order_by)
 
@@ -84,12 +83,7 @@ def mark_page():
     id_ = request.args.get("id_")
     page_: Page = db.session.query(Page).get(id_)
 
-    if page_.bookmarked_by(current_user):
-        dup = current_user.bookmarks.filter(Bookmark.user_id == current_user.id, Bookmark.page_id == page_.id).first()
-        current_user.bookmarks.remove(dup)
-    else:
-        current_user.bookmarks.append(Bookmark(user_id=current_user.id, page_id=id_))
-
+    page_.bookmarked = not page_.bookmarked
     db.session.commit()
 
     return redirect(request.referrer)

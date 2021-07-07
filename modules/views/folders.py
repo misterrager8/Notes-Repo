@@ -1,11 +1,10 @@
 import random
 
 from flask import Blueprint, request, url_for, redirect, render_template
-from flask_login import current_user
 from sqlalchemy import text
 
 from modules import db
-from modules.model import Folder, Page
+from modules.model import Folder
 
 folders = Blueprint("folders", __name__)
 
@@ -25,7 +24,7 @@ def add_folder():
         name = request.form["name"]
         color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
 
-        db.session.add(Folder(name=name.title(), color=color, users=current_user))
+        db.session.add(Folder(name=name.title(), color=color))
         db.session.commit()
         return redirect(url_for("folders.index"))
 

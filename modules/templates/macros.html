@@ -39,7 +39,7 @@
 {% endmacro %}
 
 <!--Generic Badge-->
-{% macro badge(txt, class='', href='#', txt_color='white', bg_color='black', newtab=false, modal_id=none, size='0.75') %}
+{% macro badge(txt, class='', href='#', txt_color='white', bg_color='black', newtab=false, modal_id=none, size='0.75', pill=false) %}
 <span>
 <!--suppress HtmlUnknownAttribute -->
 <a class="badge {{ class }}"
@@ -59,13 +59,24 @@
 </span>
 {% endmacro %}
 
+<!--Generic Dropdown-->
+{% macro dropdown(txt) %}
+<div class="dropdown">
+  <p class="dropdown-toggle" data-toggle="dropdown" style="cursor:pointer">{{ txt }}</p>
+  <div class="dropdown-menu">
+    {{ caller() }}
+  </div>
+</div>
+{% endmacro %}
+
 <!--Folder Card-->
 {% macro folder_card(folder) %}
 <div class="card col-xl-3 border-0">
   <div class="card-body text-center">
     {% call unstyled_link(href=url_for('folders.folder', id_=folder.id)) %}
     {{ folder_icon(size='100', color=folder.color) }}
-    {{ paragraph(folder.name, size='1.5', class='mb-0') }}
+    {{ paragraph(folder.name, size='1.5', class='m-0') }}
+    {{ badge('%s page(s)' % folder.pages|count|string, class='mb-2 p-1', size=0.6, bg_color='gray', pill=true) }}
     {% endcall %}
     <small>{% call unstyled_link(href=url_for('users.profile', id_=folder.author_id)) %}{{ folder.users.username }}{% endcall %}</small><br>
     {{ folder_options(folder) }}

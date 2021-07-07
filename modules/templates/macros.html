@@ -1,4 +1,5 @@
 <!--Generic Paragraph-->
+<!--suppress ALL -->
 {% macro paragraph(txt, size='3', class='', color='black') %}
 <p class="{{ class }}" style="font-size:{{ size }}em; color:{{ color }}">{{ txt }}</p>
 {% endmacro %}
@@ -16,7 +17,6 @@
 
 <!--Generic Link-->
 {% macro unstyled_link(class='', href='#', color='black', newtab=false, modal_id=none) %}
-<!--suppress HtmlUnknownAttribute -->
 <a class="{{ class }}"
    href="{{ href }}"
    style="text-decoration:none; color:{{ color }}"
@@ -40,8 +40,7 @@
 <!--Generic Badge-->
 {% macro badge(txt, class='', href='#', txt_color='white', bg_color='black', newtab=false, modal_id=none, size='0.75', pill=false) %}
 <span>
-<!--suppress HtmlUnknownAttribute -->
-<a class="badge {{ class }}"
+<a class="badge {{ class }} {% if pill %}badge-pill{% endif %}"
    href="{{ href }}"
    style="text-decoration:none; color:{{ txt_color }}; background-color:{{ bg_color }}; font-size:{{ size }}em;"
    {% if newtab %}
@@ -282,31 +281,22 @@
 {% endmacro %}
 
 <!--Sort Pages Filter-->
-{% macro sort_pages_filter(class, view_fn) %}
-<div class="{{ class }}">
-  Sort By:
-  {% if order_by == 'title' %}
-  {{ badge('Folder', href=url_for(view_fn, order_by='folders.name'), bg_color='white', txt_color='black') }}
-  {{ badge('Last Modified', href=url_for(view_fn, order_by='last_modified desc'), bg_color='white', txt_color='black') }}
-  {% elif order_by == 'folders.name' %}
-  {{ badge('Title', href=url_for(view_fn, order_by='title'), bg_color='white', txt_color='black') }}
-  {{ badge('Last Modified', href=url_for(view_fn, order_by='last_modified desc'), bg_color='white', txt_color='black') }}
-  {% elif order_by == 'last_modified desc' %}
-  {{ badge('Title', href=url_for(view_fn, order_by='title'), bg_color='white', txt_color='black') }}
-  {{ badge('Folder', href=url_for(view_fn, order_by='folders.name'), bg_color='white', txt_color='black') }}
-  {% endif %}
+{% macro sort_pages_filter(class='') %}
+<div class="list-inline {{ class }}">
+  {{ paragraph('Sort By:', class='list-inline-item', size=0.9) }}
+  {% if order_by != 'folders.name' %}{{ badge('Folder', href=url_for('pages.my_pages', order_by='folders.name'), class='list-inline-item', pill=true) }}{% endif %}
+  {% if order_by != 'last_modified desc' %}{{ badge('Last Modified', href=url_for('pages.my_pages', order_by='last_modified desc'), class='list-inline-item', pill=true) }}{% endif %}
+  {% if order_by != 'title' %}{{ badge('Title', href=url_for('pages.my_pages', order_by='title'), class='list-inline-item', pill=true) }}{% endif %}
 </div>
 {% endmacro %}
 
 <!--Sort Folders Filter-->
-{% macro sort_folders_filter(class, view_fn) %}
-<div class="{{ class }}">
-  Sort By:
-  {% if order_by == 'date_created desc' %}
-  {{ badge('Name', href=url_for(view_fn, order_by='name'), txt_color='black', bg_color='white') }}
-  {% elif order_by == 'name' %}
-  {{ badge('Date Created', href=url_for(view_fn, order_by='date_created desc'), txt_color='black', bg_color='white') }}
-  {% endif %}
+{% macro sort_folders_filter(class='') %}
+<div class="list-inline {{ class }}">
+  {{ paragraph('Sort By:', class='list-inline-item', size=0.9) }}
+  {% if order_by != 'name' %}{{ badge('Name', href=url_for('folders.index', order_by='name'), class='list-inline-item', pill=true) }}{% endif %}
+  {% if order_by != 'color' %}{{ badge('Color', href=url_for('folders.index', order_by='color'), class='list-inline-item', pill=true) }}{% endif %}
+  {% if order_by != 'date_created desc' %}{{ badge('Date Created', href=url_for('folders.index', order_by='date_created desc'), class='list-inline-item', pill=true) }}{% endif %}
 </div>
 {% endmacro %}
 
@@ -342,7 +332,6 @@
   <select class="form-control mb-2" name="folder_id">
     <option>Select Folder</option>
     {% for i in folders_ %}
-    <!--suppress HtmlUnknownAttribute -->
     <option value="{{ i.id }}" {% if i.id== page.folder_id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>

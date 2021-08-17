@@ -388,16 +388,24 @@
 
 <!--Page Editor Form-->
 {% macro page_editor_form(page) %}
-<form class="col-10 offset-1" action="{{ url_for('pages.editor') }}" method="POST">
-  <div contenteditable="true" id="title" class="px-3 py-2 border" style="overflow:auto; white-space: pre-wrap; border-radius:10px;">{{ page.title }}</div>
-  <div class="w-100 border p-2 font-italic my-3" style="border-radius:10px;">
-    <p class="d-inline mx-2">{{ macros.bold_icon(size=25) }}</p>
-    <p class="d-inline mx-2">{{ macros.italic_icon(size=25) }}</p>
-    <p class="d-inline mx-2">{{ macros.underline_icon(size=25) }}</p>
-    <p class="d-inline mx-2">{{ macros.list_icon(size=25) }}</p>
-    <p class="d-inline mx-2">{{ macros.hyperlink_icon(size=25) }}</p>
-  </div>
-  <div contenteditable="true" id="content" class="mb-2 p-3 border" style="height:500px; overflow:auto; white-space: pre-wrap; border-radius:10px;">{{ page.content }}</div>
+<form class="form-group col-10 offset-1" action="{{ url_for('pages.editor', id_=page.id) }}" method="POST">
+  <input id="title" autocomplete="off" class="form-control my-2" name="title" placeholder="Title" type="text" value="{{ page.title }}">
+  <select class="form-control mb-2" name="folder_id" id="folder_id">
+    <option>Select Folder</option>
+    {% for i in folders_ %}
+    <option value="{{ i.id }}" {% if i.id== page.folder_id %}selected{% endif %}>{{ i.name }}</option>
+    {% endfor %}
+  </select>
+  <ul class="list-inline p-2 mb-2">
+    <li class="list-inline-item" onclick="bold()">{{ bold_icon(size=25) }}</li>
+    <li class="list-inline-item" onclick="italic()">{{ italic_icon(size=25) }}</li>
+    <li class="list-inline-item" onclick="bullet()">{{ list_icon(size=25) }}</li>
+    <li class="list-inline-item" onclick="heading()">{{ heading_icon(size=25) }}</li>
+    <li class="list-inline-item" onclick="hyperlink()">{{ hyperlink_icon(size=25) }}</li>
+    <li class="list-inline-item" onclick="code()">{{ code_icon(size=25) }}</li>
+    <li class="list-inline-item float-right">{% call unstyled_link(href=url_for('pages.page', id_=page.id), newtab=true) %}{{ view_icon(size=25, color='gray') }}{% endcall %}</li>
+  </ul>
+  <textarea onblur="save()" id="content" autocomplete="off" class="w-100 p-3 mb-2" name="content" placeholder="Content" style="height: 600px; border-radius:10px; overflow:auto; white-space: pre-wrap;">{{ page.content }}</textarea>
   {{ button('Save') }}
 </form>
 {% endmacro %}

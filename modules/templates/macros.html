@@ -410,7 +410,7 @@
     <li class="list-inline-item" onclick="heading()">{{ heading_icon(size=25) }}</li>
     <li class="list-inline-item" onclick="hyperlink()">{{ hyperlink_icon(size=25) }}</li>
     <li class="list-inline-item" onclick="code()">{{ code_icon(size=25) }}</li>
-    <li class="list-inline-item float-right">{% call unstyled_link(href=url_for('pages.page', id_=page.id), newtab=true) %}{{ view_icon(size=25, color='gray') }}{% endcall %}</li>
+    <li class="list-inline-item float-right">{% call unstyled_link(href=url_for('pages.page', id_=page.id)) %}{{ view_icon(size=25, color='gray') }}{% endcall %}</li>
   </ul>
   <textarea onblur="save()" id="content" autocomplete="off" class="w-100 p-3 mb-2" name="content" placeholder="Content" style="height: 600px; border-radius:10px; overflow:auto; white-space: pre-wrap;">{{ page.content }}</textarea>
   {{ button('Save') }}

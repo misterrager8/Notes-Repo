@@ -33,8 +33,8 @@
 {% endmacro %}
 
 <!--Generic Button-->
-{% macro button(txt, bg_color='black', txt_color='white') %}
-<button type="submit" class="btn btn-lg w-100" style="background-color:{{ bg_color }}; color:{{ txt_color }};">{{ txt }}</button>
+{% macro button(txt, bg_color='black', txt_color='white', class='') %}
+<button type="submit" class="btn w-100 {{ class }}" style="background-color:{{ bg_color }}; color:{{ txt_color }};">{{ txt }}</button>
 {% endmacro %}
 
 <!--Generic Badge-->
@@ -243,9 +243,9 @@
 {% endmacro %}
 
 <!-- Icon-->
-{% macro underline_icon(size=20, color='gray') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-type-underline" viewBox="0 0 16 16">
-  <path d="M5.313 3.136h-1.23V9.54c0 2.105 1.47 3.623 3.917 3.623s3.917-1.518 3.917-3.623V3.136h-1.23v6.323c0 1.49-.978 2.57-2.687 2.57-1.709 0-2.687-1.08-2.687-2.57V3.136zM12.5 15h-9v-1h9v1z"/>
+{% macro heading_icon(size=20, color='gray') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-type-h2" viewBox="0 0 16 16">
+  <path d="M7.638 13V3.669H6.38V7.62H1.759V3.67H.5V13h1.258V8.728h4.62V13h1.259zm3.022-6.733v-.048c0-.889.63-1.668 1.716-1.668.957 0 1.675.608 1.675 1.572 0 .855-.554 1.504-1.067 2.085l-3.513 3.999V13H15.5v-1.094h-4.245v-.075l2.481-2.844c.875-.998 1.586-1.784 1.586-2.953 0-1.463-1.155-2.556-2.919-2.556-1.941 0-2.966 1.326-2.966 2.74v.049h1.223z"/>
 </svg>
 {% endmacro %}
 
@@ -254,6 +254,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-link-45deg" viewBox="0 0 16 16">
   <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
   <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
+</svg>
+{% endmacro %}
+
+<!-- Icon-->
+{% macro code_icon(size=20, color='gray') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-code-slash" viewBox="0 0 16 16">
+  <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/>
+</svg>
+{% endmacro %}
+
+<!-- Icon-->
+{% macro bookmark_icon(size=20, color='LightGray') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-bookmark-star-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM8.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z"/>
 </svg>
 {% endmacro %}
 
@@ -271,6 +285,8 @@
   {% call unstyled_link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked) }}{% endcall %}
   <!--Edit Page-->
   {% call unstyled_link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
+  <!--Hide Page-->
+  {% call unstyled_link(class='mx-1', href=url_for('pages.page_visibility', id_=page.id)) %}{{ visible_icon(page.visible) }}{% endcall %}
   <!--Delete Page-->
   {% call unstyled_link(class='mx-1', modal_id='delete_page_'+page.id|string) %}{{ delete_icon() }}{% endcall %}
   {% endif %}
@@ -297,6 +313,8 @@
   {% call unstyled_link(modal_id='add_page_to_'+folder.id|string, class='mx-1') %}{{ add_icon() }}{% endcall %}
   <!--Edit Folder-->
   {% call unstyled_link(modal_id='edit_folder_'+folder.id|string, class='mx-1') %}{{ edit_icon() }}{% endcall %}
+  <!--Hide Folder-->
+  {% call unstyled_link(class='mx-1', href=url_for('folders.folder_visibility', id_=folder.id)) %}{{ visible_icon(folder.visible) }}{% endcall %}
   <!--Delete Folder-->
   {% call unstyled_link(modal_id='delete_folder_'+folder.id|string, class='mx-1') %}{{ delete_icon() }}{% endcall %}
   {% endif %}

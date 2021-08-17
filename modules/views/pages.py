@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask import Blueprint, request, render_template, redirect, url_for
+from flask_login import login_required
 from sqlalchemy import text
 
 from modules import db
@@ -34,6 +35,7 @@ def page_plain():
 
 
 @pages.route("/add_page", methods=["POST", "GET"])
+@login_required
 def add_page():
     id_: int = request.args.get("id_")
     folder_: Folder = db.session.query(Folder).get(id_)
@@ -47,6 +49,7 @@ def add_page():
 
 
 @pages.route("/delete_page")
+@login_required
 def delete_page():
     id_ = request.args.get("id_")
     _: Page = db.session.query(Page).get(id_)
@@ -57,6 +60,7 @@ def delete_page():
 
 
 @pages.route("/editor", methods=["POST", "GET"])
+@login_required
 def editor():
     id_ = request.args.get("id_")
     page_: Page = db.session.query(Page).get(id_)
@@ -79,11 +83,24 @@ def editor():
 
 
 @pages.route("/mark")
+@login_required
 def mark_page():
     id_ = request.args.get("id_")
     page_: Page = db.session.query(Page).get(id_)
 
     page_.bookmarked = not page_.bookmarked
+    db.session.commit()
+
+    return redirect(request.referrer)
+
+
+@pages.route("/page_visibility")
+@login_required
+def page_visibility():
+    id_ = request.args.get("id_")
+    page_: Page = db.session.query(Page).get(id_)
+
+    page_.visible = not page_.visible
     db.session.commit()
 
     return redirect(request.referrer)
@@ -99,5 +116,6 @@ def search():
 
 
 @pages.route("/bookmarks")
+@login_required
 def bookmarks():
     return render_template("pages/bookmarks.html", bookmarks_=db.session.query(Page).filter(Page.bookmarked))

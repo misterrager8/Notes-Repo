@@ -16,6 +16,7 @@ class Page(db.Model):
     date_created = Column(DateTime, default=datetime.now())
     last_modified = Column(DateTime, default=datetime.now())
     bookmarked = Column(Boolean, default=False)
+    visible = Column(Boolean, default=True)
     folder_id = Column(Integer, ForeignKey("folders.id"))
     id = Column(Integer, primary_key=True)
 
@@ -39,6 +40,7 @@ class Folder(db.Model):
     name = Column(Text)
     color = Column(Text)
     date_created = Column(DateTime, default=datetime.now())
+    visible = Column(Boolean, default=True)
     pages = relationship("Page", backref="folders")
     id = Column(Integer, primary_key=True)
 

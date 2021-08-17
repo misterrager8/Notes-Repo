@@ -1,6 +1,7 @@
 import random
 
 from flask import Blueprint, request, url_for, redirect, render_template
+from flask_login import login_required
 from sqlalchemy import text
 
 from modules import db
@@ -19,6 +20,7 @@ def index():
 
 
 @folders.route("/add_folder", methods=["POST", "GET"])
+@login_required
 def add_folder():
     if request.method == "POST":
         name = request.form["name"]
@@ -30,6 +32,7 @@ def add_folder():
 
 
 @folders.route("/delete_folder")
+@login_required
 def delete_folder():
     id_ = request.args.get("id_")
     _: Folder = db.session.query(Folder).get(id_)
@@ -40,6 +43,7 @@ def delete_folder():
 
 
 @folders.route("/edit_folder", methods=["POST", "GET"])
+@login_required
 def edit_folder():
     id_ = request.args.get("id_")
     folder_: Folder = db.session.query(Folder).get(id_)
@@ -62,3 +66,18 @@ def folder():
 
     return render_template("folders/folder.html",
                            folder=folder_)
+
+
+@folders.route("/folder_visibility")
+@login_required
+def folder_visibility():
+    id_ = request.args.get("id_")
+    folder_: Folder = db.session.query(Folder).get(id_)
+
+    folder_.visible = not folder_.visible
+    for i in folder_.pages:
+        i.visible = folder_.visible
+
+    db.session.commit()
+
+    return redirect(request.referrer)

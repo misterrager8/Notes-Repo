@@ -61,6 +61,9 @@ class Admin(UserMixin, db.Model):
     def __init__(self, **kwargs):
         super(Admin, self).__init__(**kwargs)
 
+    def __str__(self):
+        return "%s" % self.username
+
 
 with app.app_context():
     db.create_all()

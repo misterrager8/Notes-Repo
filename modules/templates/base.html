@@ -51,7 +51,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a href="" data-toggle="dropdown" class="nav-link dropdown-toggle">{{ macros.search_icon() }}</a>
-        <div class="dropdown-menu dropdown-menu-right p-2">
+        <div class="dropdown-menu dropdown-menu-right p-2" style="width:400px">
           <form action="{{ url_for('pages.search') }}" class="form-inline input-group" method="POST">
             <input type="search" autocomplete="off" class="form-control" placeholder="Search" name="search_term">
             <div class="input-group-append">

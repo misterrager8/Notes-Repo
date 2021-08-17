@@ -39,7 +39,7 @@ def add_page():
     folder_: Folder = db.session.query(Folder).get(id_)
 
     if request.method == "POST":
-        title = request.form["title"]
+        title = request.form["title"].title()
 
         _ = Page(title=title.title(), content="", folders=folder_)
         db.session.commit()
@@ -66,14 +66,14 @@ def editor():
         folder_id: int = request.form.get("folder_id")
         content = request.form["content"]
 
-        page_.title = title.title()
+        page_.title = title
         page_.folder_id = folder_id
         page_.content = content
         page_.last_modified = datetime.now()
 
         db.session.commit()
 
-        return redirect(url_for("pages.page", id_=page_.id))
+        return redirect(url_for("pages.editor", id_=page_.id))
 
     return render_template("pages/editor.html", page=page_)
 

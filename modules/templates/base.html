@@ -22,7 +22,7 @@
   <div class="collapse navbar-collapse" id="nav_content">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown">
-        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">Folders</a>
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">{{ macros.folder_icon(color='LightGray') }}</a>
         <div class="dropdown-menu">
           {% if current_user.is_authenticated %}
           {% call macros.unstyled_link(modal_id='add_folder', class='dropdown-item text-success') %}New Folder{% endcall %}
@@ -34,7 +34,7 @@
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">Pages</a>
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">{{ macros.page_icon() }}</a>
         <div class="dropdown-menu">
           <a class="dropdown-item" href="{{ url_for('pages.my_pages') }}">All Pages</a>
           <div class="dropdown-divider"></div>
@@ -45,7 +45,7 @@
       </li>
       {% if current_user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('pages.bookmarks') }}">Bookmarks</a>
+        <a class="nav-link" href="{{ url_for('pages.bookmarks') }}">{{ macros.bookmark_icon() }}</a>
       </li>
       {% endif %}
     </ul>

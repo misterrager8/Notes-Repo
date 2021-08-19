@@ -1,10 +1,11 @@
+import os.path
 from datetime import datetime
 
-from flask import Blueprint, request, render_template, redirect, url_for
+from flask import Blueprint, request, render_template, redirect, url_for, send_from_directory
 from flask_login import login_required
 from sqlalchemy import text
 
-from modules import db
+from modules import db, app
 from modules.model import Page, Folder
 
 pages = Blueprint("pages", __name__)
@@ -32,6 +33,20 @@ def page_plain():
     page_: Page = db.session.query(Page).get(id_)
 
     return "<title>%s [PLAIN]</title><div style=\"white-space: pre-wrap;\">%s</div>" % (page_.title, page_.content)
+
+
+@pages.route("/download")
+def download():
+    id_ = request.args.get("id_")
+    page_: Page = db.session.query(Page).get(id_)
+    full_path = os.path.join(app.root_path, app.config["UPLOAD_FOLDER"])
+
+    with open(f"{full_path}/{page_.title}.md", "w") as f:
+        f.write(page_.content)
+
+    f.close()
+
+    return send_from_directory(full_path, f"{page_.title}.md")
 
 
 @pages.route("/add_page", methods=["POST", "GET"])

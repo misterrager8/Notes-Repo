@@ -39,6 +39,7 @@ class Folder(db.Model):
 
     name = Column(Text)
     color = Column(Text)
+    description = Column(Text)
     date_created = Column(DateTime, default=datetime.now())
     visible = Column(Boolean, default=True)
     pages = relationship("Page", backref="folders")

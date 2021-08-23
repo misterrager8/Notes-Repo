@@ -343,6 +343,7 @@
 
 {% call modal('info_folder_'+folder.id|string, class='text-center') %}
 {{ paragraph(folder.name, class='m-3') }}
+{% if folder.description %}{{ paragraph(folder.description, class='font-italic m-3', size=1) }}{% endif %}
 {{ paragraph('Created '+folder.date_created.strftime("%B %d, %Y %I:%M %p"), size='1') }}
 {% endcall %}
 
@@ -380,6 +381,7 @@
 {% macro folder_edit_form(folder) %}
 <form action="{{ url_for('folders.edit_folder', id_=folder.id) }}" class="form-group" method="POST">
   <input autocomplete="off" class="form-control mb-2" name="name" placeholder="name" type="text" value="{{ folder.name }}">
+  <input autocomplete="off" class="form-control mb-2" name="description" placeholder="Description" type="text" value="{{ folder.description }}">
   <input class="form-control mb-2" name="color" type="color" value="{{ folder.color }}">
   {{ button('Edit Folder') }}
 </form>

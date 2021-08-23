@@ -51,9 +51,11 @@ def edit_folder():
     if request.method == "POST":
         name = request.form["name"]
         color = request.form["color"]
+        description = request.form["description"]
 
         folder_.name = name.title()
         folder_.color = color
+        folder_.description = description
         db.session.commit()
 
         return redirect(url_for("folders.index"))

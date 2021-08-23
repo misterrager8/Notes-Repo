@@ -63,3 +63,16 @@ function code() {
     var text = before + "        " + selectedText + after;
     v.innerHTML = text;
 }
+
+function addInput() {
+    var form_ = document.getElementById("form_");
+    var input_ = document.createElement("input");
+    input_.className = "form-control mb-2";
+    input_.placeholder = "Name";
+    input_.type = "text";
+    input_.autocomplete = "off";
+    input_.name = "name";
+
+    form_.insertBefore(input_, document.getElementById("add_button"));
+    input_.focus();
+}

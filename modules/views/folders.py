@@ -23,11 +23,13 @@ def index():
 @login_required
 def add_folder():
     if request.method == "POST":
-        name = request.form["name"]
-        color = "#{:06x}".format(random.randint(0, 0xFFFFFF))
+        name = request.form.getlist("name")
 
-        db.session.add(Folder(name=name.title(), color=color))
+        for i in name:
+            db.session.add(Folder(name=i.title(), color="#{:06x}".format(random.randint(0, 0xFFFFFF))))
+
         db.session.commit()
+
         return redirect(url_for("folders.index"))
 
 

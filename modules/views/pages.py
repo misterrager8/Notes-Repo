@@ -133,4 +133,6 @@ def search():
 @pages.route("/bookmarks")
 @login_required
 def bookmarks():
-    return render_template("pages/bookmarks.html", bookmarks_=db.session.query(Page).filter(Page.bookmarked))
+    return render_template("pages/bookmarks.html",
+                           bookmarks_=db.session.query(Page).filter(Page.bookmarked).order_by(
+                               text("last_modified desc")))

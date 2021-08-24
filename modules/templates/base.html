@@ -25,7 +25,7 @@
         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">{{ macros.folder_icon(color='LightGray') }}</a>
         <div class="dropdown-menu">
           {% if current_user.is_authenticated %}
-          {% call macros.unstyled_link(modal_id='add_folder', class='dropdown-item text-success') %}New Folder{% endcall %}
+          {% call macros.link(modal_id='add_folder', class='dropdown-item text-success') %}New Folder{% endcall %}
           <div class="dropdown-divider"></div>
           {% endif %}
           {% for i in folders_[:5] %}
@@ -65,9 +65,9 @@
         <a href="" data-toggle="dropdown" class="nav-link dropdown-toggle">{{ macros.lock_icon() }}</a>
         <div class="dropdown-menu dropdown-menu-right text-center">
           {% if current_user.is_authenticated %}
-          {% call macros.unstyled_link(href=url_for('logout'), class='dropdown-item') %}Sign Out{% endcall %}
+          {% call macros.link(href=url_for('logout'), class='dropdown-item') %}Sign Out{% endcall %}
           {% else %}
-          {% call macros.unstyled_link(class='dropdown-item', modal_id='login') %}Log-In{% endcall %}
+          {% call macros.link(class='dropdown-item', modal_id='login') %}Log-In{% endcall %}
           {% endif %}
         </div>
       </li>

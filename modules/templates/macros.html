@@ -16,7 +16,7 @@
 {% endmacro %}
 
 <!--Generic Link-->
-{% macro unstyled_link(class='', href='#', color='black', newtab=false, modal_id=none) %}
+{% macro link(class='', href='#', color='black', newtab=false, modal_id=none) %}
 <a class="{{ class }}"
    href="{{ href }}"
    style="text-decoration:none; color:{{ color }}"
@@ -70,7 +70,7 @@
 {% macro folder_card(folder) %}
 <div class="card col-xl-3 border-0">
   <div class="card-body text-center">
-    {% call unstyled_link(href=url_for('folders.folder', id_=folder.id)) %}
+    {% call link(href=url_for('folders.folder', id_=folder.id)) %}
     {{ folder_icon(size='100', color=folder.color) }}
     {{ paragraph(folder.name, size='1.5', class='m-0') }}
     {{ badge('%s page(s)' % folder.pages|count|string, class='mb-2 p-1', size=0.6, bg_color='gray', pill=true) }}
@@ -283,19 +283,19 @@
 <div>
   <!--Preview Page-->
   {% if request.url_rule.endpoint != "pages.page" %}
-  {% call unstyled_link(class='mx-1', modal_id='preview_page_'+page.id|string) %}{{ view_icon() }}{% endcall %}
+  {% call link(class='mx-1', modal_id='preview_page_'+page.id|string) %}{{ view_icon() }}{% endcall %}
   {% endif %}
   <!--Save Page-->
-  {% call unstyled_link(class='mx-1', href=url_for('pages.download', id_=page.id), newtab=true) %}{{ save_icon() }}{% endcall %}
+  {% call link(class='mx-1', href=url_for('pages.page_plain', id_=page.id), newtab=true) %}{{ save_icon() }}{% endcall %}
   {% if current_user.is_authenticated %}
   <!--Bookmark Page-->
-  {% call unstyled_link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked) }}{% endcall %}
+  {% call link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked) }}{% endcall %}
   <!--Edit Page-->
-  {% call unstyled_link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
+  {% call link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
   <!--Hide Page-->
-  {% call unstyled_link(class='mx-1', href=url_for('pages.page_visibility', id_=page.id)) %}{{ visible_icon(page.visible) }}{% endcall %}
+  {% call link(class='mx-1', href=url_for('pages.page_visibility', id_=page.id)) %}{{ visible_icon(page.visible) }}{% endcall %}
   <!--Delete Page-->
-  {% call unstyled_link(class='mx-1', modal_id='delete_page_'+page.id|string) %}{{ delete_icon() }}{% endcall %}
+  {% call link(class='mx-1', modal_id='delete_page_'+page.id|string) %}{{ delete_icon() }}{% endcall %}
   {% endif %}
 </div>
 
@@ -305,7 +305,7 @@
 
 {% call modal('delete_page_'+page.id|string, class='text-center') %}
 {{ paragraph('Delete '+page.title+'?', class='m-3') }}
-{% call unstyled_link(class='btn btn-danger btn-lg', href=url_for('pages.delete_page', id_=page.id), color='white') %}Delete Page{% endcall %}
+{% call link(class='btn btn-danger btn-lg', href=url_for('pages.delete_page', id_=page.id), color='white') %}Delete Page{% endcall %}
 {% endcall %}
 
 {% endmacro %}
@@ -314,16 +314,14 @@
 {% macro folder_options(folder, class='') %}
 <div class="{{ class }}">
   <!--Info for Folder-->
-  {% call unstyled_link(modal_id='info_folder_'+folder.id|string, class='mx-1') %}{{ info_icon() }}{% endcall %}
+  {% call link(modal_id='info_folder_'+folder.id|string, class='mx-1') %}{{ info_icon() }}{% endcall %}
   {% if current_user.is_authenticated %}
   <!--Add to Folder-->
-  {% call unstyled_link(modal_id='add_page_to_'+folder.id|string, class='mx-1') %}{{ add_icon() }}{% endcall %}
+  {% call link(modal_id='add_page_to_'+folder.id|string, class='mx-1') %}{{ add_icon() }}{% endcall %}
   <!--Edit Folder-->
-  {% call unstyled_link(modal_id='edit_folder_'+folder.id|string, class='mx-1') %}{{ edit_icon() }}{% endcall %}
-  <!--Hide Folder-->
-  {% call unstyled_link(class='mx-1', href=url_for('folders.folder_visibility', id_=folder.id)) %}{{ visible_icon(folder.visible) }}{% endcall %}
+  {% call link(modal_id='edit_folder_'+folder.id|string, class='mx-1') %}{{ edit_icon() }}{% endcall %}
   <!--Delete Folder-->
-  {% call unstyled_link(modal_id='delete_folder_'+folder.id|string, class='mx-1') %}{{ delete_icon() }}{% endcall %}
+  {% call link(modal_id='delete_folder_'+folder.id|string, class='mx-1') %}{{ delete_icon() }}{% endcall %}
   {% endif %}
 </div>
 
@@ -334,7 +332,7 @@
 
 {% call modal('delete_folder_'+folder.id|string) %}
 {{ paragraph('Delete '+folder.name+'?', class='m-3') }}
-{% call unstyled_link(class='btn btn-danger btn-lg', href=url_for('folders.delete_folder', id_=folder.id), color='white') %}Delete Folder{% endcall %}
+{% call link(class='btn btn-danger btn-lg', href=url_for('folders.delete_folder', id_=folder.id), color='white') %}Delete Folder{% endcall %}
 {% endcall %}
 
 {% call modal('edit_folder_'+folder.id|string, class='text-center') %}
@@ -413,7 +411,7 @@
     <li class="list-inline-item" onclick="heading()">{{ heading_icon(size=25) }}</li>
     <li class="list-inline-item" onclick="hyperlink()">{{ hyperlink_icon(size=25) }}</li>
     <li class="list-inline-item" onclick="code()">{{ code_icon(size=25) }}</li>
-    <li class="list-inline-item float-right">{% call unstyled_link(href=url_for('pages.page', id_=page.id)) %}{{ view_icon(size=25, color='gray') }}{% endcall %}</li>
+    <li class="list-inline-item float-right">{% call link(href=url_for('pages.page', id_=page.id)) %}{{ view_icon(size=25, color='gray') }}{% endcall %}</li>
   </ul>
   <textarea onblur="save()" id="content" autocomplete="off" class="w-100 p-3 mb-2" name="content" placeholder="Content" style="height: 600px; border-radius:10px; overflow:auto; white-space: pre-wrap;">{{ page.content }}</textarea>
   {{ button('Save') }}

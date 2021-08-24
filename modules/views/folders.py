@@ -70,18 +70,3 @@ def folder():
 
     return render_template("folders/folder.html",
                            folder=folder_)
-
-
-@folders.route("/folder_visibility")
-@login_required
-def folder_visibility():
-    id_ = request.args.get("id_")
-    folder_: Folder = db.session.query(Folder).get(id_)
-
-    folder_.visible = not folder_.visible
-    for i in folder_.pages:
-        i.visible = folder_.visible
-
-    db.session.commit()
-
-    return redirect(request.referrer)

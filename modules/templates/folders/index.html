@@ -7,9 +7,7 @@
   {{ macros.sort_folders_filter(class='text-center m-3') }}
   <div class="row">
     {% for i in folders_ %}
-    {% if not current_user.is_anonymous or i.visible %}
     {{ macros.folder_card(i) }}
-    {% endif %}
     {% endfor %}
   </div>
 </div>

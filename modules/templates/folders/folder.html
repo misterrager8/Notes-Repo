@@ -9,7 +9,9 @@
     {{ macros.paragraph(folder.name, class='col-12 mb-0 mt-3 text-center') }}
     {{ macros.folder_options(folder, class='col-12 text-center mb-5') }}
     {% for i in folder.pages %}
+    {% if not current_user.is_anonymous or i.visible %}
     {{ macros.page_card(i) }}
+    {% endif %}
     {% endfor %}
   </div>
 </div>

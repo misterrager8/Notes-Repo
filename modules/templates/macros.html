@@ -54,7 +54,7 @@
 <div class="card col-xl-3 border-0">
   <div class="card-body text-center">
     <a href="{{ url_for('folders.folder', id_=folder.id) }}" class="link">
-      {{ folder_icon(size='100', color=folder.color) }}
+      {{ folder_icon(size=100, color=folder.color) }}
       {{ paragraph(folder.name, size='1.5', class='m-0') }}
       {{ badge('%s page(s)' % folder.pages|count|string, class='mb-2 p-1', size=0.6, bg_color='gray', pill=true) }}
     </a>
@@ -83,7 +83,7 @@
 {% endmacro %}
 
 <!--Navbar Brand Icon-->
-{% macro navbar_brand_icon(size='20', color='LightGray') %}
+{% macro navbar_brand_icon(size=20, color='currentcolor') %}
 <svg class="bi bi-stickies-fill" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5A1.5 1.5 0 0 0 0 1.5z"/>
   <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zm6 8.5a1 1 0 0 1 1-1h4.396a.25.25 0 0 1 .177.427l-5.146 5.146a.25.25 0 0 1-.427-.177V10.5z"/>
@@ -91,21 +91,21 @@
 {% endmacro %}
 
 <!--Page Icon-->
-{% macro page_icon(size='20', color='LightGray') %}
+{% macro page_icon(size=20, color='currentcolor') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-file-ruled-fill" viewBox="0 0 16 16">
   <path d="M12 0H4a2 2 0 0 0-2 2v4h12V2a2 2 0 0 0-2-2zm2 7H6v2h8V7zm0 3H6v2h8v-2zm0 3H6v3h6a2 2 0 0 0 2-2v-1zm-9 3v-3H2v1a2 2 0 0 0 2 2h1zm-3-4h3v-2H2v2zm0-3h3V7H2v2z"/>
 </svg>
 {% endmacro %}
 
 <!--Folder Icon-->
-{% macro folder_icon(size='20', color='black') %}
+{% macro folder_icon(size=20, color='currentcolor') %}
 <svg class="bi bi-folder-fill" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
 </svg>
 {% endmacro %}
 
 <!--Add Icon-->
-{% macro add_icon(size='20', color='green') %}
+{% macro add_icon(size=20, color='green') %}
 <svg class="bi bi-plus-circle" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -113,7 +113,7 @@
 {% endmacro %}
 
 <!--Delete Icon-->
-{% macro delete_icon(size='20', color='red') %}
+{% macro delete_icon(size=20, color='red') %}
 <svg class="bi bi-x-circle" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
@@ -121,14 +121,14 @@
 {% endmacro %}
 
 <!--Edit Icon-->
-{% macro edit_icon(size='20', color='gray') %}
+{% macro edit_icon(size=20, color='gray') %}
 <svg class="bi bi-pencil" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
 </svg>
 {% endmacro %}
 
 <!--Info Icon-->
-{% macro info_icon(size='20', color='black') %}
+{% macro info_icon(size=20, color='currentcolor') %}
 <svg class="bi bi-info-circle" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -136,7 +136,7 @@
 {% endmacro %}
 
 <!--Save Icon-->
-{% macro save_icon(size='20', color='black') %}
+{% macro save_icon(size=20, color='currentcolor') %}
 <svg class="bi bi-download" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
   <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
@@ -144,7 +144,7 @@
 {% endmacro %}
 
 <!--View Icon-->
-{% macro view_icon(size='20', color='black') %}
+{% macro view_icon(size=20, color='currentcolor') %}
 <svg class="bi bi-eye" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
   <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
@@ -152,7 +152,7 @@
 {% endmacro %}
 
 <!--Star Icon-->
-{% macro star_icon(bookmarked, size='20') %}
+{% macro star_icon(bookmarked, size=20) %}
 {% if bookmarked == true %}
 <svg class="bi bi-star-fill" fill="orange" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
@@ -172,21 +172,14 @@
 {% endmacro %}
 
 <!--Search Icon-->
-{% macro search_icon(size='20', color='LightGray') %}
+{% macro search_icon(size=20, color='currentcolor') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-search" viewBox="0 0 16 16">
   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 </svg>
 {% endmacro %}
 
-<!--GitHub Icon-->
-{% macro github_icon(size=20, color='gray') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-github" viewBox="0 0 16 16">
-  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-</svg>
-{% endmacro %}
-
 <!--Lock Icon-->
-{% macro lock_icon(size='20', color='LightGray') %}
+{% macro lock_icon(size=20, color='currentcolor') %}
 {% if current_user.is_authenticated %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-unlock-fill" viewBox="0 0 16 16">
   <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"/>
@@ -199,7 +192,7 @@
 {% endmacro %}
 
 <!--Visible Icon-->
-{% macro visible_icon(visible, size='20') %}
+{% macro visible_icon(visible, size=20) %}
 {% if visible %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="black" class="bi bi-lightbulb" viewBox="0 0 16 16">
   <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1z"/>
@@ -255,7 +248,7 @@
 {% endmacro %}
 
 <!-- Icon-->
-{% macro bookmark_icon(size=20, color='LightGray') %}
+{% macro bookmark_icon(size=20, color='currentcolor') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-bookmark-star-fill" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM8.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z"/>
 </svg>

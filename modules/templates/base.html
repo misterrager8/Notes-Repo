@@ -21,7 +21,7 @@
     <div class="collapse navbar-collapse" id="nav_content">
       <ul class="navbar-nav me-auto">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">{{ macros.folder_icon(color='LightGray') }}</a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">{{ macros.folder_icon() }}</a>
           <div class="dropdown-menu">
             {% if current_user.is_authenticated %}
             <a href="#" data-bs-toggle="modal" data-bs-target="#add_folder" class="dropdown-item text-success">New Folder</a>

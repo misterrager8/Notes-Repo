@@ -5,87 +5,85 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="static/favicon.svg" rel="icon" type="image/x-icon"/>
-  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" rel="stylesheet">
-  <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script crossorigin="anonymous" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet">
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="{{ url_for('folders.index') }}">
-    {{ macros.navbar_brand_icon() }}
-  </a>
-  <button class="navbar-toggler" data-target="#nav_content" data-toggle="collapse" type="button">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="nav_content">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item dropdown">
-        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">{{ macros.folder_icon(color='LightGray') }}</a>
-        <div class="dropdown-menu">
-          {% if current_user.is_authenticated %}
-          {% call macros.link(modal_id='add_folder', class='dropdown-item text-success') %}New Folder{% endcall %}
-          <div class="dropdown-divider"></div>
-          {% endif %}
-          {% for i in folders_[:5] %}
-          <a class="dropdown-item" href="{{ url_for('folders.folder', id_=i.id) }}">{{ macros.circle_icon(10, i.color) }} {{ i.name }}</a>
-          {% endfor %}
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">{{ macros.page_icon() }}</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="{{ url_for('pages.my_pages') }}">All Pages</a>
-          <div class="dropdown-divider"></div>
-          {% for i in pages_[:5] %}
-          <a class="dropdown-item" href="{{ url_for('pages.page', id_=i.id) }}">{{ macros.circle_icon(10, i.folders.color) }} {{ i.title }}</a>
-          {% endfor %}
-        </div>
-      </li>
-      {% if current_user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('pages.bookmarks') }}">{{ macros.bookmark_icon() }}</a>
-      </li>
-      {% endif %}
-    </ul>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown">
-        <a href="" data-toggle="dropdown" class="nav-link dropdown-toggle">{{ macros.search_icon() }}</a>
-        <div class="dropdown-menu dropdown-menu-right p-2" style="width:400px">
-          <form action="{{ url_for('pages.search') }}" class="form-inline input-group" method="POST">
-            <input type="search" autocomplete="off" class="form-control" placeholder="Search" name="search_term">
-            <div class="input-group-append">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('folders.index') }}">
+      {{ macros.navbar_brand_icon() }}
+    </a>
+    <button class="navbar-toggler" data-bs-target="#nav_content" data-bs-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav_content">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">{{ macros.folder_icon(color='LightGray') }}</a>
+          <div class="dropdown-menu">
+            {% if current_user.is_authenticated %}
+            <a href="#" data-bs-toggle="modal" data-bs-target="#add_folder" class="dropdown-item text-success">New Folder</a>
+            <div class="dropdown-divider"></div>
+            {% endif %}
+            {% for i in folders_[:5] %}
+            <a class="dropdown-item" href="{{ url_for('folders.folder', id_=i.id) }}">{{ macros.circle_icon(10, i.color) }} {{ i.name }}</a>
+            {% endfor %}
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">{{ macros.page_icon() }}</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{{ url_for('pages.my_pages') }}">All Pages</a>
+            <div class="dropdown-divider"></div>
+            {% for i in pages_[:5] %}
+            <a class="dropdown-item" href="{{ url_for('pages.page', id_=i.id) }}">{{ macros.circle_icon(10, i.folders.color) }} {{ i.title }}</a>
+            {% endfor %}
+          </div>
+        </li>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('pages.bookmarks') }}">{{ macros.bookmark_icon() }}</a>
+        </li>
+        {% endif %}
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a href="" data-bs-toggle="dropdown" class="nav-link dropdown-toggle">{{ macros.search_icon() }}</a>
+          <div class="dropdown-menu dropdown-menu-end p-2">
+            <form action="{{ url_for('pages.search') }}" class="input-group" method="POST" style="width:400px">
+              <input type="search" autocomplete="off" class="form-control" placeholder="Search" name="search_term">
               <button type="submit" class="btn btn-dark">{{ macros.search_icon() }}</button>
-            </div>
-          </form>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a href="" data-toggle="dropdown" class="nav-link dropdown-toggle">{{ macros.lock_icon() }}</a>
-        <div class="dropdown-menu dropdown-menu-right text-center">
-          {% if current_user.is_authenticated %}
-          {% call macros.link(href=url_for('logout'), class='dropdown-item') %}Sign Out{% endcall %}
-          {% else %}
-          {% call macros.link(class='dropdown-item', modal_id='login') %}Log-In{% endcall %}
-          {% endif %}
-        </div>
-      </li>
-    </ul>
+            </form>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="" data-bs-toggle="dropdown" class="nav-link dropdown-toggle">{{ macros.lock_icon() }}</a>
+          <div class="dropdown-menu dropdown-menu-end text-center">
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('logout') }}" class="dropdown-item">Sign Out</a>
+            {% else %}
+            <a href="#" class="dropdown-item" data-bs-target="#login" data-bs-toggle="modal">Log-In</a>
+            {% endif %}
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    {% call macros.modal('add_folder', class='text-center') %}
+    {{ macros.paragraph('Add Folder', class='m-3') }}
+    {{ macros.folder_add_form() }}
+    {% endcall %}
+
+    {% call macros.modal('login') %}
+    {{ macros.user_login_form() }}
+    {% endcall %}
   </div>
-
-  {% call macros.modal('add_folder', class='text-center') %}
-  {{ macros.paragraph('Add Folder', class='m-3') }}
-  {{ macros.folder_add_form() }}
-  {% endcall %}
-
-  {% call macros.modal('login') %}
-  {{ macros.user_login_form() }}
-  {% endcall %}
-
 </nav>
-<body class="mb-5">
+<body>
 {% block body %}
 {% endblock %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </body>
 </html>

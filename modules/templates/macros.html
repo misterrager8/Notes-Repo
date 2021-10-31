@@ -15,23 +15,6 @@
 </div>
 {% endmacro %}
 
-<!--Generic Link-->
-{% macro link(class='', href='#', color='black', newtab=false, modal_id=none) %}
-<a class="{{ class }}"
-   href="{{ href }}"
-   style="text-decoration:none; color:{{ color }}"
-   {% if newtab %}
-   target="_blank"
-   {% endif %}
-   {% if modal_id %}
-   data-target="#{{ modal_id }}"
-   data-toggle="modal"
-   {% endif %}
->
-  {{ caller() }}
-</a>
-{% endmacro %}
-
 <!--Generic Button-->
 {% macro button(txt, bg_color='black', txt_color='white', class='') %}
 <button type="submit" class="btn w-100 {{ class }}" style="background-color:{{ bg_color }}; color:{{ txt_color }};">{{ txt }}</button>
@@ -70,11 +53,11 @@
 {% macro folder_card(folder) %}
 <div class="card col-xl-3 border-0">
   <div class="card-body text-center">
-    {% call link(href=url_for('folders.folder', id_=folder.id)) %}
-    {{ folder_icon(size='100', color=folder.color) }}
-    {{ paragraph(folder.name, size='1.5', class='m-0') }}
-    {{ badge('%s page(s)' % folder.pages|count|string, class='mb-2 p-1', size=0.6, bg_color='gray', pill=true) }}
-    {% endcall %}
+    <a href="{{ url_for('folders.folder', id_=folder.id) }}" class="link">
+      {{ folder_icon(size='100', color=folder.color) }}
+      {{ paragraph(folder.name, size='1.5', class='m-0') }}
+      {{ badge('%s page(s)' % folder.pages|count|string, class='mb-2 p-1', size=0.6, bg_color='gray', pill=true) }}
+    </a>
     {{ folder_options(folder) }}
   </div>
 </div>
@@ -85,7 +68,7 @@
 <div class="card col-xl-4 border-0">
   <div class="card-body p-0 border m-3 rounded shadow-sm">
     <div class="card-header d-flex justify-content-between">
-      <a class="text-body text-truncate" data-placement="top" data-toggle="tooltip" href="{{ url_for('pages.page', id_=page.id) }}" title="{{ page.title }}">{{ page.title }}</a>
+      <a class="link text-truncate fw-bold" data-placement="top" data-toggle="tooltip" href="{{ url_for('pages.page', id_=page.id) }}" title="{{ page.title }}">{{ page.title }}</a>
       {{ badge(page.folders.name, href=url_for('folders.folder', id_=page.folder_id), bg_color=page.folders.color) }}
     </div>
     <div class="card-body">
@@ -283,19 +266,19 @@
 <div>
   <!--Preview Page-->
   {% if request.url_rule.endpoint != "pages.page" %}
-  {% call link(class='mx-1', modal_id='preview_page_'+page.id|string) %}{{ view_icon() }}{% endcall %}
+  <a href="#" class="mx-1 link" data-bs-toggle="modal" data-bs-target="#preview_page_{{ page.id }}">{{ view_icon() }}</a>
   {% endif %}
   <!--Save Page-->
-  {% call link(class='mx-1', href=url_for('pages.page_plain', id_=page.id), newtab=true) %}{{ save_icon() }}{% endcall %}
+  <a href="{{ url_for('pages.page_plain', id_=page.id) }}" class="mx-1 link" target="_blank">{{ save_icon() }}</a>
   {% if current_user.is_authenticated %}
   <!--Bookmark Page-->
-  {% call link(class='mx-1', href=url_for('pages.mark_page', id_=page.id)) %}{{ star_icon(page.bookmarked) }}{% endcall %}
+  <a href="{{ url_for('pages.mark_page', id_=page.id) }}" class="mx-1 link">{{ star_icon(page.bookmarked) }}</a>
   <!--Edit Page-->
-  {% call link(class='mx-1', href=url_for('pages.editor', id_=page.id)) %}{{ edit_icon() }}{% endcall %}
+  <a href="{{ url_for('pages.editor', id_=page.id) }}" class="mx-1 link">{{ edit_icon() }}</a>
   <!--Hide Page-->
-  {% call link(class='mx-1', href=url_for('pages.page_visibility', id_=page.id)) %}{{ visible_icon(page.visible) }}{% endcall %}
+  <a href="{{ url_for('pages.page_visibility', id_=page.id) }}" class="mx-1 link">{{ visible_icon(page.visible) }}</a>
   <!--Delete Page-->
-  {% call link(class='mx-1', modal_id='delete_page_'+page.id|string) %}{{ delete_icon() }}{% endcall %}
+  <a href="#" class="mx-1 link" data-bs-toggle="modal" data-bs-target="#delete_page_{{ page.id }}">{{ delete_icon() }}</a>
   {% endif %}
 </div>
 
@@ -305,7 +288,7 @@
 
 {% call modal('delete_page_'+page.id|string, class='text-center') %}
 {{ paragraph('Delete '+page.title+'?', class='m-3') }}
-{% call link(class='btn btn-danger btn-lg', href=url_for('pages.delete_page', id_=page.id), color='white') %}Delete Page{% endcall %}
+<a href="{{ url_for('pages.delete_page', id_=page.id) }}" class="btn btn-danger btn-lg">Delete Page</a>
 {% endcall %}
 
 {% endmacro %}
@@ -314,14 +297,14 @@
 {% macro folder_options(folder, class='') %}
 <div class="{{ class }}">
   <!--Info for Folder-->
-  {% call link(modal_id='info_folder_'+folder.id|string, class='mx-1') %}{{ info_icon() }}{% endcall %}
+  <a href="#" data-bs-toggle="modal" data-bs-target="#info_folder_{{ folder.id }}" class="link mx-1">{{ info_icon() }}</a>
   {% if current_user.is_authenticated %}
   <!--Add to Folder-->
-  {% call link(modal_id='add_page_to_'+folder.id|string, class='mx-1') %}{{ add_icon() }}{% endcall %}
+  <a href="#" data-bs-toggle="modal" data-bs-target="#add_page_to_{{ folder.id }}" class="link mx-1">{{ add_icon() }}</a>
   <!--Edit Folder-->
-  {% call link(modal_id='edit_folder_'+folder.id|string, class='mx-1') %}{{ edit_icon() }}{% endcall %}
+  <a href="#" data-bs-toggle="modal" data-bs-target="#edit_folder_{{ folder.id }}" class="link mx-1">{{ edit_icon() }}</a>
   <!--Delete Folder-->
-  {% call link(modal_id='delete_folder_'+folder.id|string, class='mx-1') %}{{ delete_icon() }}{% endcall %}
+  <a href="#" data-bs-toggle="modal" data-bs-target="#delete_folder_{{ folder.id }}" class="link mx-1">{{ delete_icon() }}</a>
   {% endif %}
 </div>
 
@@ -332,7 +315,7 @@
 
 {% call modal('delete_folder_'+folder.id|string) %}
 {{ paragraph('Delete '+folder.name+'?', class='m-3') }}
-{% call link(class='btn btn-danger btn-lg', href=url_for('folders.delete_folder', id_=folder.id), color='white') %}Delete Folder{% endcall %}
+<a href="{{ url_for('folders.delete_folder', id_=folder.id) }}" class="btn btn-danger btn-lg">Delete Page</a>
 {% endcall %}
 
 {% call modal('edit_folder_'+folder.id|string, class='text-center') %}

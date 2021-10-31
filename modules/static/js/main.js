@@ -64,15 +64,8 @@ function code() {
     v.innerHTML = text;
 }
 
-function addInput() {
-    var form_ = document.getElementById("form_");
-    var input_ = document.createElement("input");
-    input_.className = "form-control mb-2";
-    input_.placeholder = "Name";
-    input_.type = "text";
-    input_.autocomplete = "off";
-    input_.name = "name";
-
-    form_.insertBefore(input_, document.getElementById("add_button"));
-    input_.focus();
-}
+$('#folderCreateForm').on('submit', function(event) {
+    event.preventDefault();
+    $.post('/add_folder', { name : $('#folderName').val() }, function(data) { $('#allFolders').load(location.href + ' #allFolders'); });
+    $('#folderName').val('');
+});

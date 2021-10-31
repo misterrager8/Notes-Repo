@@ -72,8 +72,8 @@
       {{ badge(page.folders.name, href=url_for('folders.folder', id_=page.folder_id), bg_color=page.folders.color) }}
     </div>
     <div class="card-body">
-      <small><span class="font-weight-bold">Last Modified:</span> {{ page.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
-      <small><span class="font-weight-bold">Date Created:</span> {{ page.date_created.strftime("%B %d, %Y %I:%M %p") }}</small>
+      <small><span class="fw-bold">Last Modified:</span> {{ page.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
+      <small><span class="fw-bold">Date Created:</span> {{ page.date_created.strftime("%B %d, %Y %I:%M %p") }}</small>
     </div>
     <div class="card-footer">
       {{ page_options(page) }}
@@ -324,7 +324,7 @@
 
 {% call modal('info_folder_'+folder.id|string, class='text-center') %}
 {{ paragraph(folder.name, class='m-3') }}
-{% if folder.description %}{{ paragraph(folder.description, class='font-italic m-3', size=1) }}{% endif %}
+{% if folder.description %}{{ paragraph(folder.description, class='fst-italic m-3', size=1) }}{% endif %}
 {{ paragraph('Created '+folder.date_created.strftime("%B %d, %Y %I:%M %p"), size='1') }}
 {% endcall %}
 
@@ -394,7 +394,7 @@
     <li class="list-inline-item" onclick="heading()">{{ heading_icon(size=25) }}</li>
     <li class="list-inline-item" onclick="hyperlink()">{{ hyperlink_icon(size=25) }}</li>
     <li class="list-inline-item" onclick="code()">{{ code_icon(size=25) }}</li>
-    <li class="list-inline-item float-right">{% call link(href=url_for('pages.page', id_=page.id)) %}{{ view_icon(size=25, color='gray') }}{% endcall %}</li>
+    <li class="list-inline-item float-end"><a href="{{ url_for('pages.page', id_=page.id) }}">{{ view_icon(size=25, color='gray') }}</a></li>
   </ul>
   <textarea onblur="save()" id="content" autocomplete="off" class="w-100 p-3 mb-2" name="content" placeholder="Content" style="height: 600px; border-radius:10px; overflow:auto; white-space: pre-wrap;">{{ page.content }}</textarea>
   {{ button('Save') }}

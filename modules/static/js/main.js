@@ -64,8 +64,27 @@ function code() {
     v.innerHTML = text;
 }
 
+function toggleDiv(parentId, divId) {
+    $('#' + divId).fadeToggle();
+    if ($('#' + divId).css('display') == 'none') {
+        $('#' + parentId).css('z-index', 1);
+    } else {
+        $('#' + parentId).css('z-index', 2);
+    }
+}
+
 $('#folderCreateForm').on('submit', function(event) {
     event.preventDefault();
     $.post('/add_folder', { name : $('#folderName').val() }, function(data) { $('#allFolders').load(location.href + ' #allFolders'); });
     $('#folderName').val('');
 });
+
+$('#pageContent').on('submit', function(event) {
+    event.preventDefault();
+    save();
+});
+
+function save() {
+    $('#saveStatus').text('Saving...');
+    $.post('editor?id_=' + $('#pageId').val(), { content : $('#content').val() }, function() { $('#saveStatus').text('Saved ' + Date(Date.now())); });
+}

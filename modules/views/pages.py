@@ -66,12 +66,8 @@ def editor():
     page_: Page = db.session.query(Page).get(id_)
 
     if request.method == "POST":
-        title = request.form["title"]
-        folder_id: int = request.form.get("folder_id")
         content = request.form["content"]
 
-        page_.title = title
-        page_.folder_id = folder_id
         page_.content = content
         page_.last_modified = datetime.now()
 

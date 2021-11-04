@@ -257,31 +257,19 @@
 <!--Page Options Panel-->
 {% macro page_options(page) %}
 <div>
-  <!--Preview Page-->
-  {% if request.url_rule.endpoint != "pages.page" %}
-  <a href="#" class="mx-1 link" data-bs-toggle="modal" data-bs-target="#preview_page_{{ page.id }}">{{ view_icon() }}</a>
-  {% endif %}
-  <!--Save Page-->
+  {% if request.url_rule.endpoint != "pages.page" %}<a href="#" class="mx-1 link" data-bs-toggle="modal" data-bs-target="#preview_page_{{ page.id }}">{{ view_icon() }}</a>{% endif %}
   <a href="{{ url_for('pages.page_plain', id_=page.id) }}" class="mx-1 link" target="_blank">{{ save_icon() }}</a>
   {% if current_user.is_authenticated %}
-  <!--Bookmark Page-->
   <a href="{{ url_for('pages.mark_page', id_=page.id) }}" class="mx-1 link">{{ star_icon(page.bookmarked) }}</a>
-  <!--Edit Page-->
   <a href="{{ url_for('pages.editor', id_=page.id) }}" class="mx-1 link">{{ edit_icon() }}</a>
-  <!--Hide Page-->
   <a href="{{ url_for('pages.page_visibility', id_=page.id) }}" class="mx-1 link">{{ visible_icon(page.visible) }}</a>
-  <!--Delete Page-->
-  <a href="#" class="mx-1 link" data-bs-toggle="modal" data-bs-target="#delete_page_{{ page.id }}">{{ delete_icon() }}</a>
+  <a href="#" class="mx-1 link" onclick="toggleDiv('page' + {{ page.id }}, 'deletePage' + {{ page.id }})">{{ delete_icon() }}</a>
   {% endif %}
+  <a href="{{ url_for('pages.delete_page', id_=page.id) }}" class="btn btn-danger mt-3 w-100" style="display:none" id="deletePage{{ page.id }}">Delete Page</a>
 </div>
 
 {% call modal('preview_page_'+page.id|string, large=true) %}
 {{ paragraph(page.content_to_html()|safe, size='1') }}
-{% endcall %}
-
-{% call modal('delete_page_'+page.id|string, class='text-center') %}
-{{ paragraph('Delete '+page.title+'?', class='m-3') }}
-<a href="{{ url_for('pages.delete_page', id_=page.id) }}" class="btn btn-danger btn-lg">Delete Page</a>
 {% endcall %}
 
 {% endmacro %}
@@ -289,14 +277,10 @@
 <!--Folder Options Panel-->
 {% macro folder_options(folder, class='') %}
 <div class="{{ class }}">
-  <!--Info for Folder-->
   <a href="#" data-bs-toggle="modal" data-bs-target="#info_folder_{{ folder.id }}" class="link mx-1">{{ info_icon() }}</a>
   {% if current_user.is_authenticated %}
-  <!--Add to Folder-->
   <a href="#" data-bs-toggle="modal" data-bs-target="#add_page_to_{{ folder.id }}" class="link mx-1">{{ add_icon() }}</a>
-  <!--Edit Folder-->
   <a href="#" data-bs-toggle="modal" data-bs-target="#edit_folder_{{ folder.id }}" class="link mx-1">{{ edit_icon() }}</a>
-  <!--Delete Folder-->
   <a href="#" data-bs-toggle="modal" data-bs-target="#delete_folder_{{ folder.id }}" class="link mx-1">{{ delete_icon() }}</a>
   {% endif %}
 </div>
@@ -371,8 +355,9 @@
 
 <!--Page Editor Form-->
 {% macro page_editor_form(page) %}
-<form class="form-group col-10 offset-1" action="{{ url_for('pages.editor', id_=page.id) }}" method="POST">
+<form class="form-group col-10 offset-1" action="{{ url_for('pages.editor', id_=page.id) }}" method="POST" id="pageContent">
   <input id="title" autocomplete="off" class="form-control my-2" name="title" placeholder="Title" type="text" value="{{ page.title }}">
+  <input id="pageId" value="{{ page.id }}" style="display:none">
   <select class="form-control mb-2" name="folder_id" id="folder_id">
     <option>Select Folder</option>
     {% for i in folders_ %}
@@ -387,9 +372,10 @@
     <li class="list-inline-item" onclick="hyperlink()">{{ hyperlink_icon(size=25) }}</li>
     <li class="list-inline-item" onclick="code()">{{ code_icon(size=25) }}</li>
     <li class="list-inline-item float-end"><a href="{{ url_for('pages.page', id_=page.id) }}">{{ view_icon(size=25, color='gray') }}</a></li>
+    <li class="list-inline-item float-end"><p id="saveStatus" class="text-success mx-3" style="font-size:0.9em"></p></li>
   </ul>
-  <textarea onblur="save()" id="content" autocomplete="off" class="w-100 p-3 mb-2" name="content" placeholder="Content" style="height: 600px; border-radius:10px; overflow:auto; white-space: pre-wrap;">{{ page.content }}</textarea>
-  {{ button('Save') }}
+  <textarea onchange="save()" id="content" autocomplete="off" class="w-100 p-3 mb-2" name="content" placeholder="Content" style="height: 600px; border-radius:10px; overflow:auto; white-space: pre-wrap;">{{ page.content }}</textarea>
+  <button type="submit" class="btn bg-dark text-light w-100">Save</button>
 </form>
 {% endmacro %}
 

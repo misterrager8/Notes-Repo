@@ -5,7 +5,7 @@
 <title>Pages</title>
 <div class="container">
   {{ macros.sort_pages_filter(class='text-center m-3') }}
-  <div class="row">
+  <div class="row" data-masonry>
     {% for i in all_pages %}
     {% if not current_user.is_anonymous or i.visible %}
     {{ macros.page_card(i) }}

@@ -6,7 +6,7 @@ function bold() {
     var after = v.value.slice(v.selectionEnd);
 
     var text = before + "**" + selectedText + "**" + after;
-    v.innerHTML = text;
+    $('#content').val(text);
 }
 
 function italic() {
@@ -17,7 +17,7 @@ function italic() {
     var after = v.value.slice(v.selectionEnd);
 
     var text = before + "*" + selectedText + "*" + after;
-    v.innerHTML = text;
+    $('#content').val(text);
 }
 
 function bullet() {
@@ -28,7 +28,7 @@ function bullet() {
     var after = v.value.slice(v.selectionEnd);
 
     var text = before + "- " + selectedText + after;
-    v.innerHTML = text;
+    $('#content').val(text);
 }
 
 function heading() {
@@ -38,8 +38,8 @@ function heading() {
     var before = v.value.slice(0, v.selectionStart);
     var after = v.value.slice(v.selectionEnd);
 
-    var text = before + "# " + selectedText + after;
-    v.innerHTML = text;
+    var text = before + "#" + selectedText + after;
+    $('#content').val(text);
 }
 
 function hyperlink() {
@@ -50,7 +50,7 @@ function hyperlink() {
     var after = v.value.slice(v.selectionEnd);
 
     var text = before + "[]()" + selectedText + after;
-    v.innerHTML = text;
+    $('#content').val(text);
 }
 
 function code() {
@@ -61,16 +61,7 @@ function code() {
     var after = v.value.slice(v.selectionEnd);
 
     var text = before + "        " + selectedText + after;
-    v.innerHTML = text;
-}
-
-function toggleDiv(parentId, divId) {
-    $('#' + divId).fadeToggle();
-    if ($('#' + divId).css('display') == 'none') {
-        $('#' + parentId).css('z-index', 1);
-    } else {
-        $('#' + parentId).css('z-index', 2);
-    }
+    $('#content').val(text);
 }
 
 $('#folderCreateForm').on('submit', function(event) {
@@ -86,5 +77,20 @@ $('#pageContent').on('submit', function(event) {
 
 function save() {
     $('#saveStatus').text('Saving...');
-    $.post('editor?id_=' + $('#pageId').val(), { content : $('#content').val() }, function() { $('#saveStatus').text('Saved ' + Date(Date.now())); });
+    $.post('editor?id_=' + $('#pageId').val(), { content : $('#content').val() },
+        function() {
+            $('#saveStatus').text('Saved ' + Date(Date.now()));
+        });
+}
+
+function deletePage(pageId) {
+    $.get('delete_page', { id_ : pageId }, function(data) { $('#allPages').load(location.href + ' #allPages'); });
+}
+
+function deleteFolder(folderId) {
+    $.get('delete_folder', { id_ : folderId }, function(data) { $('#allFolders').load(location.href + ' #allFolders'); });
+}
+
+function bookmarkPage(pageId) {
+    $.get('mark', { id_ : pageId }, function(data) { $('#allPages').load(location.href + ' #allPages'); });
 }

@@ -39,16 +39,6 @@
 </span>
 {% endmacro %}
 
-<!--Generic Dropdown-->
-{% macro dropdown(txt) %}
-<div class="dropdown">
-  <p class="dropdown-toggle" data-toggle="dropdown" style="cursor:pointer">{{ txt }}</p>
-  <div class="dropdown-menu">
-    {{ caller() }}
-  </div>
-</div>
-{% endmacro %}
-
 <!--Folder Card-->
 {% macro folder_card(folder) %}
 <div class="card col-xl-3 border-0">
@@ -72,8 +62,8 @@
       {{ badge(page.folders.name, href=url_for('folders.folder', id_=page.folder_id), bg_color=page.folders.color) }}
     </div>
     <div class="card-body">
-      <small><span class="fw-bold">Last Modified:</span> {{ page.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
-      <small><span class="fw-bold">Date Created:</span> {{ page.date_created.strftime("%B %d, %Y %I:%M %p") }}</small>
+      <small class="text-truncate"><span class="fw-bold">Last Modified:</span> {{ page.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
+      <small class="text-truncate"><span class="fw-bold">Date Created:</span> {{ page.date_created.strftime("%B %d, %Y %I:%M %p") }}</small>
     </div>
     <div class="card-footer">
       {{ page_options(page) }}
@@ -257,15 +247,15 @@
 <!--Page Options Panel-->
 {% macro page_options(page) %}
 <div>
-  {% if request.url_rule.endpoint != "pages.page" %}<a href="#" class="mx-1 link" data-bs-toggle="modal" data-bs-target="#preview_page_{{ page.id }}">{{ view_icon() }}</a>{% endif %}
+  {% if request.url_rule.endpoint != "pages.page" %}<a class="mx-1 link" data-bs-toggle="modal" data-bs-target="#preview_page_{{ page.id }}">{{ view_icon() }}</a>{% endif %}
   <a href="{{ url_for('pages.page_plain', id_=page.id) }}" class="mx-1 link" target="_blank">{{ save_icon() }}</a>
   {% if current_user.is_authenticated %}
-  <a href="{{ url_for('pages.mark_page', id_=page.id) }}" class="mx-1 link">{{ star_icon(page.bookmarked) }}</a>
+  <a class="mx-1 link" onclick="bookmarkPage({{ page.id }})">{{ star_icon(page.bookmarked) }}</a>
   <a href="{{ url_for('pages.editor', id_=page.id) }}" class="mx-1 link">{{ edit_icon() }}</a>
   <a href="{{ url_for('pages.page_visibility', id_=page.id) }}" class="mx-1 link">{{ visible_icon(page.visible) }}</a>
-  <a href="#" class="mx-1 link" onclick="toggleDiv('page' + {{ page.id }}, 'deletePage' + {{ page.id }})">{{ delete_icon() }}</a>
+  <a class="mx-1 link" onclick="$('#deletePage' + {{ page.id }}).toggle()">{{ delete_icon() }}</a>
   {% endif %}
-  <a href="{{ url_for('pages.delete_page', id_=page.id) }}" class="btn btn-danger mt-3 w-100" style="display:none" id="deletePage{{ page.id }}">Delete Page</a>
+  <a class="btn btn-danger mt-3 w-100" style="display:none" id="deletePage{{ page.id }}" onclick="deletePage({{ page.id }})">Delete Page</a>
 </div>
 
 {% call modal('preview_page_'+page.id|string, large=true) %}
@@ -277,34 +267,22 @@
 <!--Folder Options Panel-->
 {% macro folder_options(folder, class='') %}
 <div class="{{ class }}">
-  <a href="#" data-bs-toggle="modal" data-bs-target="#info_folder_{{ folder.id }}" class="link mx-1">{{ info_icon() }}</a>
+  <a class="link mx-1" onclick="$('#infoFolder' + {{ folder.id }}).toggle()">{{ info_icon() }}</a>
   {% if current_user.is_authenticated %}
-  <a href="#" data-bs-toggle="modal" data-bs-target="#add_page_to_{{ folder.id }}" class="link mx-1">{{ add_icon() }}</a>
-  <a href="#" data-bs-toggle="modal" data-bs-target="#edit_folder_{{ folder.id }}" class="link mx-1">{{ edit_icon() }}</a>
-  <a href="#" data-bs-toggle="modal" data-bs-target="#delete_folder_{{ folder.id }}" class="link mx-1">{{ delete_icon() }}</a>
+  <a class="link mx-1" onclick="$('#addToFolder' + {{ folder.id }}).toggle()">{{ add_icon() }}</a>
+  <a class="link mx-1" onclick="$('#editFolder' + {{ folder.id }}).toggle()">{{ edit_icon() }}</a>
+  <a class="link mx-1" onclick="$('#deleteFolder' + {{ folder.id }}).toggle()">{{ delete_icon() }}</a>
   {% endif %}
+  <div class="mt-3" id="infoFolder{{ folder.id }}" style="display:none">
+    {% if folder.description %}{{ paragraph(folder.description, class='fst-italic m-3', size=1) }}{% endif %}
+    {{ paragraph('Created '+folder.date_created.strftime("%B %d, %Y %I:%M %p"), size='1') }}
+  </div>
+  <div class="mt-3" id="addToFolder{{ folder.id }}" style="display:none">{{ page_add_form(folder) }}</div>
+  <div class="mt-3" id="editFolder{{ folder.id }}" style="display:none">{{ folder_edit_form(folder) }}</div>
+  <div class="mt-3" id="deleteFolder{{ folder.id }}" style="display:none">
+    <a class="btn btn-danger" onclick="deleteFolder({{ folder.id }})">Delete Page</a>
+  </div>
 </div>
-
-{% call modal('add_page_to_'+folder.id|string) %}
-{{ paragraph('New Page', class='m-3') }}
-{{ page_add_form(folder) }}
-{% endcall %}
-
-{% call modal('delete_folder_'+folder.id|string) %}
-{{ paragraph('Delete '+folder.name+'?', class='m-3') }}
-<a href="{{ url_for('folders.delete_folder', id_=folder.id) }}" class="btn btn-danger btn-lg">Delete Page</a>
-{% endcall %}
-
-{% call modal('edit_folder_'+folder.id|string, class='text-center') %}
-{{ folder_edit_form(folder) }}
-{% endcall %}
-
-{% call modal('info_folder_'+folder.id|string, class='text-center') %}
-{{ paragraph(folder.name, class='m-3') }}
-{% if folder.description %}{{ paragraph(folder.description, class='fst-italic m-3', size=1) }}{% endif %}
-{{ paragraph('Created '+folder.date_created.strftime("%B %d, %Y %I:%M %p"), size='1') }}
-{% endcall %}
-
 {% endmacro %}
 
 <!--Sort Pages Filter-->
@@ -339,7 +317,7 @@
 {% macro folder_edit_form(folder) %}
 <form action="{{ url_for('folders.edit_folder', id_=folder.id) }}" class="form-group" method="POST">
   <input autocomplete="off" class="form-control mb-2" name="name" placeholder="name" type="text" value="{{ folder.name }}">
-  <input autocomplete="off" class="form-control mb-2" name="description" placeholder="Description" type="text" value="{{ folder.description }}">
+  <input autocomplete="off" class="form-control mb-2" name="description" placeholder="Description" type="text" {% if folder.description %}value="{{ folder.description }}" {% endif %}>
   <input class="form-control mb-2" name="color" type="color" value="{{ folder.color }}">
   {{ button('Edit Folder') }}
 </form>
@@ -347,9 +325,9 @@
 
 <!--Page Add Form-->
 {% macro page_add_form(folder) %}
-<form action="{{ url_for('pages.add_page', id_=folder.id) }}" class="form-group" method="POST">
-  <input autocomplete="off" class="form-control my-2" name="title" placeholder="Title" type="text">
-  {{ button('Add Page') }}
+<form action="{{ url_for('pages.add_page', id_=folder.id) }}" class="input-group" method="POST">
+  <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text">
+  <button type="submit" class="btn bg-dark text-light">+</button>
 </form>
 {% endmacro %}
 
@@ -364,7 +342,7 @@
     <option value="{{ i.id }}" {% if i.id== page.folder_id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
-  <ul class="list-inline p-2 mb-2">
+  <ul class="list-inline p-2 mb-2 sticky-top bg-light">
     <li class="list-inline-item" onclick="bold()">{{ bold_icon(size=25) }}</li>
     <li class="list-inline-item" onclick="italic()">{{ italic_icon(size=25) }}</li>
     <li class="list-inline-item" onclick="bullet()">{{ list_icon(size=25) }}</li>
@@ -375,7 +353,7 @@
     <li class="list-inline-item float-end"><p id="saveStatus" class="text-success mx-3" style="font-size:0.9em"></p></li>
   </ul>
   <textarea onchange="save()" id="content" autocomplete="off" class="w-100 p-3 mb-2" name="content" placeholder="Content" style="height: 600px; border-radius:10px; overflow:auto; white-space: pre-wrap;">{{ page.content }}</textarea>
-  <button type="submit" class="btn bg-dark text-light w-100">Save</button>
+  <button type="submit" class="btn bg-dark text-light w-100 fixed-bottom">Save</button>
 </form>
 {% endmacro %}
 

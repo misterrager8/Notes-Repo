@@ -44,23 +44,22 @@ def delete_folder():
     return redirect(url_for("folders.index"))
 
 
-@folders.route("/edit_folder", methods=["POST", "GET"])
+@folders.route("/edit_folder", methods=["POST"])
 @login_required
 def edit_folder():
-    id_ = request.args.get("id_")
+    id_ = int(request.form["id_"])
     folder_: Folder = db.session.query(Folder).get(id_)
 
-    if request.method == "POST":
-        name = request.form["name"]
-        color = request.form["color"]
-        description = request.form["description"]
+    name = request.form["name"]
+    color = request.form["color"]
+    description = request.form["description"]
 
-        folder_.name = name.title()
-        folder_.color = color
-        folder_.description = description
-        db.session.commit()
+    folder_.name = name
+    folder_.color = color
+    folder_.description = description
+    db.session.commit()
 
-        return redirect(url_for("folders.index"))
+    return redirect(url_for("folders.index"))
 
 
 @folders.route("/folder", methods=["POST", "GET"])

@@ -83,6 +83,17 @@ function save() {
         });
 }
 
+function folderUpdate(folderId) {
+    $.post('edit_folder', {
+        id_ : folderId,
+        name : $('#folderName' + folderId).val(),
+        description : $('#folderDesc' + folderId).val(),
+        color : $('#folderColor' + folderId).val()
+    }, function(data) {
+        $('#allFolders').load(location.href + ' #allFolders');
+    });
+}
+
 function deletePage(pageId) {
     $.get('delete_page', { id_ : pageId }, function(data) { $('#allPages').load(location.href + ' #allPages'); });
 }

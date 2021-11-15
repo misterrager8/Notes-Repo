@@ -19,7 +19,6 @@ db_name = os.getenv("db")
 secret_key = os.getenv("secret_key")
 
 app.config['SECRET_KEY'] = secret_key
-app.config['UPLOAD_FOLDER'] = "uploads"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{db_user}:{db_pass}@{db_host}/{db_name}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

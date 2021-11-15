@@ -67,8 +67,10 @@ def editor():
 
     if request.method == "POST":
         content = request.form["content"]
+        title = request.form["title"]
 
         page_.content = content
+        page_.title = title
         page_.last_modified = datetime.now()
 
         db.session.commit()

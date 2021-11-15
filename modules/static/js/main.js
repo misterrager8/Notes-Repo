@@ -77,7 +77,7 @@ $('#pageContent').on('submit', function(event) {
 
 function save() {
     $('#saveStatus').text('Saving...');
-    $.post('editor?id_=' + $('#pageId').val(), { content : $('#content').val() },
+    $.post('editor?id_=' + $('#pageId').val(), { content : $('#content').val(), title : $('#title').val() },
         function() {
             $('#saveStatus').text('Saved ' + Date(Date.now()));
         });

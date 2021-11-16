@@ -64,11 +64,14 @@ function code() {
     $('#content').val(text);
 }
 
-$('#folderCreateForm').on('submit', function(event) {
-    event.preventDefault();
-    $.post('/add_folder', { name : $('#folderName').val() }, function(data) { $('#allFolders').load(location.href + ' #allFolders'); });
+function folderCreate() {
+    $.post('/add_folder', {
+        name : $('#folderName').val()
+    }, function(data) {
+        $('#allFolders').load(location.href + ' #allFolders');
+    });
     $('#folderName').val('');
-});
+}
 
 function save(pageId) {
     $('#saveStatus').text('Saving...');

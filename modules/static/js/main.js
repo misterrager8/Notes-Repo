@@ -70,17 +70,17 @@ $('#folderCreateForm').on('submit', function(event) {
     $('#folderName').val('');
 });
 
-$('#pageContent').on('submit', function(event) {
-    event.preventDefault();
-    save();
-});
-
-function save() {
+function save(pageId) {
     $('#saveStatus').text('Saving...');
-    $.post('editor?id_=' + $('#pageId').val(), { content : $('#content').val(), title : $('#title').val() },
-        function() {
-            $('#saveStatus').text('Saved ' + Date(Date.now()));
-        });
+    $.post('editor', {
+        id_ : pageId,
+        title : $('#title').val(),
+        folder_id : $('#folder_id').val(),
+        content : $('#content').val()
+    },
+    function() {
+        $('#saveStatus').text('Saved ' + Date(Date.now()));
+    });
 }
 
 function folderUpdate(folderId) {

@@ -333,7 +333,7 @@
 
 <!--Page Editor Form-->
 {% macro page_editor_form(page) %}
-<form class="form-group col-10 offset-1" action="{{ url_for('pages.editor', id_=page.id) }}" method="POST" id="pageContent">
+<form class="form-group col-10 offset-1" onsubmit="event.preventDefault(); save({{ page.id }});">
   <input id="title" autocomplete="off" class="form-control my-2" name="title" placeholder="Title" type="text" value="{{ page.title }}">
   <input id="pageId" value="{{ page.id }}" style="display:none">
   <select class="form-control mb-2" name="folder_id" id="folder_id">

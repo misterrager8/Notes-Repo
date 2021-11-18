@@ -73,7 +73,7 @@ function folderCreate() {
     $('#folderName').val('');
 }
 
-function save(pageId) {
+function savePage(pageId) {
     $('#saveStatus').text('Saving...');
     $.post('editor', {
         id_ : pageId,

@@ -15,30 +15,6 @@
 </div>
 {% endmacro %}
 
-<!--Generic Button-->
-{% macro button(txt, bg_color='black', txt_color='white', class='') %}
-<button type="submit" class="btn w-100 {{ class }}" style="background-color:{{ bg_color }}; color:{{ txt_color }};">{{ txt }}</button>
-{% endmacro %}
-
-<!--Generic Badge-->
-{% macro badge(txt, class='', href='#', txt_color='white', bg_color='black', newtab=false, modal_id=none, size='0.75', pill=false) %}
-<span>
-<a class="badge {{ class }} {% if pill %}badge-pill{% endif %}"
-   href="{{ href }}"
-   style="text-decoration:none; color:{{ txt_color }}; background-color:{{ bg_color }}; font-size:{{ size }}em;"
-   {% if newtab %}
-   target="_blank"
-   {% endif %}
-   {% if modal_id %}
-   data-target="#{{ modal_id }}"
-   data-toggle="modal"
-   {% endif %}
->
-  {{ txt }}
-</a>
-</span>
-{% endmacro %}
-
 <!--Folder Card-->
 {% macro folder_card(folder) %}
 <div class="card col-xl-3 border-0">
@@ -46,7 +22,7 @@
     <a href="{{ url_for('folders.folder', id_=folder.id) }}" class="link">
       {{ folder_icon(size=100, color=folder.color) }}
       {{ paragraph(folder.name, size='1.5', class='m-0') }}
-      {{ badge('%s page(s)' % folder.pages|count|string, class='mb-2 p-1', size=0.6, bg_color='gray', pill=true) }}
+      <p class="badge bg-secondary rounded-pill mb-2">{{ '%s page(s)' % folder.pages|count|string }}</p>
     </a>
     {{ folder_options(folder) }}
   </div>
@@ -59,7 +35,7 @@
   <div class="card-body p-0 border my-3 rounded shadow-sm">
     <div class="card-header d-flex justify-content-between">
       <a class="link text-truncate fw-bold" data-placement="top" data-toggle="tooltip" href="{{ url_for('pages.page', id_=page.id) }}" title="{{ page.title }}">{{ page.title }}</a>
-      {{ badge(page.folders.name, href=url_for('folders.folder', id_=page.folder_id), bg_color=page.folders.color) }}
+      <a class="badge text-light link m-1" href="{{ url_for('folders.folder', id_=page.folder_id) }}" style="background-color:{{ page.folders.color }}">{{ page.folders.name }}</a>
     </div>
     <div class="card-body">
       <small class="text-truncate"><span class="fw-bold">Last Modified:</span> {{ page.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
@@ -331,7 +307,7 @@
   <input autocomplete="off" class="form-control mb-2" name="name" placeholder="name" type="text" value="{{ folder.name }}" id="folderName{{ folder.id }}">
   <input autocomplete="off" class="form-control mb-2" name="description" placeholder="Description" type="text" {% if folder.description %}value="{{ folder.description }}" {% endif %} id="folderDesc{{ folder.id }}">
   <input class="form-control mb-2" name="color" type="color" value="{{ folder.color }}" id="folderColor{{ folder.id }}">
-  {{ button('Edit Folder') }}
+  <button type="submit" class="btn btn-dark w-100">Edit</button>
 </form>
 {% endmacro %}
 
@@ -374,6 +350,6 @@
 <form method="post" action="{{ url_for('login') }}">
   <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Username" name="username">
   <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
-  {{ button('Log-In') }}
+  <button type="submit" class="btn btn-dark w-100">Log-In</button>
 </form>
 {% endmacro %}

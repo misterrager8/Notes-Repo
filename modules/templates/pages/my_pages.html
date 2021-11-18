@@ -4,13 +4,15 @@
 {% block body %}
 <title>Pages</title>
 <div class="container">
-  {{ macros.sort_pages_filter(class='text-center m-3') }}
-  <div class="row" id="allPages">
-    {% for i in all_pages %}
-    {% if not current_user.is_anonymous or i.visible %}
-    {{ macros.page_card(i) }}
-    {% endif %}
-    {% endfor %}
+  <div id="allPages" class="mt-5">
+    {{ macros.sort_pages_filter() }}
+    <div class="row border-top">
+      {% for i in all_pages %}
+      {% if not current_user.is_anonymous or i.visible %}
+      {{ macros.page_card(i) }}
+      {% endif %}
+      {% endfor %}
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -20,16 +20,14 @@ def my_pages():
 
 @pages.route("/page")
 def page():
-    id_ = request.args.get("id_")
-    page_: Page = db.session.query(Page).get(id_)
+    page_: Page = db.session.query(Page).get(request.args.get("id_"))
 
     return render_template("pages/page.html", page=page_)
 
 
 @pages.route("/page_plain")
 def page_plain():
-    id_ = request.args.get("id_")
-    page_: Page = db.session.query(Page).get(id_)
+    page_: Page = db.session.query(Page).get(request.args.get("id_"))
 
     return "<title>%s [PLAIN]</title><div style=\"white-space: pre-wrap;\">%s</div>" % (page_.title, page_.content)
 
@@ -37,12 +35,13 @@ def page_plain():
 @pages.route("/page_create", methods=["POST"])
 @login_required
 def page_create():
-    id_: int = request.args.get("id_")
-    folder_: Folder = db.session.query(Folder).get(id_)
+    folder_: Folder = db.session.query(Folder).get(request.args.get("id_"))
 
-    title = request.form["title"].title()
-
-    _ = Page(title=title.title(), content="", folders=folder_)
+    _ = Page(title=request.form["title"].title(),
+             content="",
+             folders=folder_,
+             date_created=datetime.now(),
+             last_modified=datetime.now())
     db.session.commit()
     return redirect(url_for("pages.editor", id_=_.id))
 
@@ -50,8 +49,7 @@ def page_create():
 @pages.route("/page_delete")
 @login_required
 def page_delete():
-    id_ = request.args.get("id_")
-    _: Page = db.session.query(Page).get(id_)
+    _: Page = db.session.query(Page).get(request.args.get("id_"))
     db.session.delete(_)
     db.session.commit()
 
@@ -61,34 +59,28 @@ def page_delete():
 @pages.route("/editor", methods=["POST", "GET"])
 @login_required
 def editor():
-    id_ = request.args.get("id_")
-    page_: Page = db.session.query(Page).get(id_)
-
     if request.method == "POST":
         id_ = int(request.form["id_"])
         page_: Page = db.session.query(Page).get(id_)
 
-        title = request.form["title"]
-        folder_id = int(request.form["folder_id"])
-        content = request.form["content"]
-
-        page_.title = title
-        page_.folder_id = folder_id
-        page_.content = content
+        page_.title = request.form["title"]
+        page_.folder_id = int(request.form["folder_id"])
+        page_.content = request.form["content"]
         page_.last_modified = datetime.now()
-
         db.session.commit()
 
-        return redirect(url_for("pages.editor", id_=page_.id))
+        return redirect(request.referrer)
+    else:
+        id_ = request.args.get("id_")
+        page_: Page = db.session.query(Page).get(id_)
 
-    return render_template("pages/editor.html", page=page_)
+        return render_template("pages/editor.html", page=page_)
 
 
-@pages.route("/mark")
+@pages.route("/mark_page")
 @login_required
 def mark_page():
-    id_ = request.args.get("id_")
-    page_: Page = db.session.query(Page).get(id_)
+    page_: Page = db.session.query(Page).get(request.args.get("id_"))
 
     page_.bookmarked = not page_.bookmarked
     db.session.commit()
@@ -99,8 +91,7 @@ def mark_page():
 @pages.route("/page_visibility")
 @login_required
 def page_visibility():
-    id_ = request.args.get("id_")
-    page_: Page = db.session.query(Page).get(id_)
+    page_: Page = db.session.query(Page).get(request.args.get("id_"))
 
     page_.visible = not page_.visible
     db.session.commit()

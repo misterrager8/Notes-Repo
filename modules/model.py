@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import markdown
 from flask_login import UserMixin
 from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean
@@ -13,8 +11,8 @@ class Page(db.Model):
 
     title = Column(Text)
     content = Column(Text)
-    date_created = Column(DateTime, default=datetime.now())
-    last_modified = Column(DateTime, default=datetime.now())
+    date_created = Column(DateTime)
+    last_modified = Column(DateTime)
     bookmarked = Column(Boolean, default=False)
     visible = Column(Boolean, default=True)
     folder_id = Column(Integer, ForeignKey("folders.id"))
@@ -40,7 +38,7 @@ class Folder(db.Model):
     name = Column(Text)
     color = Column(Text)
     description = Column(Text)
-    date_created = Column(DateTime, default=datetime.now())
+    date_created = Column(DateTime)
     pages = relationship("Page", backref="folders")
     id = Column(Integer, primary_key=True)
 

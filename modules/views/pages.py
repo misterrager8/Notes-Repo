@@ -10,7 +10,7 @@ from modules.model import Page, Folder
 pages = Blueprint("pages", __name__)
 
 
-@pages.route("/my_pages", methods=["POST", "GET"])
+@pages.route("/my_pages")
 def my_pages():
     order_by = request.args.get("order_by", default="last_modified desc")
     _ = db.session.query(Page).join(Folder).order_by(text(order_by))
@@ -18,7 +18,7 @@ def my_pages():
     return render_template("pages/my_pages.html", all_pages=_, order_by=order_by)
 
 
-@pages.route("/page", methods=["POST", "GET"])
+@pages.route("/page")
 def page():
     id_ = request.args.get("id_")
     page_: Page = db.session.query(Page).get(id_)
@@ -34,23 +34,22 @@ def page_plain():
     return "<title>%s [PLAIN]</title><div style=\"white-space: pre-wrap;\">%s</div>" % (page_.title, page_.content)
 
 
-@pages.route("/add_page", methods=["POST", "GET"])
+@pages.route("/page_create", methods=["POST"])
 @login_required
-def add_page():
+def page_create():
     id_: int = request.args.get("id_")
     folder_: Folder = db.session.query(Folder).get(id_)
 
-    if request.method == "POST":
-        title = request.form["title"].title()
+    title = request.form["title"].title()
 
-        _ = Page(title=title.title(), content="", folders=folder_)
-        db.session.commit()
-        return redirect(url_for("pages.editor", id_=_.id))
+    _ = Page(title=title.title(), content="", folders=folder_)
+    db.session.commit()
+    return redirect(url_for("pages.editor", id_=_.id))
 
 
-@pages.route("/delete_page")
+@pages.route("/page_delete")
 @login_required
-def delete_page():
+def page_delete():
     id_ = request.args.get("id_")
     _: Page = db.session.query(Page).get(id_)
     db.session.delete(_)

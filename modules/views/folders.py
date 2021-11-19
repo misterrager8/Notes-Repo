@@ -19,23 +19,21 @@ def index():
                            order_by=order_by)
 
 
-@folders.route("/add_folder", methods=["POST", "GET"])
+@folders.route("/folder_create", methods=["POST"])
 @login_required
-def add_folder():
+def folder_create():
     if request.method == "POST":
-        name = request.form.getlist("name")
+        name = request.form["name"]
 
-        for i in name:
-            db.session.add(Folder(name=i.title(), color="#{:06x}".format(random.randint(0, 0xFFFFFF))))
-
+        db.session.add(Folder(name=name.title(), color="#{:06x}".format(random.randint(0, 0xFFFFFF))))
         db.session.commit()
 
         return redirect(url_for("folders.index"))
 
 
-@folders.route("/delete_folder")
+@folders.route("/folder_delete")
 @login_required
-def delete_folder():
+def folder_delete():
     id_ = request.args.get("id_")
     _: Folder = db.session.query(Folder).get(id_)
     db.session.delete(_)
@@ -44,25 +42,21 @@ def delete_folder():
     return redirect(url_for("folders.index"))
 
 
-@folders.route("/edit_folder", methods=["POST"])
+@folders.route("/folder_update", methods=["POST"])
 @login_required
-def edit_folder():
+def folder_update():
     id_ = int(request.form["id_"])
     folder_: Folder = db.session.query(Folder).get(id_)
 
-    name = request.form["name"]
-    color = request.form["color"]
-    description = request.form["description"]
-
-    folder_.name = name
-    folder_.color = color
-    folder_.description = description
+    folder_.name = request.form["name"]
+    folder_.color = request.form["color"]
+    folder_.description = request.form["description"]
     db.session.commit()
 
     return redirect(url_for("folders.index"))
 
 
-@folders.route("/folder", methods=["POST", "GET"])
+@folders.route("/folder")
 def folder():
     id_ = request.args.get("id_")
     folder_: Folder = db.session.query(Folder).get(id_)

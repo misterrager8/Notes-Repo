@@ -262,7 +262,7 @@
 {% endmacro %}
 
 <!--Sort Pages Filter-->
-{% macro sort_pages_filter(class='') %}
+{% macro sort_pages_filter() %}
 <div>
   <p class="badge p-0 text-dark me-1">Sort By:</p>
   {% if order_by != 'folders.name' %}
@@ -288,7 +288,7 @@
   <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('folders.index', order_by='color') }}">Color</a>
   {% endif %}
   {% if order_by != 'date_created desc' %}
-  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('folders.index', order_by='date_created desc') }}">Date Createc</a>
+  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('folders.index', order_by='date_created desc') }}">Date Created</a>
   {% endif %}
 </div>
 {% endmacro %}
@@ -313,7 +313,7 @@
 
 <!--Page Add Form-->
 {% macro page_add_form(folder) %}
-<form action="{{ url_for('pages.add_page', id_=folder.id) }}" class="input-group" method="POST">
+<form action="{{ url_for('pages.page_create', id_=folder.id) }}" class="input-group" method="POST">
   <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text">
   <button type="submit" class="btn bg-dark text-light">+</button>
 </form>

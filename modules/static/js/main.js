@@ -65,7 +65,7 @@ function code() {
 }
 
 function folderCreate() {
-    $.post('/add_folder', {
+    $.post('/folder_create', {
         name : $('#folderName').val()
     }, function(data) {
         $('#allFolders').load(location.href + ' #allFolders');
@@ -87,7 +87,7 @@ function savePage(pageId) {
 }
 
 function folderUpdate(folderId) {
-    $.post('edit_folder', {
+    $.post('folder_update', {
         id_ : folderId,
         name : $('#folderName' + folderId).val(),
         description : $('#folderDesc' + folderId).val(),
@@ -98,11 +98,11 @@ function folderUpdate(folderId) {
 }
 
 function deletePage(pageId) {
-    $.get('delete_page', { id_ : pageId }, function(data) { $('#allPages').load(location.href + ' #allPages'); });
+    $.get('page_delete', { id_ : pageId }, function(data) { $('#allPages').load(location.href + ' #allPages'); });
 }
 
 function deleteFolder(folderId) {
-    $.get('delete_folder', { id_ : folderId }, function(data) { $('#allFolders').load(location.href + ' #allFolders'); });
+    $.get('folder_delete', { id_ : folderId }, function(data) { $('#allFolders').load(location.href + ' #allFolders'); });
 }
 
 function bookmarkPage(pageId) {

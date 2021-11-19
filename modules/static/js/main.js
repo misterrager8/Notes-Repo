@@ -108,3 +108,7 @@ function deleteFolder(folderId) {
 function bookmarkPage(pageId) {
     $.get('mark', { id_ : pageId }, function(data) { $('#allPages').load(location.href + ' #allPages'); });
 }
+
+function hidePage(pageId) {
+    $.get('page_visibility', { id_ : pageId }, function(data) { $('#allPages').load(location.href + ' #allPages'); });
+}

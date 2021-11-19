@@ -228,7 +228,7 @@
   {% if current_user.is_authenticated %}
   <a class="mx-1 link" onclick="bookmarkPage({{ page.id }})">{{ star_icon(page.bookmarked) }}</a>
   <a href="{{ url_for('pages.editor', id_=page.id) }}" class="mx-1 link">{{ edit_icon() }}</a>
-  <a href="{{ url_for('pages.page_visibility', id_=page.id) }}" class="mx-1 link">{{ visible_icon(page.visible) }}</a>
+  <a onclick="hidePage({{ page.id }})" class="mx-1 link">{{ visible_icon(page.visible) }}</a>
   <a class="mx-1 link" onclick="$('#deletePage' + {{ page.id }}).toggle()">{{ delete_icon() }}</a>
   {% endif %}
   <a class="btn btn-danger mt-3 w-100" style="display:none" id="deletePage{{ page.id }}" onclick="deletePage({{ page.id }})">Delete Page</a>

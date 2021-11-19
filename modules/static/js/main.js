@@ -90,7 +90,6 @@ function folderUpdate(folderId) {
     $.post('folder_update', {
         id_ : folderId,
         name : $('#folderName' + folderId).val(),
-        description : $('#folderDesc' + folderId).val(),
         color : $('#folderColor' + folderId).val()
     }, function(data) {
         $('#allFolders').load(location.href + ' #allFolders');

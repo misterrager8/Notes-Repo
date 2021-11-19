@@ -300,7 +300,6 @@
 {% macro folder_edit_form(folder) %}
 <form class="form-group" onsubmit="event.preventDefault(); folderUpdate({{ folder.id }});">
   <input autocomplete="off" class="form-control mb-2" name="name" placeholder="name" type="text" value="{{ folder.name }}" id="folderName{{ folder.id }}">
-  <input autocomplete="off" class="form-control mb-2" name="description" placeholder="Description" type="text" {% if folder.description %}value="{{ folder.description }}" {% endif %} id="folderDesc{{ folder.id }}">
   <input class="form-control mb-2" name="color" type="color" value="{{ folder.color }}" id="folderColor{{ folder.id }}">
   <button type="submit" class="btn btn-dark w-100">Edit</button>
 </form>

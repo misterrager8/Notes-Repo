@@ -37,7 +37,6 @@ class Folder(db.Model):
 
     name = Column(Text)
     color = Column(Text)
-    description = Column(Text)
     date_created = Column(DateTime)
     pages = relationship("Page", backref="folders")
     id = Column(Integer, primary_key=True)

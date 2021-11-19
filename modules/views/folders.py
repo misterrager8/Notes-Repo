@@ -48,7 +48,6 @@ def folder_update():
 
     folder_.name = request.form["name"]
     folder_.color = request.form["color"]
-    folder_.description = request.form["description"]
     db.session.commit()
 
     return redirect(request.referrer)

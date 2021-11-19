@@ -1,8 +1,4 @@
-<!--Generic Paragraph-->
 <!--suppress ALL -->
-{% macro paragraph(txt, size='3', class='', color='black') %}
-<p class="{{ class }}" style="font-size:{{ size }}em; color:{{ color }}">{{ txt }}</p>
-{% endmacro %}
 
 <!--Generic Modal-->
 {% macro modal(modal_id, class='', large=false) %}
@@ -21,7 +17,7 @@
   <div class="card-body text-center">
     <a href="{{ url_for('folders.folder', id_=folder.id) }}" class="link">
       {{ folder_icon(size=100, color=folder.color) }}
-      {{ paragraph(folder.name, size='1.5', class='m-0') }}
+      <p class="h4">{{ folder.name }}</p>
       <p class="badge bg-secondary rounded-pill mb-2">{{ '%s page(s)' % folder.pages|count|string }}</p>
     </a>
     {{ folder_options(folder) }}
@@ -235,7 +231,7 @@
 </div>
 
 {% call modal('preview_page_'+page.id|string, large=true) %}
-{{ paragraph(page.content_to_html()|safe, size='1') }}
+<p>{{ page.content_to_html() | safe }}</p>
 {% endcall %}
 
 {% endmacro %}
@@ -250,8 +246,7 @@
   <a class="link mx-1" onclick="$('#deleteFolder' + {{ folder.id }}).toggle()">{{ delete_icon() }}</a>
   {% endif %}
   <div class="mt-3" id="infoFolder{{ folder.id }}" style="display:none">
-    {% if folder.description %}{{ paragraph(folder.description, class='fst-italic m-3', size=1) }}{% endif %}
-    {{ paragraph('Created '+folder.date_created.strftime("%B %d, %Y %I:%M %p"), size='1') }}
+    <p>{{ 'Created ' + folder.date_created.strftime("%B %d, %Y %I:%M %p") }}</p>
   </div>
   <div class="mt-3" id="addToFolder{{ folder.id }}" style="display:none">{{ page_add_form(folder) }}</div>
   <div class="mt-3" id="editFolder{{ folder.id }}" style="display:none">{{ folder_edit_form(folder) }}</div>

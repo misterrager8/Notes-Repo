@@ -4,8 +4,10 @@
 {% block body %}
 <title>{{ folder.name }}</title>
 <div class="container">
-  {{ macros.paragraph(folder.name, class='col-12 mb-0 mt-3 text-center') }}
-  {{ macros.folder_options(folder, class='col-12 text-center mb-5') }}
+  <div class="text-center my-3">
+    <p class="h1">{{ folder.name }}</p>
+    {{ macros.folder_options(folder) }}
+  </div>
 
   <div class="row" id="allPages">
     {% for i in folder.pages %}

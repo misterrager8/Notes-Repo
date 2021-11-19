@@ -4,7 +4,7 @@
 {% block body %}
 <title>Pages</title>
 <div class="container">
-  {{ macros.paragraph(header, class='m-3 text-center') }}
+  <p class="h1 m-3 text-center">{{ header }}</p>
   <div class="row">
     {% for i in results %}
     {{ macros.page_card(i) }}

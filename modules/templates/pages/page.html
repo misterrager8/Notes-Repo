@@ -5,10 +5,10 @@
 <title>{{ page.title }}</title>
 <div class="container">
   <div class="text-center m-5">
-    {{ paragraph(page.title, size='2.5', class='m-0') }}
+    <p class="h1">{{ page.title }}</p>
     <a href="{{ url_for('folders.folder', id_=page.folder_id) }}" style="background-color:{{ page.folders.color }}" class="badge link text-light my-2">{{ page.folders.name }}</a>
     {{ page_options(page) }}
   </div>
-  {{ paragraph(page.content_to_html()|safe, size='1') }}
+  <p>{{ page.content_to_html() | safe }}</p>
 </div>
 {% endblock %}

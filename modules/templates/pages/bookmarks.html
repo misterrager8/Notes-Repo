@@ -4,8 +4,7 @@
 {% block body %}
 <title>Bookmarks</title>
 <div class="container">
-  {{ macros.paragraph(macros.bookmark_icon(size=50, color='black'), class='m-3 text-center') }}
-  <div class="row" id="allPages">
+  <div class="row mt-5" id="allPages">
     {% for i in bookmarks_ %}
     {{ macros.page_card(i) }}
     {% endfor %}

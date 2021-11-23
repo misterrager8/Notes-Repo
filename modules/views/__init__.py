@@ -15,6 +15,15 @@ def inject_recent():
     return dict(folders_=folders_, pages_=pages_)
 
 
+@current_app.route("/")
+def index():
+    order_by = request.args.get("order_by", default="date_created desc")
+
+    return render_template("index.html",
+                           folders_=db.session.query(Folder).order_by(text(order_by)).all(),
+                           order_by=order_by)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.query(Admin).get(int(user_id))
@@ -29,7 +38,7 @@ def login():
         user_: Admin = db.session.query(Admin).filter_by(username=username).first()
         if user_ and check_password_hash(generate_password_hash(user_.password), password):
             login_user(user_)
-            return redirect(url_for("folders.index"))
+            return redirect(url_for("index"))
         else:
             return "Login failed."
 
@@ -37,4 +46,4 @@ def login():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("folders.index"))
+    return redirect(url_for("index"))

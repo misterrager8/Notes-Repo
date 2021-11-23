@@ -3,21 +3,11 @@ from datetime import datetime
 
 from flask import Blueprint, request, redirect, render_template
 from flask_login import login_required
-from sqlalchemy import text
 
 from modules import db
 from modules.model import Folder
 
 folders = Blueprint("folders", __name__)
-
-
-@folders.route("/")
-def index():
-    order_by = request.args.get("order_by", default="date_created desc")
-
-    return render_template("folders/index.html",
-                           folders_=db.session.query(Folder).order_by(text(order_by)).all(),
-                           order_by=order_by)
 
 
 @folders.route("/folder_create", methods=["POST"])

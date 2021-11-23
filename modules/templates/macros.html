@@ -277,13 +277,13 @@
 <div>
   <p class="badge p-0 text-dark me-1">Sort By:</p>
   {% if order_by != 'name' %}
-  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('folders.index', order_by='name') }}">Name</a>
+  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='name') }}">Name</a>
   {% endif %}
   {% if order_by != 'color' %}
-  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('folders.index', order_by='color') }}">Color</a>
+  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='color') }}">Color</a>
   {% endif %}
   {% if order_by != 'date_created desc' %}
-  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('folders.index', order_by='date_created desc') }}">Date Created</a>
+  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>
   {% endif %}
 </div>
 {% endmacro %}

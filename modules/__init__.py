@@ -25,12 +25,20 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 60}
 
 login_manager = LoginManager()
-login_manager.init_app(app)
 
-db = SQLAlchemy(app)
 
-from modules.views.folders import folders
-from modules.views.pages import pages
+def create_app(config):
+    app = Flask(__name__)
+    app.config.from_object(config)
 
-app.register_blueprint(folders)
-app.register_blueprint(pages)
+    db.init_app(app)
+    login_manager.init_app(app)
+
+    with app.app_context():
+        from modules.views.folders import folders
+        from modules.views.pages import pages
+
+        app.register_blueprint(folders)
+        app.register_blueprint(pages)
+
+        return app

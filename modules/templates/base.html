@@ -20,7 +20,7 @@
     <div class="collapse navbar-collapse" id="nav_content">
       <ul class="navbar-nav me-auto">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">{{ macros.folder_icon() }}<small class="badge bg-light rounded-pill text-dark">{{ folders_|count|string }}</small></a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">{{ macros.folder_icon() }}</a>
           <div class="dropdown-menu">
             {% for i in folders_[:5] %}
             <a class="dropdown-item" href="{{ url_for('folders.folder', id_=i.id) }}">{{ macros.circle_icon(10, i.color) }} {{ i.name }}</a>
@@ -28,7 +28,7 @@
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">{{ macros.page_icon() }}<small class="badge bg-light rounded-pill text-dark">{{ pages_.count()|string }}</small></a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">{{ macros.page_icon() }}</a>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{{ url_for('pages.my_pages') }}">All Pages</a>
             <div class="dropdown-divider"></div>

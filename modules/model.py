@@ -3,7 +3,7 @@ from flask_login import UserMixin
 from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
-from modules import app, db
+from modules import db
 
 
 class Page(db.Model):
@@ -62,7 +62,3 @@ class Admin(UserMixin, db.Model):
 
     def __str__(self):
         return "%s" % self.username
-
-
-with app.app_context():
-    db.create_all()

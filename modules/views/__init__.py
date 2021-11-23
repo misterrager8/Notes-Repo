@@ -1,14 +1,14 @@
-from flask import request, url_for
+from flask import request, url_for, render_template, current_app
 from flask_login import login_user, logout_user
 from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import redirect
 
-from modules import app, db, login_manager
+from modules import db, login_manager
 from modules.model import Folder, Page, Admin
 
 
-@app.context_processor
+@current_app.context_processor
 def inject_recent():
     folders_ = db.session.query(Folder).order_by(text("date_created desc"))
     pages_ = db.session.query(Page).order_by(text("last_modified desc"))
@@ -29,7 +29,7 @@ def load_user(user_id):
     return db.session.query(Admin).get(int(user_id))
 
 
-@app.route("/login", methods=["POST"])
+@current_app.route("/login", methods=["POST"])
 def login():
     if request.method == "POST":
         username = request.form["username"]
@@ -43,7 +43,7 @@ def login():
             return "Login failed."
 
 
-@app.route("/logout")
+@current_app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for("index"))

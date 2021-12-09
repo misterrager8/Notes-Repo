@@ -3,11 +3,9 @@
 
 {% block body %}
 <title>Bookmarks</title>
-<div class="container">
-  <div class="row mt-5" id="allPages">
-    {% for i in bookmarks_ %}
-    {{ macros.page_card(i) }}
-    {% endfor %}
-  </div>
+<div class="row mt-5" id="allPages">
+  {% for i in bookmarks_ %}
+  {{ macros.page_card(i) }}
+  {% endfor %}
 </div>
 {% endblock %}

@@ -3,19 +3,17 @@
 
 {% block body %}
 <title>{{ folder.name }}</title>
-<div class="container">
-  <div class="text-center my-3">
-    <p class="h1">{{ folder.name }}</p>
-    {{ macros.folder_options(folder) }}
-  </div>
+<div class="text-center my-3">
+  <p class="h1">{{ folder.name }}</p>
+  {{ macros.folder_options(folder) }}
+</div>
 
-  <div class="row" id="allPages">
-    {% for i in folder.pages %}
-    {% if not current_user.is_anonymous or i.visible %}
-    {{ macros.page_card(i) }}
-    {% endif %}
-    {% endfor %}
-  </div>
+<div class="row" id="allPages">
+  {% for i in folder.pages %}
+  {% if not current_user.is_anonymous or i.visible %}
+  {{ macros.page_card(i) }}
+  {% endif %}
+  {% endfor %}
 </div>
 
 {% endblock %}

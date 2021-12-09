@@ -315,7 +315,7 @@
 
 <!--Page Editor Form-->
 {% macro page_editor_form(page) %}
-<form class="form-group col-10 offset-1" onsubmit="event.preventDefault(); savePage({{ page.id }});">
+<form class="form-group" onsubmit="event.preventDefault(); savePage({{ page.id }});">
   <input onchange="savePage({{ page.id }})" id="title" autocomplete="off" class="form-control my-2" name="title" placeholder="Title" type="text" value="{{ page.title }}">
   <select onchange="savePage({{ page.id }})" class="form-control mb-2" name="folder_id" id="folder_id">
     <option>Select Folder</option>

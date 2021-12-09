@@ -3,12 +3,10 @@
 
 {% block body %}
 <title>Pages</title>
-<div class="container">
-  <p class="h1 m-3 text-center">{{ header }}</p>
-  <div class="row">
-    {% for i in results %}
-    {{ macros.page_card(i) }}
-    {% endfor %}
-  </div>
+<p class="h1 m-3 text-center">{{ header }}</p>
+<div class="row">
+  {% for i in results %}
+  {{ macros.page_card(i) }}
+  {% endfor %}
 </div>
 {% endblock %}

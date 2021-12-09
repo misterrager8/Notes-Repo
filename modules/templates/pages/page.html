@@ -3,12 +3,10 @@
 
 {% block body %}
 <title>{{ page.title }}</title>
-<div class="container">
-  <div class="text-center m-5">
-    <p class="h1">{{ page.title }}</p>
-    <a href="{{ url_for('folders.folder', id_=page.folder_id) }}" style="background-color:{{ page.folders.color }}" class="badge link text-light my-2">{{ page.folders.name }}</a>
-    {{ page_options(page) }}
-  </div>
-  <p>{{ page.content_to_html() | safe }}</p>
+<div class="text-center m-5">
+  <p class="h1">{{ page.title }}</p>
+  <a href="{{ url_for('folders.folder', id_=page.folder_id) }}" style="background-color:{{ page.folders.color }}" class="badge link text-light my-2">{{ page.folders.name }}</a>
+  {{ page_options(page) }}
 </div>
+<p>{{ page.content_to_html() | safe }}</p>
 {% endblock %}

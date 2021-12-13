@@ -323,17 +323,16 @@
     <option value="{{ i.id }}" {% if i.id== page.folder_id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
-  <ul class="list-inline p-2 mb-2 sticky-top bg-light">
-    <li class="list-inline-item" onclick="bold()">{{ bold_icon(size=25) }}</li>
-    <li class="list-inline-item" onclick="italic()">{{ italic_icon(size=25) }}</li>
-    <li class="list-inline-item" onclick="bullet()">{{ list_icon(size=25) }}</li>
-    <li class="list-inline-item" onclick="heading()">{{ heading_icon(size=25) }}</li>
-    <li class="list-inline-item" onclick="hyperlink()">{{ hyperlink_icon(size=25) }}</li>
-    <li class="list-inline-item" onclick="code()">{{ code_icon(size=25) }}</li>
-    <li class="list-inline-item float-end"><a href="{{ url_for('pages.page', id_=page.id) }}">{{ view_icon(size=25, color='gray') }}</a></li>
-    <li class="list-inline-item float-end"><p id="saveStatus" class="text-success mx-3" style="font-size:0.9em"></p></li>
+  <ul class="list-inline mb-2 sticky-top bg-light">
+    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('bold')">{{ bold_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('italic')">{{ italic_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('insertUnorderedList')">{{ list_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('insertHTML', false, '<h3>Heading</h3>')">{{ heading_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('insertHTML', false, '<a>Heading</a>')">{{ hyperlink_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('insertHTML', false, '<code>Heading</code>')">{{ code_icon(size=25) }}</button>
+    <span id="saveStatus" class="text-success float-end py-2 me-3" style="font-size:0.9em"></span>
   </ul>
-  <textarea onchange="savePage({{ page.id }})" id="content" autocomplete="off" class="w-100 p-3 mb-2" name="content" placeholder="Content" style="height: 600px; border-radius:10px; overflow:auto; white-space: pre-wrap;">{{ page.content }}</textarea>
+  <div contenteditable="true" onchange="savePage({{ page.id }})" id="content" class="border p-3 mb-2 rounded shadow-sm" onpaste="event.preventDefault(); document.execCommand('insertHTML', false, event.clipboardData.getData('text/plain'));" style="white-space: pre-wrap;">{{ page.content | safe }}</div>
   <button type="submit" class="btn bg-dark text-light w-100">Save</button>
 </form>
 {% endmacro %}

@@ -1,69 +1,3 @@
-function bold() {
-    var v = document.getElementById("content");
-
-    var selectedText = v.value.slice(v.selectionStart, v.selectionEnd);
-    var before = v.value.slice(0, v.selectionStart);
-    var after = v.value.slice(v.selectionEnd);
-
-    var text = before + "**" + selectedText + "**" + after;
-    $('#content').val(text);
-}
-
-function italic() {
-    var v = document.getElementById("content");
-
-    var selectedText = v.value.slice(v.selectionStart, v.selectionEnd);
-    var before = v.value.slice(0, v.selectionStart);
-    var after = v.value.slice(v.selectionEnd);
-
-    var text = before + "*" + selectedText + "*" + after;
-    $('#content').val(text);
-}
-
-function bullet() {
-    var v = document.getElementById("content");
-
-    var selectedText = v.value.slice(v.selectionStart, v.selectionEnd);
-    var before = v.value.slice(0, v.selectionStart);
-    var after = v.value.slice(v.selectionEnd);
-
-    var text = before + "- " + selectedText + after;
-    $('#content').val(text);
-}
-
-function heading() {
-    var v = document.getElementById("content");
-
-    var selectedText = v.value.slice(v.selectionStart, v.selectionEnd);
-    var before = v.value.slice(0, v.selectionStart);
-    var after = v.value.slice(v.selectionEnd);
-
-    var text = before + "#" + selectedText + after;
-    $('#content').val(text);
-}
-
-function hyperlink() {
-    var v = document.getElementById("content");
-
-    var selectedText = v.value.slice(v.selectionStart, v.selectionEnd);
-    var before = v.value.slice(0, v.selectionStart);
-    var after = v.value.slice(v.selectionEnd);
-
-    var text = before + "[]()" + selectedText + after;
-    $('#content').val(text);
-}
-
-function code() {
-    var v = document.getElementById("content");
-
-    var selectedText = v.value.slice(v.selectionStart, v.selectionEnd);
-    var before = v.value.slice(0, v.selectionStart);
-    var after = v.value.slice(v.selectionEnd);
-
-    var text = before + "        " + selectedText + after;
-    $('#content').val(text);
-}
-
 function folderCreate() {
     $.post('/folder_create', {
         name : $('#folderName').val()
@@ -79,7 +13,7 @@ function savePage(pageId) {
         id_ : pageId,
         title : $('#title').val(),
         folder_id : $('#folder_id').val(),
-        content : $('#content').val()
+        content : $('#content').html()
     },
     function() {
         $('#saveStatus').text('Saved ' + Date(Date.now()));

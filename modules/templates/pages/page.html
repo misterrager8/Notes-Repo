@@ -8,5 +8,5 @@
   <a href="{{ url_for('folders.folder', id_=page.folder_id) }}" style="background-color:{{ page.folders.color }}" class="badge link text-light my-2">{{ page.folders.name }}</a>
   {{ page_options(page) }}
 </div>
-<div>{{ page.content }}</div>
+<div>{{ page.content | safe }}</div>
 {% endblock %}

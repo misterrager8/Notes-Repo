@@ -45,3 +45,7 @@ function bookmarkPage(pageId) {
 function hidePage(pageId) {
     $.get('page_visibility', { id_ : pageId }, function(data) { $('#allPages').load(location.href + ' #allPages'); });
 }
+
+function format(cmd, val) {
+    document.execCommand(cmd, false, val);
+}

@@ -216,6 +216,20 @@
 </svg>
 {% endmacro %}
 
+<!-- Icon-->
+{% macro indent_icon(size=20, color='gray', class='') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-text-indent-left {{ class }}" viewBox="0 0 16 16">
+  <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+</svg>
+{% endmacro %}
+
+<!-- Icon-->
+{% macro outdent_icon(size=20, color='gray', class='') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-text-indent-right {{ class }}" viewBox="0 0 16 16">
+  <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2zM2 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+</svg>
+{% endmacro %}
+
 <!--Page Options Panel-->
 {% macro page_options(page) %}
 <div>
@@ -324,13 +338,17 @@
     {% endfor %}
   </select>
   <ul class="list-inline mb-2 sticky-top bg-light">
-    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('bold')">{{ bold_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('italic')">{{ italic_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('insertUnorderedList')">{{ list_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('insertHTML', false, '<h3>Heading</h3>')">{{ heading_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('insertHTML', false, '<a>Heading</a>')">{{ hyperlink_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border m-1" onclick="document.execCommand('insertHTML', false, '<code>Heading</code>')">{{ code_icon(size=25) }}</button>
-    <span id="saveStatus" class="text-success float-end py-2 me-3" style="font-size:0.9em"></span>
+    <button type="button" class="btn btn-light border" onclick="format('bold')">{{ bold_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border" onclick="format('italic')">{{ italic_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border" onclick="format('insertUnorderedList')">{{ list_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border" onclick="format('formatBlock', 'h3')">{{ heading_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border" onclick="format('formatBlock', 'a')">{{ hyperlink_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border" onclick="format('formatBlock', 'pre')">{{ code_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border" onclick="format('removeFormat')">{{ delete_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border" onclick="format('indent')">{{ indent_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border" onclick="format('outdent')">{{ outdent_icon(size=25) }}</button>
+    <a class="btn btn-light border float-end me-2" href="{{ url_for('pages.page', id_=page.id) }}">{{ view_icon(size=25, color='gray') }}</a>
+    <span id="saveStatus" class="text-success float-end py-2" style="font-size:0.9em"></span>
   </ul>
   <div contenteditable="true" onchange="savePage({{ page.id }})" id="content" class="border p-3 mb-2 rounded shadow-sm" onpaste="event.preventDefault(); document.execCommand('insertHTML', false, event.clipboardData.getData('text/plain'));" style="white-space: pre-wrap;">{{ page.content | safe }}</div>
   <button type="submit" class="btn bg-dark text-light w-100">Save</button>

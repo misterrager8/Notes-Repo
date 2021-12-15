@@ -98,7 +98,7 @@
 {% endmacro %}
 
 <!--Save Icon-->
-{% macro save_icon(size=20, color='currentcolor') %}
+{% macro download_icon(size=20, color='currentcolor') %}
 <svg class="bi bi-download" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
   <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
@@ -230,11 +230,23 @@
 </svg>
 {% endmacro %}
 
+{% macro clear_icon(size=20, color='gray', class='') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-eraser {{ class }}" viewBox="0 0 16 16">
+  <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm2.121.707a1 1 0 0 0-1.414 0L4.16 7.547l5.293 5.293 4.633-4.633a1 1 0 0 0 0-1.414l-3.879-3.879zM8.746 13.547 3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
+</svg>
+{% endmacro %}
+
+{% macro check_icon(size=20, color='green', class='') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-check-lg {{ class }}" viewBox="0 0 16 16">
+  <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+</svg>
+{% endmacro %}
+
 <!--Page Options Panel-->
 {% macro page_options(page) %}
 <div>
   {% if request.url_rule.endpoint != "pages.page" %}<a class="mx-1 link" data-bs-toggle="modal" data-bs-target="#preview_page_{{ page.id }}">{{ view_icon() }}</a>{% endif %}
-  <a href="{{ url_for('pages.page_plain', id_=page.id) }}" class="mx-1 link" target="_blank">{{ save_icon() }}</a>
+  <a href="{{ url_for('pages.page_plain', id_=page.id) }}" class="mx-1 link" target="_blank">{{ download_icon() }}</a>
   {% if current_user.is_authenticated %}
   <a class="mx-1 link" onclick="bookmarkPage({{ page.id }})">{{ star_icon(page.bookmarked) }}</a>
   <a href="{{ url_for('pages.editor', id_=page.id) }}" class="mx-1 link">{{ edit_icon() }}</a>
@@ -274,15 +286,9 @@
 {% macro sort_pages_filter() %}
 <div>
   <p class="badge p-0 text-dark me-1">Sort By:</p>
-  {% if order_by != 'folders.name' %}
-  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('pages.my_pages', order_by='folders.name') }}">Folder</a>
-  {% endif %}
-  {% if order_by != 'last_modified desc' %}
-  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('pages.my_pages', order_by='last_modified desc') }}">Last Modified</a>
-  {% endif %}
-  {% if order_by != 'title' %}
-  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('pages.my_pages', order_by='title') }}">Title</a>
-  {% endif %}
+  {% if order_by != 'folders.name' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('pages.my_pages', order_by='folders.name') }}">Folder</a>{% endif %}
+  {% if order_by != 'last_modified desc' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('pages.my_pages', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
+  {% if order_by != 'title' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('pages.my_pages', order_by='title') }}">Title</a>{% endif %}
 </div>
 {% endmacro %}
 
@@ -290,22 +296,16 @@
 {% macro sort_folders_filter() %}
 <div>
   <p class="badge p-0 text-dark me-1">Sort By:</p>
-  {% if order_by != 'name' %}
-  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='name') }}">Name</a>
-  {% endif %}
-  {% if order_by != 'color' %}
-  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='color') }}">Color</a>
-  {% endif %}
-  {% if order_by != 'date_created desc' %}
-  <a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>
-  {% endif %}
+  {% if order_by != 'name' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='name') }}">Name</a>{% endif %}
+  {% if order_by != 'color' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='color') }}">Color</a>{% endif %}
+  {% if order_by != 'date_created desc' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
 </div>
 {% endmacro %}
 
 <!--Folder Add Form-->
 {% macro folder_add_form() %}
 <form class="input-group" onsubmit="event.preventDefault(); folderCreate();">
-  <input autocomplete="off" class="form-control" name="name" placeholder="Name" type="text" id="folderName">
+  <input autocomplete="off" class="form-control" placeholder="Name" type="text" id="folderName">
   <button type="submit" class="btn btn-success">+</button>
 </form>
 {% endmacro %}
@@ -313,8 +313,8 @@
 <!--Folder Edit Form-->
 {% macro folder_edit_form(folder) %}
 <form class="form-group" onsubmit="event.preventDefault(); folderUpdate({{ folder.id }});">
-  <input autocomplete="off" class="form-control mb-2" name="name" placeholder="name" type="text" value="{{ folder.name }}" id="folderName{{ folder.id }}">
-  <input class="form-control mb-2" name="color" type="color" value="{{ folder.color }}" id="folderColor{{ folder.id }}">
+  <input autocomplete="off" class="form-control mb-2" placeholder="name" type="text" value="{{ folder.name }}" id="folderName{{ folder.id }}">
+  <input class="form-control mb-2" type="color" value="{{ folder.color }}" id="folderColor{{ folder.id }}">
   <button type="submit" class="btn btn-dark w-100">Edit</button>
 </form>
 {% endmacro %}
@@ -330,28 +330,30 @@
 <!--Page Editor Form-->
 {% macro page_editor_form(page) %}
 <form class="form-group" onsubmit="event.preventDefault(); savePage({{ page.id }});">
-  <input onchange="savePage({{ page.id }})" id="title" autocomplete="off" class="form-control my-2" name="title" placeholder="Title" type="text" value="{{ page.title }}">
-  <select onchange="savePage({{ page.id }})" class="form-control mb-2" name="folder_id" id="folder_id">
+  <input onchange="savePage({{ page.id }})" id="title" autocomplete="off" class="form-control my-2" placeholder="Title" type="text" value="{{ page.title }}">
+  <select onchange="savePage({{ page.id }})" class="form-control mb-2" id="folder_id">
     <option>Select Folder</option>
     {% for i in folders_ %}
     <option value="{{ i.id }}" {% if i.id== page.folder_id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
   <ul class="list-inline mb-2 sticky-top bg-light">
+    <button type="submit" class="btn btn-success border">
+      <span id="done">{{ check_icon(color='white', size=25) }}</span>
+      <span id="loading" style="display: none" class="spinner-border spinner-border-sm"></span>
+    </button>
     <button type="button" class="btn btn-light border" onclick="format('bold')">{{ bold_icon(size=25) }}</button>
     <button type="button" class="btn btn-light border" onclick="format('italic')">{{ italic_icon(size=25) }}</button>
     <button type="button" class="btn btn-light border" onclick="format('insertUnorderedList')">{{ list_icon(size=25) }}</button>
     <button type="button" class="btn btn-light border" onclick="format('formatBlock', 'h3')">{{ heading_icon(size=25) }}</button>
     <button type="button" class="btn btn-light border" onclick="format('formatBlock', 'a')">{{ hyperlink_icon(size=25) }}</button>
     <button type="button" class="btn btn-light border" onclick="format('formatBlock', 'pre')">{{ code_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border" onclick="format('removeFormat')">{{ delete_icon(size=25) }}</button>
+    <button type="button" class="btn btn-light border" onclick="format('removeFormat')">{{ clear_icon(size=25) }}</button>
     <button type="button" class="btn btn-light border" onclick="format('indent')">{{ indent_icon(size=25) }}</button>
     <button type="button" class="btn btn-light border" onclick="format('outdent')">{{ outdent_icon(size=25) }}</button>
-    <a class="btn btn-light border float-end me-2" href="{{ url_for('pages.page', id_=page.id) }}">{{ view_icon(size=25, color='gray') }}</a>
-    <span id="saveStatus" class="text-success float-end py-2" style="font-size:0.9em"></span>
+    <a class="btn btn-light border float-end" href="{{ url_for('pages.page', id_=page.id) }}">{{ view_icon(size=25, color='gray') }}</a>
   </ul>
-  <div contenteditable="true" onchange="savePage({{ page.id }})" id="content" class="border p-3 mb-2 rounded shadow-sm" onpaste="event.preventDefault(); document.execCommand('insertHTML', false, event.clipboardData.getData('text/plain'));" style="white-space: pre-wrap;">{{ page.content | safe }}</div>
-  <button type="submit" class="btn bg-dark text-light w-100">Save</button>
+  <div contenteditable="true" id="content" class="border p-3 mb-2 rounded shadow-sm" style="white-space: pre-wrap;">{{ page.content | safe }}</div>
 </form>
 {% endmacro %}
 

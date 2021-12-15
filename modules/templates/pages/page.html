@@ -3,7 +3,7 @@
 
 {% block body %}
 <title>{{ page.title }}</title>
-<div class="text-center m-5">
+<div class="text-center m-5" id="allPages">
   <p class="h1">{{ page.title }}</p>
   <a href="{{ url_for('folders.folder', id_=page.folder_id) }}" style="background-color:{{ page.folders.color }}" class="badge link text-light my-2">{{ page.folders.name }}</a>
   {{ page_options(page) }}

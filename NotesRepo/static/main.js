@@ -3,6 +3,7 @@ function folderCreate() {
         name : $('#folderName').val()
     }, function(data) {
         refreshDiv('allFolders');
+        refreshDiv('folderCount');
     });
     $('#folderName').val('');
 }
@@ -31,11 +32,11 @@ function folderUpdate(folderId) {
 }
 
 function deletePage(pageId) {
-    $.get('page_delete', { id_ : pageId }, function(data) { refreshDiv('allPages'); });
+    $.get('page_delete', { id_ : pageId }, function(data) { refreshDiv('allPages'); refreshDiv('pageCount'); });
 }
 
 function deleteFolder(folderId) {
-    $.get('folder_delete', { id_ : folderId }, function(data) { refreshDiv('allFolders'); });
+    $.get('folder_delete', { id_ : folderId }, function(data) { refreshDiv('allFolders'); refreshDiv('folderCount'); });
 }
 
 function bookmarkPage(pageId) {

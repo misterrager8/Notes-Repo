@@ -12,7 +12,9 @@ from NotesRepo.models import Folder, Page, Admin
 def inject_recent():
     folders_ = db.session.query(Folder).order_by(text("date_created desc"))
     pages_ = db.session.query(Page).order_by(text("last_modified desc"))
-    return dict(folders_=folders_, pages_=pages_)
+    folders_count = db.session.query(Folder).order_by(text("date_created desc")).count()
+    pages_count = db.session.query(Page).order_by(text("last_modified desc")).count()
+    return dict(folders_=folders_, pages_=pages_, folders_count=folders_count, pages_count=pages_count)
 
 
 @current_app.route("/")

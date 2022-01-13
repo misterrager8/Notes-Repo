@@ -60,10 +60,17 @@ function refreshDiv(divId) {
 }
 
 function changeTheme() {
-    if ($('body').hasClass('alt-theme')) { $('body').removeClass('alt-theme'); }
-    else { $('body').addClass('alt-theme'); }
+    if (localStorage.getItem('notes_repo_theme') == 'default') {
+        $('body').addClass('alt-theme');
+        localStorage.setItem('notes_repo_theme', 'alt')
+    } else {
+        $('body').removeClass('alt-theme');
+        localStorage.setItem('notes_repo_theme', 'default')
+    }
 }
 
 $(document).ready(function () {
-
+    if (localStorage.getItem('notes_repo_theme') != 'default') {
+        $('body').addClass('alt-theme');
+    }
 });

@@ -1,14 +1,14 @@
 :root {
-    --primary-bg-color: black;
-    --secondary-bg-color: white;
-    --primary-txt-color: white;
-    --secondary-txt-color: black;
+    --primary-bg-color: #546A7B;
+    --secondary-bg-color: #0D1F2D;
+    --primary-txt-color: #0D2130;
+    --secondary-txt-color: #DFECF6;
 }
 
 .alt-theme {
-    --primary-bg-color: white;
-    --secondary-bg-color: black;
-    --primary-txt-color: black;
+    --primary-bg-color: #694D75;
+    --secondary-bg-color: #331832;
+    --primary-txt-color: white;
     --secondary-txt-color: white;
 }
 

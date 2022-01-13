@@ -294,7 +294,7 @@
 
 <!--Sort Folders Filter-->
 {% macro sort_folders_filter() %}
-<div class="py-3">
+<div>
   <span class="small me-1">Sort By:</span>
   {% if order_by != 'name' %}<a class="badge link" href="{{ url_for('index', order_by='name') }}">Name</a>{% endif %}
   {% if order_by != 'color' %}<a class="badge link" href="{{ url_for('index', order_by='color') }}">Color</a>{% endif %}

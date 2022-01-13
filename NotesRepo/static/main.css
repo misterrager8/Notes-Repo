@@ -27,6 +27,10 @@ body, .card, .modal-content, .form-control, .dropdown-menu {
     background-color: var(--primary-bg-color) !important;
 }
 
+::placeholder {
+    color: var(--secondary-txt-color) !important;
+}
+
 .link, .link:hover, .dropdown-item {
     text-decoration: none;
     color: inherit;

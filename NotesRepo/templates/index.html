@@ -4,9 +4,11 @@
 {% block body %}
 <title>Notes-Repo</title>
 <div id="allFolders">
-  <a onclick="$('#folderCreate').toggle()" class="link badge">+ New Folder</a>
+  <div class="d-flex justify-content-between pb-3">
+    <a onclick="$('#folderCreate').toggle()" class="link badge">+ New Folder</a>
+    {{ macros.sort_folders_filter() }}
+  </div>
   <div style="display:none" id="folderCreate" class="my-2">{{ macros.folder_add_form() }}</div>
-  {{ macros.sort_folders_filter() }}
   <div class="row border-top">
     {% for i in folders_ %}
     {{ macros.folder_card(i) }}

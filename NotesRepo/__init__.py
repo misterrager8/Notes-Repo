@@ -17,8 +17,8 @@ def create_app(config):
     login_manager.init_app(app)
 
     with app.app_context():
-        from modules.views.folders import folders
-        from modules.views.pages import pages
+        from NotesRepo.views.folders import folders
+        from NotesRepo.views.pages import pages
 
         app.register_blueprint(folders)
         app.register_blueprint(pages)

@@ -1,5 +1,5 @@
 import config
-from modules import create_app
+from NotesRepo import create_app
 
 app = create_app(config)
 

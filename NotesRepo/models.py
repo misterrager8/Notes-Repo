@@ -3,7 +3,7 @@ from flask_login import UserMixin
 from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
-from modules import db
+from NotesRepo import db
 
 
 class Page(db.Model):

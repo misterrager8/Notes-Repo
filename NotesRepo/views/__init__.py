@@ -4,8 +4,8 @@ from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import redirect
 
-from modules import db, login_manager
-from modules.models import Folder, Page, Admin
+from NotesRepo import db, login_manager
+from NotesRepo.models import Folder, Page, Admin
 
 
 @current_app.context_processor

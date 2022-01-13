@@ -4,8 +4,8 @@ from flask import Blueprint, request, render_template, redirect, url_for
 from flask_login import login_required
 from sqlalchemy import text
 
-from modules import db
-from modules.models import Page, Folder
+from NotesRepo import db
+from NotesRepo.models import Page, Folder
 
 pages = Blueprint("pages", __name__)
 

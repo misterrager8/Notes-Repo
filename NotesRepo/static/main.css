@@ -17,7 +17,7 @@
     background-color: var(--secondary-bg-color);
 }
 
-.navbar {
+.navbar, .dropdown-item:hover {
     background-color: var(--secondary-bg-color);
     color: var(--secondary-txt-color);
 }

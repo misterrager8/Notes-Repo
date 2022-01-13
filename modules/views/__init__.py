@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import redirect
 
 from modules import db, login_manager
-from modules.model import Folder, Page, Admin
+from modules.models import Folder, Page, Admin
 
 
 @current_app.context_processor

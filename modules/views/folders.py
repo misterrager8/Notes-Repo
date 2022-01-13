@@ -5,7 +5,7 @@ from flask import Blueprint, request, redirect, render_template
 from flask_login import login_required
 
 from modules import db
-from modules.model import Folder
+from modules.models import Folder
 
 folders = Blueprint("folders", __name__)
 

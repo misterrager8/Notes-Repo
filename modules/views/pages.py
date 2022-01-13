@@ -5,7 +5,7 @@ from flask_login import login_required
 from sqlalchemy import text
 
 from modules import db
-from modules.model import Page, Folder
+from modules.models import Page, Folder
 
 pages = Blueprint("pages", __name__)
 

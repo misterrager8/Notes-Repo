@@ -14,11 +14,17 @@
     <a class="navbar-brand" href="{{ url_for('index') }}">
       {{ macros.navbar_brand_icon(size=30) }}
     </a>
+    <span class="vr me-2"></span>
     <button class="navbar-toggler" data-bs-target="#nav_content" data-bs-toggle="collapse" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="nav_content">
       <ul class="navbar-nav me-auto">
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a class="link" href="{{ url_for('pages.bookmarks') }}">{{ macros.star_icon(true) }}</a>
+        </li>
+        {% endif %}
         <li class="nav-item dropdown" id="folderCount">
           <a class="link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">{{ macros.folder_icon() }}<span class="badge badge-count">{{ folders_count }}</span></a>
           <div class="dropdown-menu">
@@ -37,11 +43,6 @@
             {% endfor %}
           </div>
         </li>
-        {% if current_user.is_authenticated %}
-        <li class="nav-item">
-          <a class="link" href="{{ url_for('pages.bookmarks') }}">{{ macros.star_icon(true) }}</a>
-        </li>
-        {% endif %}
       </ul>
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">

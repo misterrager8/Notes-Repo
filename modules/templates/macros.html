@@ -18,7 +18,7 @@
     <a href="{{ url_for('folders.folder', id_=folder.id) }}" class="link">
       {{ folder_icon(size=100, color=folder.color) }}
       <p class="h4">{{ folder.name }}</p>
-      <p class="badge bg-secondary rounded-pill mb-2">{{ '%s page(s)' % folder.pages|count|string }}</p>
+      <p class="badge mb-2">{{ '%s page(s)' % folder.pages|count|string }}</p>
     </a>
     {{ folder_options(folder) }}
   </div>
@@ -31,7 +31,7 @@
   <div class="card-body p-0 border my-3 rounded shadow-sm">
     <div class="card-header d-flex justify-content-between">
       <a class="link text-truncate fw-bold" data-placement="top" data-toggle="tooltip" href="{{ url_for('pages.page', id_=page.id) }}" title="{{ page.title }}">{{ page.title }}</a>
-      <a class="badge text-light link m-1" href="{{ url_for('folders.folder', id_=page.folder_id) }}" style="background-color:{{ page.folders.color }}">{{ page.folders.name }}</a>
+      <a class="badge link m-1" href="{{ url_for('folders.folder', id_=page.folder_id) }}" style="background-color:{{ page.folders.color }}">{{ page.folders.name }}</a>
     </div>
     <div class="card-body">
       <small class="text-truncate"><span class="fw-bold">Last Modified:</span> {{ page.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
@@ -83,7 +83,7 @@
 {% endmacro %}
 
 <!--Edit Icon-->
-{% macro edit_icon(size=20, color='gray') %}
+{% macro edit_icon(size=20, color='currentcolor') %}
 <svg class="bi bi-pencil" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
 </svg>
@@ -120,7 +120,7 @@
   <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
 </svg>
 {% else %}
-<svg class="bi bi-star" fill="black" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
+<svg class="bi bi-star" fill="currentcolor" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
   <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
 </svg>
 {% endif %}
@@ -140,6 +140,13 @@
 </svg>
 {% endmacro %}
 
+<!--Theme Icon-->
+{% macro theme_icon(size=20, color='currentcolor', class='') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-palette-fill {{ class }}" viewBox="0 0 16 16">
+  <path d="M12.433 10.07C14.133 10.585 16 11.15 16 8a8 8 0 1 0-8 8c1.996 0 1.826-1.504 1.649-3.08-.124-1.101-.252-2.237.351-2.92.465-.527 1.42-.237 2.433.07zM8 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+</svg>
+{% endmacro %}
+
 <!--Lock Icon-->
 {% macro lock_icon(size=20, color='currentcolor') %}
 {% if current_user.is_authenticated %}
@@ -156,46 +163,46 @@
 <!--Visible Icon-->
 {% macro visible_icon(visible, size=20) %}
 {% if visible %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="black" class="bi bi-lightbulb" viewBox="0 0 16 16">
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="currentcolor" class="bi bi-lightbulb" viewBox="0 0 16 16">
   <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1z"/>
 </svg>
 {% else %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="black" class="bi bi-lightbulb-off-fill" viewBox="0 0 16 16">
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="currentcolor" class="bi bi-lightbulb-off-fill" viewBox="0 0 16 16">
   <path d="M2 6c0-.572.08-1.125.23-1.65l8.558 8.559A.5.5 0 0 1 10.5 13h-5a.5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm10.303 4.181L3.818 1.697a6 6 0 0 1 8.484 8.484zM5 14.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1-.5-.5zM2.354 1.646a.5.5 0 1 0-.708.708l12 12a.5.5 0 0 0 .708-.708l-12-12z"/>
 </svg>
 {% endif %}
 {% endmacro %}
 
 <!-- Icon-->
-{% macro bold_icon(size=20, color='gray') %}
+{% macro bold_icon(size=20, color='currentcolor') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-type-bold" viewBox="0 0 16 16">
   <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z"/>
 </svg>
 {% endmacro %}
 
 <!-- Icon-->
-{% macro italic_icon(size=20, color='gray') %}
+{% macro italic_icon(size=20, color='currentcolor') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-type-italic" viewBox="0 0 16 16">
   <path d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z"/>
 </svg>
 {% endmacro %}
 
 <!-- Icon-->
-{% macro list_icon(size=20, color='gray') %}
+{% macro list_icon(size=20, color='currentcolor') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-list-ul" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
 </svg>
 {% endmacro %}
 
 <!-- Icon-->
-{% macro heading_icon(size=20, color='gray') %}
+{% macro heading_icon(size=20, color='currentcolor') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-type-h2" viewBox="0 0 16 16">
   <path d="M7.638 13V3.669H6.38V7.62H1.759V3.67H.5V13h1.258V8.728h4.62V13h1.259zm3.022-6.733v-.048c0-.889.63-1.668 1.716-1.668.957 0 1.675.608 1.675 1.572 0 .855-.554 1.504-1.067 2.085l-3.513 3.999V13H15.5v-1.094h-4.245v-.075l2.481-2.844c.875-.998 1.586-1.784 1.586-2.953 0-1.463-1.155-2.556-2.919-2.556-1.941 0-2.966 1.326-2.966 2.74v.049h1.223z"/>
 </svg>
 {% endmacro %}
 
 <!-- Icon-->
-{% macro hyperlink_icon(size=20, color='gray') %}
+{% macro hyperlink_icon(size=20, color='currentcolor') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-link-45deg" viewBox="0 0 16 16">
   <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
   <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
@@ -203,34 +210,27 @@
 {% endmacro %}
 
 <!-- Icon-->
-{% macro code_icon(size=20, color='gray') %}
+{% macro code_icon(size=20, color='currentcolor') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-code-slash" viewBox="0 0 16 16">
   <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/>
 </svg>
 {% endmacro %}
 
 <!-- Icon-->
-{% macro bookmark_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-bookmark-star-fill" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM8.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z"/>
-</svg>
-{% endmacro %}
-
-<!-- Icon-->
-{% macro indent_icon(size=20, color='gray', class='') %}
+{% macro indent_icon(size=20, color='currentcolor', class='') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-text-indent-left {{ class }}" viewBox="0 0 16 16">
   <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
 </svg>
 {% endmacro %}
 
 <!-- Icon-->
-{% macro outdent_icon(size=20, color='gray', class='') %}
+{% macro outdent_icon(size=20, color='currentcolor', class='') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-text-indent-right {{ class }}" viewBox="0 0 16 16">
   <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2zM2 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
 </svg>
 {% endmacro %}
 
-{% macro clear_icon(size=20, color='gray', class='') %}
+{% macro clear_icon(size=20, color='currentcolor', class='') %}
 <svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-eraser {{ class }}" viewBox="0 0 16 16">
   <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm2.121.707a1 1 0 0 0-1.414 0L4.16 7.547l5.293 5.293 4.633-4.633a1 1 0 0 0 0-1.414l-3.879-3.879zM8.746 13.547 3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
 </svg>
@@ -284,21 +284,21 @@
 
 <!--Sort Pages Filter-->
 {% macro sort_pages_filter() %}
-<div>
-  <p class="badge p-0 text-dark me-1">Sort By:</p>
-  {% if order_by != 'folders.name' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('pages.my_pages', order_by='folders.name') }}">Folder</a>{% endif %}
-  {% if order_by != 'last_modified desc' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('pages.my_pages', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
-  {% if order_by != 'title' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('pages.my_pages', order_by='title') }}">Title</a>{% endif %}
+<div class="py-3">
+  <span class="small me-1">Sort By:</span>
+  {% if order_by != 'folders.name' %}<a class="badge link" href="{{ url_for('pages.my_pages', order_by='folders.name') }}">Folder</a>{% endif %}
+  {% if order_by != 'last_modified desc' %}<a class="badge link" href="{{ url_for('pages.my_pages', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
+  {% if order_by != 'title' %}<a class="badge link" href="{{ url_for('pages.my_pages', order_by='title') }}">Title</a>{% endif %}
 </div>
 {% endmacro %}
 
 <!--Sort Folders Filter-->
 {% macro sort_folders_filter() %}
-<div>
-  <p class="badge p-0 text-dark me-1">Sort By:</p>
-  {% if order_by != 'name' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='name') }}">Name</a>{% endif %}
-  {% if order_by != 'color' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='color') }}">Color</a>{% endif %}
-  {% if order_by != 'date_created desc' %}<a class="badge link bg-dark text-light rounded-pill" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
+<div class="py-3">
+  <span class="small me-1">Sort By:</span>
+  {% if order_by != 'name' %}<a class="badge link" href="{{ url_for('index', order_by='name') }}">Name</a>{% endif %}
+  {% if order_by != 'color' %}<a class="badge link" href="{{ url_for('index', order_by='color') }}">Color</a>{% endif %}
+  {% if order_by != 'date_created desc' %}<a class="badge link" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
 </div>
 {% endmacro %}
 
@@ -306,7 +306,7 @@
 {% macro folder_add_form() %}
 <form class="input-group" onsubmit="event.preventDefault(); folderCreate();">
   <input autocomplete="off" class="form-control" placeholder="Name" type="text" id="folderName">
-  <button type="submit" class="btn btn-success">+</button>
+  <button type="submit" class="btn btn-custom">+</button>
 </form>
 {% endmacro %}
 
@@ -315,7 +315,7 @@
 <form class="form-group" onsubmit="event.preventDefault(); folderUpdate({{ folder.id }});">
   <input autocomplete="off" class="form-control mb-2" placeholder="name" type="text" value="{{ folder.name }}" id="folderName{{ folder.id }}">
   <input class="form-control mb-2" type="color" value="{{ folder.color }}" id="folderColor{{ folder.id }}">
-  <button type="submit" class="btn btn-dark w-100">Edit</button>
+  <button type="submit" class="btn btn-custom w-100">Edit</button>
 </form>
 {% endmacro %}
 
@@ -323,45 +323,45 @@
 {% macro page_add_form(folder) %}
 <form action="{{ url_for('pages.page_create', id_=folder.id) }}" class="input-group" method="POST">
   <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text">
-  <button type="submit" class="btn bg-dark text-light">+</button>
+  <button type="submit" class="btn btn-custom">+</button>
 </form>
 {% endmacro %}
 
 <!--Page Editor Form-->
 {% macro page_editor_form(page) %}
 <form class="form-group" onsubmit="event.preventDefault(); savePage({{ page.id }});">
-  <input onchange="savePage({{ page.id }})" id="title" autocomplete="off" class="form-control my-2" placeholder="Title" type="text" value="{{ page.title }}">
+  <input onchange="savePage({{ page.id }})" id="title" autocomplete="off" class="form-control mb-2" placeholder="Title" type="text" value="{{ page.title }}">
   <select onchange="savePage({{ page.id }})" class="form-control mb-2" id="folder_id">
     <option>Select Folder</option>
     {% for i in folders_ %}
     <option value="{{ i.id }}" {% if i.id== page.folder_id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
-  <ul class="list-inline mb-2 sticky-top bg-light">
+  <ul class="list-inline mb-2 sticky-top">
     <button type="submit" class="btn btn-success border">
       <span id="done">{{ check_icon(color='white', size=25) }}</span>
       <span id="loading" style="display: none" class="spinner-border spinner-border-sm"></span>
     </button>
-    <button type="button" class="btn btn-light border" onclick="format('bold')">{{ bold_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border" onclick="format('italic')">{{ italic_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border" onclick="format('insertUnorderedList')">{{ list_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border" onclick="format('formatBlock', 'h3')">{{ heading_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border" onclick="format('formatBlock', 'a')">{{ hyperlink_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border" onclick="format('formatBlock', 'pre')">{{ code_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border" onclick="format('removeFormat')">{{ clear_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border" onclick="format('indent')">{{ indent_icon(size=25) }}</button>
-    <button type="button" class="btn btn-light border" onclick="format('outdent')">{{ outdent_icon(size=25) }}</button>
-    <a class="btn btn-light border float-end" href="{{ url_for('pages.page', id_=page.id) }}">{{ view_icon(size=25, color='gray') }}</a>
+    <button type="button" class="btn btn-custom border" onclick="format('bold')">{{ bold_icon(size=25) }}</button>
+    <button type="button" class="btn btn-custom border" onclick="format('italic')">{{ italic_icon(size=25) }}</button>
+    <button type="button" class="btn btn-custom border" onclick="format('insertUnorderedList')">{{ list_icon(size=25) }}</button>
+    <button type="button" class="btn btn-custom border" onclick="format('formatBlock', 'h3')">{{ heading_icon(size=25) }}</button>
+    <button type="button" class="btn btn-custom border" onclick="format('formatBlock', 'a')">{{ hyperlink_icon(size=25) }}</button>
+    <button type="button" class="btn btn-custom border" onclick="format('formatBlock', 'pre')">{{ code_icon(size=25) }}</button>
+    <button type="button" class="btn btn-custom border" onclick="format('removeFormat')">{{ clear_icon(size=25) }}</button>
+    <button type="button" class="btn btn-custom border" onclick="format('indent')">{{ indent_icon(size=25) }}</button>
+    <button type="button" class="btn btn-custom border" onclick="format('outdent')">{{ outdent_icon(size=25) }}</button>
+    <a class="btn btn-custom border float-end" href="{{ url_for('pages.page', id_=page.id) }}">{{ view_icon(size=25) }}</a>
   </ul>
-  <div contenteditable="true" id="content" class="border p-3 mb-2 rounded shadow-sm" style="white-space: pre-wrap;">{{ page.content | safe }}</div>
+  <div contenteditable="true" id="content" class="border p-3 rounded" style="white-space: pre-wrap;">{{ page.content | safe }}</div>
 </form>
 {% endmacro %}
 
 <!--User Login Form-->
 {% macro user_login_form() %}
-<form method="post" action="{{ url_for('login') }}">
+<form method="POST" action="{{ url_for('login') }}">
   <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Username" name="username">
   <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
-  <button type="submit" class="btn btn-dark w-100">Log-In</button>
+  <button type="submit" class="btn btn-custom w-100">Log-In</button>
 </form>
 {% endmacro %}

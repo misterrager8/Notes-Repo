@@ -58,3 +58,12 @@ function showProgress() {
 function refreshDiv(divId) {
     $('#' + divId).load(location.href + ' #' + divId);
 }
+
+function changeTheme() {
+    if ($('body').hasClass('alt-theme')) { $('body').removeClass('alt-theme'); }
+    else { $('body').addClass('alt-theme'); }
+}
+
+$(document).ready(function () {
+
+});

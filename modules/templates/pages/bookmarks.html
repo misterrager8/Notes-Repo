@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% import "macros.html" as macros %}
+{% import "macros.html" as macros with context %}
 
 {% block body %}
 <title>Bookmarks</title>
-<div class="row mt-5" id="allPages">
+<div class="row" id="allPages">
   {% for i in bookmarks_ %}
   {{ macros.page_card(i) }}
   {% endfor %}

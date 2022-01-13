@@ -1,8 +1,50 @@
-.link, .link:hover {
+:root {
+    --primary-bg-color: black;
+    --secondary-bg-color: white;
+    --primary-txt-color: white;
+    --secondary-txt-color: black;
+}
+
+.alt-theme {
+    --primary-bg-color: white;
+    --secondary-bg-color: black;
+    --primary-txt-color: black;
+    --secondary-txt-color: white;
+}
+
+.badge, .btn-custom {
+    color: var(--secondary-txt-color) !important;
+    background-color: var(--secondary-bg-color);
+}
+
+.navbar {
+    background-color: var(--secondary-bg-color);
+    color: var(--secondary-txt-color);
+}
+
+body, .card, .modal-content, .form-control, .dropdown-menu {
+    color: var(--primary-txt-color) !important;
+    background-color: var(--primary-bg-color) !important;
+}
+
+.link, .link:hover, .dropdown-item {
     text-decoration: none;
     color: inherit;
 }
 
+.navbar-brand {
+    color: var(--secondary-txt-color) !important;
+}
+
 a:hover {
     cursor: pointer;
+}
+
+.badge {
+    border-radius: 8px;
+    padding: 5px 10px;
+}
+
+.nav-item {
+    margin: 0px 10px;
 }

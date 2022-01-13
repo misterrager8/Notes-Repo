@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% from "macros.html" import page_options, badge, paragraph with context %}
+{% import "macros.html" as macros with context %}
 
 {% block body %}
 <title>{{ page.title }}</title>
-<div class="text-center m-5" id="allPages">
+<div class="text-center mb-5" id="allPages">
   <p class="h1">{{ page.title }}</p>
-  <a href="{{ url_for('folders.folder', id_=page.folder_id) }}" style="background-color:{{ page.folders.color }}" class="badge link text-light my-2">{{ page.folders.name }}</a>
-  {{ page_options(page) }}
+  <a href="{{ url_for('folders.folder', id_=page.folder_id) }}" style="background-color:{{ page.folders.color }}" class="badge link my-2">{{ page.folders.name }}</a>
+  {{ macros.page_options(page) }}
 </div>
 <div>{{ page.content | safe }}</div>
 {% endblock %}

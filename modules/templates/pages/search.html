@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% import "macros.html" as macros %}
+{% import "macros.html" as macros with context %}
 
 {% block body %}
 <title>Pages</title>
-<p class="h1 m-3 text-center">{{ header }}</p>
+<p class="h1 mb-3 text-center">{{ header }}</p>
 <div class="row">
   {% for i in results %}
   {{ macros.page_card(i) }}

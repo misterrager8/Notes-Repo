@@ -2,7 +2,7 @@
 
 ## Description
 
-Notes-Repo is a place where you can make notes (referred to as **Pages** in-code) about whatever topics interest you, and manage them in an easy and convenient way. You can set bookmarks for quick access to the Pages you find most important. You can make folders to organize your Pages according to topic. Pages can also be searched for and saved in an .md file for offline viewing.
+Notes-Repo is a place where you can make notes (referred to as **Notes** in-code) about whatever topics interest you, and manage them in an easy and convenient way. You can set bookmarks for quick access to the Notes you find most important. You can make folders to organize your Notes according to topic. Notes can also be searched for and saved in an .md file for offline viewing.
 
 ### Tools used:
 
@@ -28,7 +28,7 @@ Send me a GitHub PM for any questions/concerns.
 - [ ] Feature to download entire folders
 - [ ] Add docstrings
 - [ ] Flask login implementation for user accounts
-- [ ] Publish Page to Reddit (via PRAW)
+- [ ] Publish Note to Reddit (via PRAW)
 
 ## Contributing
 

@@ -1,34 +1,34 @@
 :root {
-    --primary-bg-color: #546A7B;
-    --secondary-bg-color: #0D1F2D;
-    --primary-txt-color: #0D2130;
-    --secondary-txt-color: #DFECF6;
+    --navbar-bg: white;
+    --navbar-txt: black;
+    --body-bg: black;
+    --body-txt: white;
 }
 
 .alt-theme {
-    --primary-bg-color: #694D75;
-    --secondary-bg-color: #331832;
-    --primary-txt-color: white;
-    --secondary-txt-color: white;
+    --navbar-bg: black;
+    --navbar-txt: white;
+    --body-bg: white;
+    --body-txt: black;
 }
 
-.badge, .btn-custom {
-    color: var(--secondary-txt-color) !important;
-    background-color: var(--secondary-bg-color);
+.badge-custom, .btn-custom {
+    color: var(--navbar-txt) !important;
+    background-color: var(--navbar-bg);
+}
+
+.card {
+    border: 0;
 }
 
 .navbar, .dropdown-item:hover {
-    background-color: var(--secondary-bg-color);
-    color: var(--secondary-txt-color);
+    background-color: var(--navbar-bg);
+    color: var(--navbar-txt);
 }
 
 body, .card, .modal-content, .form-control, .dropdown-menu {
-    color: var(--primary-txt-color) !important;
-    background-color: var(--primary-bg-color) !important;
-}
-
-::placeholder {
-    color: var(--secondary-txt-color) !important;
+    color: var(--body-txt) !important;
+    background-color: var(--body-bg) !important;
 }
 
 .link, .link:hover, .dropdown-item {
@@ -36,19 +36,6 @@ body, .card, .modal-content, .form-control, .dropdown-menu {
     color: inherit;
 }
 
-.navbar-brand {
-    color: var(--secondary-txt-color) !important;
-}
-
 a:hover {
     cursor: pointer;
-}
-
-.badge {
-    border-radius: 8px;
-    padding: 5px 10px;
-}
-
-.nav-item {
-    margin: 0px 10px;
 }

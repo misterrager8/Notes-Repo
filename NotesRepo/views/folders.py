@@ -2,21 +2,41 @@ import random
 from datetime import datetime
 
 from flask import Blueprint, request, redirect, render_template
-from flask_login import login_required
+from flask_login import login_required, current_user
 
-from NotesRepo import db
+from NotesRepo.ctrla import Database
 from NotesRepo.models import Folder
 
 folders = Blueprint("folders", __name__)
+database = Database()
 
 
 @folders.route("/folder_create", methods=["POST"])
 @login_required
 def folder_create():
-    db.session.add(Folder(name=request.form["name"].title(),
-                          color="#{:06x}".format(random.randint(0, 0xFFFFFF)),
-                          date_created=datetime.now()))
-    db.session.commit()
+    database.create(Folder(name=request.form["name"].title(),
+                           color="#{:06x}".format(random.randint(0, 0xFFFFFF)),
+                           date_created=datetime.now(),
+                           user_id=current_user.id))
+
+    return redirect(request.referrer)
+
+
+@folders.route("/folder")
+def folder():
+    folder_: Folder = database.get(Folder, request.args.get("id_"))
+
+    return render_template("folder.html", folder=folder_)
+
+
+@folders.route("/folder_edit", methods=["POST"])
+@login_required
+def folder_edit():
+    folder_: Folder = database.get(Folder, int(request.form["id_"]))
+
+    folder_.name = request.form["name"]
+    folder_.color = request.form["color"]
+    database.update()
 
     return redirect(request.referrer)
 
@@ -24,27 +44,7 @@ def folder_create():
 @folders.route("/folder_delete")
 @login_required
 def folder_delete():
-    _: Folder = db.session.query(Folder).get(request.args.get("id_"))
-    db.session.delete(_)
-    db.session.commit()
+    _: Folder = database.get(Folder, request.args.get("id_"))
+    database.delete(_)
 
     return redirect(request.referrer)
-
-
-@folders.route("/folder_update", methods=["POST"])
-@login_required
-def folder_update():
-    folder_: Folder = db.session.query(Folder).get(int(request.form["id_"]))
-
-    folder_.name = request.form["name"]
-    folder_.color = request.form["color"]
-    db.session.commit()
-
-    return redirect(request.referrer)
-
-
-@folders.route("/folder")
-def folder():
-    folder_: Folder = db.session.query(Folder).get(request.args.get("id_"))
-
-    return render_template("folders/folder.html", folder=folder_)

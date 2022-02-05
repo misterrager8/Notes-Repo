@@ -1,10 +1,11 @@
 Flask~=2.0.1
 Markdown~=3.2.1
-SQLAlchemy~=1.3.23
+SQLAlchemy~=1.4.29
 python-dotenv~=0.19.0
 PyMySQL~=1.0.2
 Werkzeug~=2.0.1
 gunicorn
 flask_sqlalchemy
 flask_login
-requests
+requests~=2.26.0
+beautifulsoup4~=4.9.3

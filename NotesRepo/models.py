@@ -1,35 +1,31 @@
-import markdown
 from flask_login import UserMixin
-from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean
+from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean, text
 from sqlalchemy.orm import relationship
 
 from NotesRepo import db
 
 
-class Page(db.Model):
-    __tablename__ = "pages"
+class User(UserMixin, db.Model):
+    __tablename__ = "users"
 
-    title = Column(Text)
-    content = Column(Text)
-    date_created = Column(DateTime)
-    last_modified = Column(DateTime)
-    bookmarked = Column(Boolean, default=False)
-    visible = Column(Boolean, default=True)
-    folder_id = Column(Integer, ForeignKey("folders.id"))
+    username = Column(Text)
+    password = Column(Text)
+    folders = relationship("Folder", backref="users", lazy="dynamic")
+    notes = relationship("Note", backref="users", lazy="dynamic")
+    links = relationship("Link", backref="users", lazy="dynamic")
     id = Column(Integer, primary_key=True)
 
     def __init__(self, **kwargs):
-        super(Page, self).__init__(**kwargs)
+        super(User, self).__init__(**kwargs)
 
-    def content_to_html(self) -> str:
-        html = markdown.markdown(self.content)
-        return html
+    def get_folders(self, filter_: str = "", order_by: str = "date_created desc"):
+        return self.folders.filter(text(filter_)).order_by(text(order_by))
 
-    def __str__(self):
-        return "%s,%s,%s,%s" % (self.title,
-                                self.date_created,
-                                self.last_modified,
-                                self.folders.name)
+    def get_notes(self, filter_: str = "", order_by: str = "last_modified desc"):
+        return self.notes.filter(text(filter_)).order_by(text(order_by))
+
+    def get_links(self, order_by: str = "date_added desc"):
+        return self.links.order_by(text(order_by))
 
 
 class Folder(db.Model):
@@ -38,27 +34,42 @@ class Folder(db.Model):
     name = Column(Text)
     color = Column(Text)
     date_created = Column(DateTime)
-    pages = relationship("Page", backref="folders")
+    notes = relationship("Note", backref="folders", lazy="dynamic")
+    user_id = Column(Integer, ForeignKey("users.id"))
     id = Column(Integer, primary_key=True)
 
     def __init__(self, **kwargs):
         super(Folder, self).__init__(**kwargs)
 
-    def __str__(self):
-        return "%s,%s,%s" % (self.name,
-                             self.color,
-                             self.date_created)
+    def get_notes(self, filter_: str = "", order_by: str = "last_modified desc"):
+        return self.notes.filter(text(filter_)).order_by(text(order_by))
 
 
-class Admin(UserMixin, db.Model):
-    __tablename__ = "admin"
+class Note(db.Model):
+    __tablename__ = "notes"
 
-    username = Column(Text)
-    password = Column(Text)
+    title = Column(Text)
+    content = Column(Text)
+    date_created = Column(DateTime)
+    last_modified = Column(DateTime)
+    visible = Column(Boolean, default=True)
+    folder_id = Column(Integer, ForeignKey("folders.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
     id = Column(Integer, primary_key=True)
 
     def __init__(self, **kwargs):
-        super(Admin, self).__init__(**kwargs)
+        super(Note, self).__init__(**kwargs)
 
-    def __str__(self):
-        return "%s" % self.username
+
+class Link(db.Model):
+    __tablename__ = "links"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    title = Column(Text)
+    url = Column(Text)
+    been_read = Column(Boolean, default=False)
+    date_added = Column(DateTime)
+
+    def __init__(self, **kwargs):
+        super(Link, self).__init__(**kwargs)

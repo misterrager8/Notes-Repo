@@ -8,11 +8,9 @@
   {{ macros.folder_options(folder) }}
 </div>
 
-<div class="row" id="allPages">
-  {% for i in folder.pages %}
-  {% if not current_user.is_anonymous or i.visible %}
-  {{ macros.page_card(i) }}
-  {% endif %}
+<div class="row">
+  {% for i in folder.get_notes() %}
+  {{ macros.note_card(i) }}
   {% endfor %}
 </div>
 

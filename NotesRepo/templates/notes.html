@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros with context %}
+
+{% block body %}
+<title>Notes</title>
+{% if not current_user.is_anonymous %}
+<div>
+  <div class="row border-top">
+    {% for i in current_user.get_notes() %}
+    {{ macros.note_card(i) }}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

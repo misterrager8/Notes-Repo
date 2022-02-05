@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros with context %}
+
+{% block body %}
+<title>{{ note.title }}</title>
+<div class="text-center mb-5">
+  <p class="h1">{{ note.title }}</p>
+  <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" style="background-color:{{ note.folders.color }}" class="badge link my-2">{{ note.folders.name }}</a>
+  {{ macros.note_options(note) }}
+</div>
+<div>{{ note.content | safe }}</div>
+{% endblock %}

@@ -3,16 +3,15 @@
 
 {% block body %}
 <title>Notes-Repo</title>
-<div id="allFolders">
-  <div class="d-flex justify-content-between pb-3">
-    <a onclick="$('#folderCreate').toggle()" class="link badge">+ New Folder</a>
-    {{ macros.sort_folders_filter() }}
-  </div>
-  <div style="display:none" id="folderCreate" class="my-2">{{ macros.folder_add_form() }}</div>
-  <div class="row border-top">
-    {% for i in folders_ %}
+{% if not current_user.is_anonymous %}
+<div>
+  <a class="link badge badge-custom" onclick="$('#folderCreate').toggle()">+ New Folder</a>
+  <div class="my-2" id="folderCreate" style="display:none">{{ macros.folder_create_form() }}</div>
+  <div class="row">
+    {% for i in current_user.get_folders() %}
     {{ macros.folder_card(i) }}
     {% endfor %}
   </div>
 </div>
+{% endif %}
 {% endblock %}

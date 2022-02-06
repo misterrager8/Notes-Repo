@@ -74,17 +74,6 @@ def editor():
         return render_template("editor.html", note=note_)
 
 
-@notes.route("/note_visibility")
-@login_required
-def note_visibility():
-    note_: Note = db.session.query(Note).get(request.args.get("id_"))
-
-    note_.visible = not note_.visible
-    db.session.commit()
-
-    return redirect(request.referrer)
-
-
 @notes.route("/search", methods=["POST", "GET"])
 def search():
     if request.method == "POST":

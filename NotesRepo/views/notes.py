@@ -35,7 +35,7 @@ def note_plain():
 def note_create():
     folder_: Folder = database.get(Folder, request.args.get("id_"))
 
-    _ = Note(title=request.form["title"].title(),
+    _ = Note(title=request.form["title"],
              content="",
              folder_id=folder_.id,
              date_created=datetime.now(),

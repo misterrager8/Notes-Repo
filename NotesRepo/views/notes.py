@@ -16,6 +16,11 @@ def notes_():
     return render_template("notes.html")
 
 
+@notes.route("/favorites")
+def favorites():
+    return render_template("favorites.html")
+
+
 @notes.route("/note")
 def note():
     note_: Note = database.get(Note, request.args.get("id_"))
@@ -50,6 +55,16 @@ def note_create():
 def note_delete():
     _: Note = database.get(Note, request.args.get("id_"))
     database.delete(_)
+
+    return redirect(request.referrer)
+
+
+@notes.route("/note_favorite")
+@login_required
+def note_favorite():
+    _: Note = database.get(Note, request.args.get("id_"))
+    _.favorited = not _.favorited
+    database.update()
 
     return redirect(request.referrer)
 

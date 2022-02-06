@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% import "macros.html" as macros with context %}
+
+{% block body %}
+<title>Favorites</title>
+<div class="row">
+  {% for i in current_user.get_notes(filter_='favorited') %}
+  {{ macros.note_card(i) }}
+  {% endfor %}
+</div>
+{% endblock %}

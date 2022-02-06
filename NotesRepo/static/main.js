@@ -56,6 +56,14 @@ function noteDelete(noteId) {
     });
 }
 
+function noteFavorite(noteId) {
+    $.get('note_favorite', {
+        id_: noteId
+    }, function(data) {
+        refreshPage();
+    });
+}
+
 // Folders
 
 function folderCreate() {

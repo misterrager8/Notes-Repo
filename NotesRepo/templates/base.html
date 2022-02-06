@@ -41,6 +41,9 @@
         <li class="nav-item dropdown">
           <a class="nav-link" href="{{ url_for('links.links_') }}">{{ macros.hyperlink_icon() }}<span class="badge badge-custom">{{ current_user.get_links().count() }}</span></a>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="{{ url_for('notes.favorites') }}">{{ macros.star_icon(true) }}<span class="badge badge-custom">{{ current_user.get_notes(filter_='favorited').count() }}</span></a>
+        </li>
         {% endif %}
       </ul>
       <ul class="navbar-nav ms-auto">

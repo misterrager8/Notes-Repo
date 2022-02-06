@@ -52,7 +52,7 @@ class Note(db.Model):
     content = Column(Text)
     date_created = Column(DateTime)
     last_modified = Column(DateTime)
-    visible = Column(Boolean, default=True)
+    favorited = Column(Boolean, default=False)
     folder_id = Column(Integer, ForeignKey("folders.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
     id = Column(Integer, primary_key=True)

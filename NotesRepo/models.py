@@ -24,8 +24,8 @@ class User(UserMixin, db.Model):
     def get_notes(self, filter_: str = "", order_by: str = "last_modified desc"):
         return self.notes.filter(text(filter_)).order_by(text(order_by))
 
-    def get_links(self, order_by: str = "date_added desc"):
-        return self.links.order_by(text(order_by))
+    def get_links(self, filter_: str = "", order_by: str = "date_added desc"):
+        return self.links.filter(text(filter_)).order_by(text(order_by))
 
 
 class Folder(db.Model):

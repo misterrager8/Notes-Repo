@@ -21,6 +21,13 @@
     border: 0;
 }
 
+.note-card, .link-card, .folder-card {
+    margin-top: 25px;
+    border: 3px solid var(--body-txt);
+    border-radius: 10px;
+    padding: 20px;
+}
+
 .navbar, .dropdown-item:hover {
     background-color: var(--navbar-bg);
     color: var(--navbar-txt);

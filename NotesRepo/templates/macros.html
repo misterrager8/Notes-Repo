@@ -145,6 +145,12 @@
 </svg>
 {% endmacro %}
 
+{% macro circle_icon(size, color, class='') %}
+<svg class="bi bi-circle-fill {{ class }}" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="8" cy="8" r="8"/>
+</svg>
+{% endmacro %}
+
 <!--BOXES-->
 {% macro modal(modal_id, class='', large=false) %}
 <div class="modal {{ class }}" id="{{ modal_id }}">

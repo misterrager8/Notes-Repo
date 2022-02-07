@@ -328,3 +328,21 @@
   <button class="btn btn-custom w-100">Edit</button>
 </form>
 {% endmacro %}
+
+<!--SORTERS-->
+
+{% macro note_sorter() %}
+<div>
+  <span class="badge">Sort: </span>
+  {% if order_by != 'last_modified desc' %}<a class="badge badge-custom link" href="{{ url_for('notes.notes_', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
+  {% if order_by != 'date_created desc' %}<a class="badge badge-custom link" href="{{ url_for('notes.notes_', order_by='date_created desc') }}">Date Created</a>{% endif %}
+</div>
+{% endmacro %}
+
+{% macro folder_sorter() %}
+<div>
+  <span class="badge">Sort: </span>
+  {% if order_by != 'date_created desc' %}<a class="badge badge-custom link" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
+  {% if order_by != 'name' %}<a class="badge badge-custom link" href="{{ url_for('index', order_by='name') }}">Name</a>{% endif %}
+</div>
+{% endmacro %}

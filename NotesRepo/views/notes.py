@@ -13,7 +13,8 @@ database = Database()
 
 @notes.route("/notes_")
 def notes_():
-    return render_template("notes.html")
+    order_by = request.args.get("order_by", default="last_modified desc")
+    return render_template("notes.html", order_by=order_by)
 
 
 @notes.route("/favorites")

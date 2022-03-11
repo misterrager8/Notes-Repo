@@ -29,13 +29,6 @@ def note():
     return render_template("note.html", note=note_)
 
 
-@notes.route("/note_plain")
-def note_plain():
-    note_: Note = database.get(Note, request.args.get("id_"))
-
-    return "<title>%s [PLAIN]</title><div style=\"white-space: pre-wrap;\">%s</div>" % (note_.title, note_.content)
-
-
 @notes.route("/note_create", methods=["POST"])
 @login_required
 def note_create():

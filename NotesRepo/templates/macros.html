@@ -203,7 +203,6 @@
 <div>
   {% if request.url_rule.endpoint != "notes.note" %}<a class="mx-1 link" data-bs-toggle="modal" data-bs-target="#previewNote{{ note.id }}">{{ view_icon() }}</a>{% endif %}
   <a class="link mx-1" onclick="noteFavorite({{ note.id }})">{{ star_icon(note.favorited) }}</a>
-  <a href="{{ url_for('notes.note_plain', id_=note.id) }}" class="mx-1 link" target="_blank">{{ download_icon() }}</a>
   <a href="{{ url_for('notes.editor', id_=note.id) }}" class="mx-1 link">{{ edit_icon() }}</a>
   <a class="mx-1 link" onclick="$('#deleteNote' + {{ note.id }}).toggle()">{{ delete_icon() }}</a>
   <a class="link badge text-danger" style="display:none" id="deleteNote{{ note.id }}" onclick="noteDelete({{ note.id }})">Delete?</a>

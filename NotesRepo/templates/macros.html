@@ -278,7 +278,7 @@
 {% macro folder_edit_form(folder) %}
 <form class="input-group" onsubmit="event.preventDefault(); folderEdit({{ folder.id }});">
   <input autocomplete="off" class="form-control" placeholder="name" type="text" value="{{ folder.name }}" id="name{{ folder.id }}">
-  <input class="form-control" type="color" value="{{ folder.color }}" id="color{{ folder.id }}" style="height:inherit">
+  <input class="input-group-append" type="color" value="{{ folder.color }}" id="color{{ folder.id }}" style="height:inherit">
   <button type="submit" class="btn btn-custom">{{ edit_icon() }}</button>
 </form>
 {% endmacro %}
@@ -293,7 +293,7 @@
 {% macro note_editor_form(note) %}
 <form class="form-group" onsubmit="event.preventDefault(); noteEdit({{ note.id }});">
   <input onchange="noteEdit({{ note.id }})" id="title" autocomplete="off" class="form-control mb-2" placeholder="Title" type="text" value="{{ note.title }}">
-  <select onchange="noteEdit({{ note.id }})" class="form-control mb-2" id="folderId">
+  <select onchange="noteEdit({{ note.id }})" class="form-control mb-2" id="folderId" style="border: 3px solid {{ note.folders.color }}">
     <option>Select Folder</option>
     {% for i in current_user.get_folders() %}
     <option value="{{ i.id }}" {% if i.id== note.folder_id %}selected{% endif %}>{{ i.name }}</option>
@@ -304,6 +304,7 @@
       <span id="done">{{ check_icon(color='white', size=25) }}</span>
       <span id="loading" style="display: none" class="spinner-border spinner-border-sm"></span>
     </button>
+    <a class="btn btn-secondary border" href="{{ url_for('notes.note', id_=note.id) }}">{{ view_icon(size=25) }}</a>
     <button type="button" class="btn btn-custom border" onclick="format('bold')">{{ bold_icon(size=25) }}</button>
     <button type="button" class="btn btn-custom border" onclick="format('italic')">{{ italic_icon(size=25) }}</button>
     <button type="button" class="btn btn-custom border" onclick="format('insertUnorderedList')">{{ bullet_list_icon(size=25) }}</button>
@@ -313,7 +314,6 @@
     <button type="button" class="btn btn-custom border" onclick="format('removeFormat')">{{ clear_icon(size=25) }}</button>
     <button type="button" class="btn btn-custom border" onclick="format('indent')">{{ indent_icon(size=25) }}</button>
     <button type="button" class="btn btn-custom border" onclick="format('outdent')">{{ outdent_icon(size=25) }}</button>
-    <a class="btn btn-custom border float-end" href="{{ url_for('notes.note', id_=note.id) }}">{{ view_icon(size=25) }}</a>
   </ul>
   <div contenteditable="true" id="content" class="form-control mb-2" style="white-space: pre-wrap;" onkeydown="shortcut(event)">{{ note.content | safe }}</div>
 </form>
@@ -339,7 +339,7 @@
 
 {% macro note_sorter() %}
 <div>
-  <span class="badge">Sort: </span>
+  <span class="badge ps-0">Sort: </span>
   {% if order_by != 'last_modified desc' %}<a class="badge badge-custom link" href="{{ url_for('notes.notes_', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
   {% if order_by != 'date_created desc' %}<a class="badge badge-custom link" href="{{ url_for('notes.notes_', order_by='date_created desc') }}">Date Created</a>{% endif %}
 </div>
@@ -347,7 +347,7 @@
 
 {% macro folder_sorter() %}
 <div>
-  <span class="badge">Sort: </span>
+  <span class="badge ps-0">Sort: </span>
   {% if order_by != 'date_created desc' %}<a class="badge badge-custom link" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
   {% if order_by != 'name' %}<a class="badge badge-custom link" href="{{ url_for('index', order_by='name') }}">Name</a>{% endif %}
 </div>

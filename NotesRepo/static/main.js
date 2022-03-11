@@ -33,6 +33,20 @@ function format(cmd, val) {
     document.execCommand(cmd, false, val);
 }
 
+function shortcut(event) {
+    if (event.ctrlKey) {
+        switch (event.key) {
+            case 'b':
+                format('bold');
+                break;
+            case 'i':
+                format('italic');
+        }
+    } else if (event.key === '(') { event.preventDefault(); format('insertText', '(' + window.getSelection() + ')');
+    } else if (event.key === '[') { event.preventDefault(); format('insertText', '[' + window.getSelection() + ']');
+    } else if (event.key === '{') { event.preventDefault(); format('insertText', '{' + window.getSelection() + '}'); }
+}
+
 // Notes
 
 function noteEdit(noteId) {

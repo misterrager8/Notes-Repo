@@ -315,7 +315,7 @@
     <button type="button" class="btn btn-custom border" onclick="format('outdent')">{{ outdent_icon(size=25) }}</button>
     <a class="btn btn-custom border float-end" href="{{ url_for('notes.note', id_=note.id) }}">{{ view_icon(size=25) }}</a>
   </ul>
-  <div contenteditable="true" id="content" class="form-control mb-2" style="white-space: pre-wrap;">{{ note.content | safe }}</div>
+  <div contenteditable="true" id="content" class="form-control mb-2" style="white-space: pre-wrap;" onkeydown="shortcut(event)">{{ note.content | safe }}</div>
 </form>
 {% endmacro %}
 

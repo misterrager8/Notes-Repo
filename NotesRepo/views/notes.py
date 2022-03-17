@@ -12,17 +12,20 @@ database = Database()
 
 
 @notes.route("/notes_")
+@login_required
 def notes_():
     order_by = request.args.get("order_by", default="last_modified desc")
     return render_template("notes.html", order_by=order_by)
 
 
 @notes.route("/favorites")
+@login_required
 def favorites():
     return render_template("favorites.html")
 
 
 @notes.route("/note")
+@login_required
 def note():
     note_: Note = database.get(Note, int(request.args.get("id_")))
 
@@ -84,6 +87,7 @@ def editor():
 
 
 @notes.route("/search", methods=["POST", "GET"])
+@login_required
 def search():
     if request.method == "POST":
         search_term = request.form["search_term"]

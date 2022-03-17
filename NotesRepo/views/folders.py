@@ -23,6 +23,7 @@ def folder_create():
 
 
 @folders.route("/folder")
+@login_required
 def folder():
     folder_: Folder = database.get(Folder, int(request.args.get("id_")))
 

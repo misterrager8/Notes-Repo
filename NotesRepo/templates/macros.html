@@ -170,11 +170,11 @@
 
 {% macro folder_card(folder) %}
 <div class="card col-xl-3">
-  <div class="card-body text-center folder-card" style="border-color:{{ folder.color }}">
-    <a href="{{ url_for('folders.folder', id_=folder.id) }}" class="link">
+  <div class="card-body text-center" style="border-color:{{ folder.color }}">
+    <a href="{{ url_for('folders.folder', id_=folder.id) }}">
       {{ folder_icon(size=50, color=folder.color) }}
-      <p class="h4">{{ folder.name }}</p>
-      <p class="badge badge-custom mb-2">{{ '%s note(s)' % folder.get_notes().count() }}</p>
+      <div class="heading1">{{ folder.name }}</div>
+      <p class="font-custom mb-2">{{ '%s note(s)' % folder.get_notes().count() }}</p>
     </a>
     {{ folder_options(folder) }}
   </div>
@@ -185,12 +185,12 @@
 <div class="card col-xl-4">
   <div class="card-body note-card">
     <div class="d-flex justify-content-between">
-      <a class="link text-truncate fw-bold" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
-      <a class="badge link m-1 text-white" href="{{ url_for('folders.folder', id_=note.folder_id) }}" style="background-color:{{ note.folders.color }}">{{ note.folders.name }}</a>
+      <a class="heading3" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
+      <a class="badge m-1 text-white" href="{{ url_for('folders.folder', id_=note.folder_id) }}" style="background-color:{{ note.folders.color }}">{{ note.folders.name }}</a>
     </div>
     <div class="mt-3">
-      <small class="text-truncate"><span class="fw-bold">Last Modified:</span> {{ note.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
-      <small class="text-truncate"><span class="fw-bold">Date Created:</span> {{ note.date_created.strftime("%B %d, %Y %I:%M %p") }}</small>
+      <small class="text-truncate"><span class="font-custom">Last Modified:</span> {{ note.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
+      <small class="text-truncate"><span class="font-custom">Date Created:</span> {{ note.date_created.strftime("%B %d, %Y %I:%M %p") }}</small>
     </div>
     <div class="mt-3">
       {{ note_options(note) }}
@@ -201,11 +201,11 @@
 
 {% macro note_options(note) %}
 <div>
-  {% if request.url_rule.endpoint != "notes.note" %}<a class="mx-1 link" data-bs-toggle="modal" data-bs-target="#previewNote{{ note.id }}">{{ view_icon() }}</a>{% endif %}
-  <a class="link mx-1" onclick="noteFavorite({{ note.id }})">{{ star_icon(note.favorited) }}</a>
-  <a href="{{ url_for('notes.editor', id_=note.id) }}" class="mx-1 link">{{ edit_icon() }}</a>
-  <a class="mx-1 link" onclick="$('#deleteNote' + {{ note.id }}).toggle()">{{ delete_icon() }}</a>
-  <a class="link badge text-danger" style="display:none" id="deleteNote{{ note.id }}" onclick="noteDelete({{ note.id }})">Delete?</a>
+  {% if request.url_rule.endpoint != "notes.note" %}<a class="mx-1" data-bs-toggle="modal" data-bs-target="#previewNote{{ note.id }}">{{ view_icon() }}</a>{% endif %}
+  <a class="mx-1" onclick="noteFavorite({{ note.id }})">{{ star_icon(note.favorited) }}</a>
+  <a href="{{ url_for('notes.editor', id_=note.id) }}" class="mx-1">{{ edit_icon() }}</a>
+  <a class="mx-1" onclick="$('#deleteNote' + {{ note.id }}).toggle()">{{ delete_icon() }}</a>
+  <a class="font-custom text-danger" style="display:none" id="deleteNote{{ note.id }}" onclick="noteDelete({{ note.id }})">Delete?</a>
 </div>
 
 {% call modal('previewNote'+note.id|string, large=true) %}
@@ -216,33 +216,35 @@
 
 {% macro folder_options(folder) %}
 <div>
-  <a class="link mx-1" onclick="toggleDiv('addToFolder' + {{ folder.id }}) ">{{ add_icon() }}</a>
-  <a class="link mx-1" onclick="toggleDiv('editFolder' + {{ folder.id }}) ">{{ edit_icon() }}</a>
-  <a class="link mx-1" onclick="toggleDiv('deleteFolder' + {{ folder.id }}) ">{{ delete_icon() }}</a>
-  <div class="mt-3" id="addToFolder{{ folder.id }}" style="display:none">{{ note_create_form(folder) }}</div>
-  <div class="mt-3" id="editFolder{{ folder.id }}" style="display:none">{{ folder_edit_form(folder) }}</div>
-  <a class="link badge text-danger mt-3 w-100" id="deleteFolder{{ folder.id }}" style="display:none" onclick="folderDelete({{ folder.id }})">Delete?</a>
+  <a class="mx-1" onclick="toggleDiv('addToFolder' + {{ folder.id }}) ">{{ add_icon() }}</a>
+  <a class="mx-1" onclick="toggleDiv('editFolder' + {{ folder.id }}) ">{{ edit_icon() }}</a>
+  <a class="mx-1" onclick="toggleDiv('deleteFolder' + {{ folder.id }}) ">{{ delete_icon() }}</a>
+  <div class="mt-3">
+    <div id="addToFolder{{ folder.id }}" style="display:none">{{ note_create_form(folder) }}</div>
+    <div id="editFolder{{ folder.id }}" style="display:none">{{ folder_edit_form(folder) }}</div>
+    <a class="font-custom text-danger" id="deleteFolder{{ folder.id }}" style="display:none" onclick="folderDelete({{ folder.id }})">Delete?</a>
+  </div>
 </div>
 {% endmacro %}
 
 {% macro link_card(link) %}
 <div class="card col-xl-4">
-  <div class="card-body text-truncate link-card">
+  <div class="card-body">
     <div>
-      <a title="{{ link.title }}" target="_blank" class="h5 link" href="{{ link.url }}">{{ link.title }}</a>
+      <a title="{{ link.title }}" target="_blank" class="heading2" href="{{ link.url }}">{{ link.title }}</a>
       <span class="float-end">
       {% if link.been_read %}
-      <a class="badge bg-success link" onclick="toggleRead({{ link.id }})">Read</a>
+      <a class="badge bg-success" onclick="toggleRead({{ link.id }})">Read</a>
       {% else %}
-      <a class="badge bg-warning link" onclick="toggleRead({{ link.id }})">Unread</a>
+      <a class="badge bg-warning" onclick="toggleRead({{ link.id }})">Unread</a>
       {% endif %}
       </span>
     </div>
-    <span class="small fst-italic d-block">{{ 'Added %s' % link.date_added.strftime('%B %m, %Y %I:%M %p') }}</span>
+    <span class="small d-block">{{ 'Added %s' % link.date_added.strftime('%B %m, %Y %I:%M %p') }}</span>
     <div class="mt-2">
-      <a class="link mx-1" onclick="toggleDiv('edit' + {{ link.id }})">{{ edit_icon() }}</a>
-      <a class="link mx-1" onclick="toggleDiv('delete' + {{ link.id }})">{{ delete_icon() }}</a>
-      <a id="delete{{ link.id }}" style="display:none" class="badge text-danger link" onclick="linkDelete({{ link.id }})">Delete?</a>
+      <a class="mx-1" onclick="toggleDiv('edit' + {{ link.id }})">{{ edit_icon() }}</a>
+      <a class="mx-1" onclick="toggleDiv('delete' + {{ link.id }})">{{ delete_icon() }}</a>
+      <a id="delete{{ link.id }}" style="display:none" class="font-custom text-danger" onclick="linkDelete({{ link.id }})">Delete?</a>
       <div class="mt-3" id="edit{{ link.id }}" style="display:none">{{ link_edit_form(link) }}</div>
     </div>
   </div>
@@ -253,101 +255,103 @@
 <!--FORMS-->
 {% macro login_form() %}
 <form method="POST" action="{{ url_for('login') }}">
-  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Username" name="username">
-  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
-  <button type="submit" class="btn btn-custom w-100">Log-In</button>
+  <input type="text" class="input-custom w-100 mb-2" autocomplete="off" placeholder="Username" name="username">
+  <input type="password" class="input-custom w-100 mb-2" autocomplete="off" placeholder="Password" name="password">
+  <button type="submit" class="btn-custom w-100">Log In</button>
 </form>
 {% endmacro %}
 
 {% macro signup_form() %}
 <form method="POST" action="{{ url_for('signup') }}">
-  <input autocomplete="off" class="form-control mb-2" name="username" placeholder="Username">
-  <input autocomplete="off" class="form-control mb-2" name="password" placeholder="Password" type="password">
-  <button class="btn btn-custom w-100">Sign Up</button>
+  <input autocomplete="off" class="input-custom w-100 mb-2" name="username" placeholder="Username">
+  <input autocomplete="off" class="input-custom w-100 mb-2" name="password" placeholder="Password" type="password">
+  <button class="btn-custom w-100">Sign Up</button>
 </form>
 {% endmacro %}
 
 {% macro folder_create_form() %}
 <form class="input-group" onsubmit="event.preventDefault(); folderCreate();">
-  <input autocomplete="off" class="form-control" placeholder="Name" type="text" id="name">
-  <button type="submit" class="btn btn-custom">{{ add_icon(color='currentcolor') }}</button>
+  <input autocomplete="off" class="input-custom" placeholder="Name" type="text" id="name">
+  <button type="submit" class="btn-custom">Create Folder</button>
 </form>
 {% endmacro %}
 
 {% macro folder_edit_form(folder) %}
-<form class="input-group" onsubmit="event.preventDefault(); folderEdit({{ folder.id }});">
-  <input autocomplete="off" class="form-control" placeholder="name" type="text" value="{{ folder.name }}" id="name{{ folder.id }}">
-  <input class="input-group-append" type="color" value="{{ folder.color }}" id="color{{ folder.id }}" style="height:inherit">
-  <button type="submit" class="btn btn-custom">{{ edit_icon() }}</button>
+<form onsubmit="event.preventDefault(); folderEdit({{ folder.id }});">
+  <div class="input-group mb-2">
+    <input autocomplete="off" class="input-custom col" placeholder="Name" type="text" value="{{ folder.name }}" id="name{{ folder.id }}">
+    <input class="input-custom col" type="color" value="{{ folder.color }}" id="color{{ folder.id }}" style="height:inherit">
+  </div>
+  <button type="submit" class="btn-custom w-100">Edit</button>
 </form>
 {% endmacro %}
 
 {% macro note_create_form(folder) %}
-<form action="{{ url_for('notes.note_create', id_=folder.id) }}" class="input-group" method="POST">
-  <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text">
-  <button type="submit" class="btn btn-custom">{{ add_icon(color='currentcolor') }}</button>
+<form action="{{ url_for('notes.note_create', id_=folder.id) }}" method="POST">
+  <input autocomplete="off" class="input-custom w-100 mb-2" name="title" placeholder="Title" type="text">
+  <button type="submit" class="btn-custom w-100">create note</button>
 </form>
 {% endmacro %}
 
 {% macro note_editor_form(note) %}
 <form class="form-group" onsubmit="event.preventDefault(); noteEdit({{ note.id }});">
-  <input onchange="noteEdit({{ note.id }})" id="title" autocomplete="off" class="form-control mb-2" placeholder="Title" type="text" value="{{ note.title }}">
-  <select onchange="noteEdit({{ note.id }})" class="form-control mb-2" id="folderId" style="border: 3px solid {{ note.folders.color }}">
+  <input onchange="noteEdit({{ note.id }})" id="title" autocomplete="off" class="input-custom w-100 mb-2" placeholder="Title" type="text" value="{{ note.title }}">
+  <select onchange="noteEdit({{ note.id }})" class="input-custom w-100 mb-2" id="folderId" style="border: 3px solid {{ note.folders.color }}">
     <option>Select Folder</option>
     {% for i in current_user.get_folders() %}
     <option value="{{ i.id }}" {% if i.id== note.folder_id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
   <ul class="list-inline mb-2 sticky-top">
-    <button type="submit" class="btn btn-success border">
+    <button type="submit" class="btn-custom bg-success">
       <span id="done">{{ check_icon(color='white', size=25) }}</span>
       <span id="loading" style="display: none" class="spinner-border spinner-border-sm"></span>
     </button>
-    <a class="btn btn-secondary border" href="{{ url_for('notes.note', id_=note.id) }}">{{ view_icon(size=25) }}</a>
-    <button type="button" class="btn btn-custom border" onclick="format('bold')">{{ bold_icon(size=25) }}</button>
-    <button type="button" class="btn btn-custom border" onclick="format('italic')">{{ italic_icon(size=25) }}</button>
-    <button type="button" class="btn btn-custom border" onclick="format('insertUnorderedList')">{{ bullet_list_icon(size=25) }}</button>
-    <button type="button" class="btn btn-custom border" onclick="format('insertOrderedList')">{{ number_list_icon(size=25) }}</button>
-    <button type="button" class="btn btn-custom border" onclick="format('formatBlock', 'a')">{{ hyperlink_icon(size=25) }}</button>
-    <button type="button" class="btn btn-custom border" onclick="format('fontName', 'monospace')">{{ code_icon(size=25) }}</button>
-    <button type="button" class="btn btn-custom border" onclick="format('removeFormat')">{{ clear_icon(size=25) }}</button>
-    <button type="button" class="btn btn-custom border" onclick="format('indent')">{{ indent_icon(size=25) }}</button>
-    <button type="button" class="btn btn-custom border" onclick="format('outdent')">{{ outdent_icon(size=25) }}</button>
+    <a class="float-end m-1" href="{{ url_for('notes.note', id_=note.id) }}">{{ view_icon(size=25) }}</a>
+    <button type="button" class="btn-custom" onclick="format('bold')">{{ bold_icon(size=25) }}</button>
+    <button type="button" class="btn-custom" onclick="format('italic')">{{ italic_icon(size=25) }}</button>
+    <button type="button" class="btn-custom" onclick="format('insertUnorderedList')">{{ bullet_list_icon(size=25) }}</button>
+    <button type="button" class="btn-custom" onclick="format('insertOrderedList')">{{ number_list_icon(size=25) }}</button>
+    <button type="button" class="btn-custom" onclick="format('formatBlock', 'a')">{{ hyperlink_icon(size=25) }}</button>
+    <button type="button" class="btn-custom" onclick="format('fontName', 'monospace')">{{ code_icon(size=25) }}</button>
+    <button type="button" class="btn-custom" onclick="format('removeFormat')">{{ clear_icon(size=25) }}</button>
+    <button type="button" class="btn-custom" onclick="format('indent')">{{ indent_icon(size=25) }}</button>
+    <button type="button" class="btn-custom" onclick="format('outdent')">{{ outdent_icon(size=25) }}</button>
   </ul>
-  <div contenteditable="true" id="content" class="form-control mb-2" style="white-space: pre-wrap;" onkeydown="shortcut(event)">{{ note.content | safe }}</div>
+  <div contenteditable="true" id="content" class="input-custom mb-2" style="white-space: pre-wrap;" onkeydown="shortcut(event)">{{ note.content | safe }}</div>
 </form>
 {% endmacro %}
 
 {% macro link_create_form() %}
 <form onsubmit="event.preventDefault(); linkCreate(); this.reset();">
-  <input autocomplete="off" class="form-control mb-2" placeholder="URL" type="url" id="url" onchange="getTitle();">
-  <input autocomplete="off" class="form-control mb-2" placeholder="Title" type="text" id="title">
-  <button class="btn btn-custom w-100">{{ add_icon(color='currentcolor') }}</button>
+  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="URL" type="url" id="url" onchange="getTitle();">
+  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="Title" type="text" id="title">
+  <button class="btn-custom w-100">Add Link</button>
 </form>
 {% endmacro %}
 
 {% macro link_edit_form(link) %}
 <form onsubmit="event.preventDefault(); linkEdit({{ link.id }});">
-  <input autocomplete="off" class="form-control mb-2" placeholder="URL" type="url" id="url{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.url }}">
-  <input autocomplete="off" class="form-control mb-2" placeholder="Title" type="text" id="title{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.title }}">
-  <button class="btn btn-custom w-100">Edit</button>
+  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="URL" type="url" id="url{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.url }}">
+  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="Title" type="text" id="title{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.title }}">
+  <button class="btn-custom w-100">Edit</button>
 </form>
 {% endmacro %}
 
 <!--SORTERS-->
 
-{% macro note_sorter() %}
-<div>
-  <span class="badge ps-0">Sort: </span>
-  {% if order_by != 'last_modified desc' %}<a class="badge badge-custom link" href="{{ url_for('notes.notes_', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
-  {% if order_by != 'date_created desc' %}<a class="badge badge-custom link" href="{{ url_for('notes.notes_', order_by='date_created desc') }}">Date Created</a>{% endif %}
+{% macro note_sorter(class='') %}
+<div class="{{ class }}">
+  <span class="font-custom py-2">Sort: </span>
+  {% if order_by != 'last_modified desc' %}<a class="btn-custom" href="{{ url_for('notes.notes_', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
+  {% if order_by != 'date_created desc' %}<a class="btn-custom" href="{{ url_for('notes.notes_', order_by='date_created desc') }}">Date Created</a>{% endif %}
 </div>
 {% endmacro %}
 
-{% macro folder_sorter() %}
-<div>
-  <span class="badge ps-0">Sort: </span>
-  {% if order_by != 'date_created desc' %}<a class="badge badge-custom link" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
-  {% if order_by != 'name' %}<a class="badge badge-custom link" href="{{ url_for('index', order_by='name') }}">Name</a>{% endif %}
+{% macro folder_sorter(class='') %}
+<div class="{{ class }}">
+  <span class="font-custom py-2">Sort: </span>
+  {% if order_by != 'date_created desc' %}<a class="btn-custom" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
+  {% if order_by != 'name' %}<a class="btn-custom" href="{{ url_for('index', order_by='name') }}">Name</a>{% endif %}
 </div>
 {% endmacro %}

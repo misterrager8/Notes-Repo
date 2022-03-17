@@ -1,25 +1,3 @@
-$(document).ready(function () {
-    if (localStorage.getItem('notes_repo_theme') != 'default') {
-        $('body').addClass('alt-theme');
-        $('nav').removeClass('navbar-light');
-        $('nav').addClass('navbar-dark');
-    }
-});
-
-function changeTheme() {
-    if (localStorage.getItem('notes_repo_theme') == 'default') {
-        $('body').addClass('alt-theme');
-        $('nav').removeClass('navbar-light');
-        $('nav').addClass('navbar-dark');
-        localStorage.setItem('notes_repo_theme', 'alt')
-    } else {
-        $('body').removeClass('alt-theme');
-        $('nav').addClass('navbar-light');
-        $('nav').removeClass('navbar-dark');
-        localStorage.setItem('notes_repo_theme', 'default')
-    }
-}
-
 function refreshPage() {
     $('#pageContent').load(location.href + ' #pageContent');
     $('#navContent').load(location.href + ' #navContent');
@@ -63,6 +41,7 @@ function noteEdit(noteId) {
 }
 
 function noteDelete(noteId) {
+    $('#spinner').show();
     $.get('note_delete', {
         id_: noteId
     }, function(data) {
@@ -71,6 +50,7 @@ function noteDelete(noteId) {
 }
 
 function noteFavorite(noteId) {
+    $('#spinner').show();
     $.get('note_favorite', {
         id_: noteId
     }, function(data) {
@@ -81,6 +61,7 @@ function noteFavorite(noteId) {
 // Folders
 
 function folderCreate() {
+    $('#spinner').show();
     $.post('folder_create', {
         name: $('#name').val()
     }, function(data) {
@@ -89,6 +70,7 @@ function folderCreate() {
 }
 
 function folderEdit(folderId) {
+    $('#spinner').show();
     $.post('folder_edit', {
         id_: folderId,
         name: $('#name' + folderId).val(),
@@ -99,6 +81,7 @@ function folderEdit(folderId) {
 }
 
 function folderDelete(folderId) {
+    $('#spinner').show();
     $.get('folder_delete', {
         id_: folderId
     }, function(data) {
@@ -109,6 +92,7 @@ function folderDelete(folderId) {
 // Links
 
 function linkCreate() {
+    $('#spinner').show();
     $.post('link_create', {
         url: $('#url').val(),
         title: $('#title').val()
@@ -118,6 +102,7 @@ function linkCreate() {
 }
 
 function linkEdit(linkId) {
+    $('#spinner').show();
     $.post('link_edit', {
         id_: linkId,
         url: $('#url' + linkId).val(),
@@ -128,6 +113,7 @@ function linkEdit(linkId) {
 }
 
 function toggleRead(linkId) {
+    $('#spinner').show();
     $.get('toggle_read', {
         id_: linkId
     }, function(data) {
@@ -136,6 +122,7 @@ function toggleRead(linkId) {
 }
 
 function linkDelete(linkId) {
+    $('#spinner').show();
     $.get('link_delete', {
         id_: linkId
     }, function(data) {

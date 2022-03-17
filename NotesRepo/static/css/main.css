@@ -1,0 +1,43 @@
+a, a:hover {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none; }
+
+  .font-custom, .btn-custom, .badge-custom {
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 0.75em; }
+
+    .btn-custom, .badge-custom {
+      border-radius: 5px; }
+
+      .input-custom, .btn-custom, .badge-custom {
+        padding: 5px 10px; }
+
+        .card-body {
+          margin-bottom: 20px; }
+
+          .input-custom, .card-body, .btn-custom:hover {
+            border: 1px solid white;
+            border-radius: 5px; }
+
+            body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-item:hover {
+              background-color: black;
+              color: white; }
+
+              .navbar, .btn-custom, .badge-custom {
+                background-color: white;
+                color: black; }
+
+                .heading1, .heading2, .heading3 {
+                  font-weight: bold; }
+
+                  .heading1 {
+                    font-size: 2.5em; }
+
+                    .heading2 {
+                      font-size: 1.5em; }
+
+                      .heading3 {
+                        font-size: 1em; }

@@ -173,7 +173,7 @@
   <div class="card-body text-center" style="border-color:{{ folder.color }}">
     <a href="{{ url_for('folders.folder', id_=folder.id) }}">
       {{ folder_icon(size=50, color=folder.color) }}
-      <div class="heading1">{{ folder.name }}</div>
+      <div class="heading1 text-truncate">{{ folder.name }}</div>
       <p class="font-custom mb-2">{{ '%s note(s)' % folder.get_notes().count() }}</p>
     </a>
     {{ folder_options(folder) }}
@@ -185,7 +185,7 @@
 <div class="card col-xl-4">
   <div class="card-body note-card">
     <div class="d-flex justify-content-between">
-      <a class="heading3" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
+      <a class="heading3 text-truncate" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
       <a class="badge m-1 text-white" href="{{ url_for('folders.folder', id_=note.folder_id) }}" style="background-color:{{ note.folders.color }}">{{ note.folders.name }}</a>
     </div>
     <div class="mt-3">
@@ -229,18 +229,13 @@
 
 {% macro link_card(link) %}
 <div class="card col-xl-4">
-  <div class="card-body">
-    <div>
-      <a title="{{ link.title }}" target="_blank" class="heading2" href="{{ link.url }}">{{ link.title }}</a>
-      <span class="float-end">
-      {% if link.been_read %}
-      <a class="badge bg-success" onclick="toggleRead({{ link.id }})">Read</a>
-      {% else %}
-      <a class="badge bg-warning" onclick="toggleRead({{ link.id }})">Unread</a>
-      {% endif %}
-      </span>
-    </div>
-    <span class="small d-block">{{ 'Added %s' % link.date_added.strftime('%B %m, %Y %I:%M %p') }}</span>
+  <div class="card-body text-truncate">
+    <a title="{{ link.title }}" target="_blank" class="heading2" href="{{ link.url }}">{{ link.title }}</a><br>
+    <a class="btn-custom {% if link.been_read %}bg-success{% else %}bg-warning{% endif %}"
+       onclick="toggleRead({{ link.id }})">
+      {% if link.been_read %}Read{% else %}Unread{% endif %}
+    </a>
+    <span class="small d-block mt-2">{{ 'Added %s' % link.date_added.strftime('%B %m, %Y %I:%M %p') }}</span>
     <div class="mt-2">
       <a class="mx-1" onclick="toggleDiv('edit' + {{ link.id }})">{{ edit_icon() }}</a>
       <a class="mx-1" onclick="toggleDiv('delete' + {{ link.id }})">{{ delete_icon() }}</a>

@@ -44,7 +44,7 @@ def link_edit():
 @links.route("/toggle_read")
 @login_required
 def toggle_read():
-    link_: Link = database.get(Link, request.args.get("id_"))
+    link_: Link = database.get(Link, int(request.args.get("id_")))
 
     link_.been_read = not link_.been_read
     database.update()
@@ -55,7 +55,7 @@ def toggle_read():
 @links.route("/link_delete")
 @login_required
 def link_delete():
-    link_: Link = database.get(Link, request.args.get("id_"))
+    link_: Link = database.get(Link, int(request.args.get("id_")))
     database.delete(link_)
 
     return redirect(url_for("index"))

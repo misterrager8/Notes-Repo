@@ -24,7 +24,7 @@ def favorites():
 
 @notes.route("/note")
 def note():
-    note_: Note = database.get(Note, request.args.get("id_"))
+    note_: Note = database.get(Note, int(request.args.get("id_")))
 
     return render_template("note.html", note=note_)
 
@@ -32,7 +32,7 @@ def note():
 @notes.route("/note_create", methods=["POST"])
 @login_required
 def note_create():
-    folder_: Folder = database.get(Folder, request.args.get("id_"))
+    folder_: Folder = database.get(Folder, int(request.args.get("id_")))
 
     _ = Note(title=request.form["title"],
              content="",
@@ -47,7 +47,7 @@ def note_create():
 @notes.route("/note_delete")
 @login_required
 def note_delete():
-    _: Note = database.get(Note, request.args.get("id_"))
+    _: Note = database.get(Note, int(request.args.get("id_")))
     database.delete(_)
 
     return redirect(request.referrer)
@@ -56,7 +56,7 @@ def note_delete():
 @notes.route("/note_favorite")
 @login_required
 def note_favorite():
-    _: Note = database.get(Note, request.args.get("id_"))
+    _: Note = database.get(Note, int(request.args.get("id_")))
     _.favorited = not _.favorited
     database.update()
 
@@ -77,7 +77,7 @@ def editor():
 
         return redirect(request.referrer)
     else:
-        id_ = request.args.get("id_")
+        id_ = int(request.args.get("id_"))
         note_: Note = database.get(Note, id_)
 
         return render_template("editor.html", note=note_)

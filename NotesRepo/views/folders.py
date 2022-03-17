@@ -24,7 +24,7 @@ def folder_create():
 
 @folders.route("/folder")
 def folder():
-    folder_: Folder = database.get(Folder, request.args.get("id_"))
+    folder_: Folder = database.get(Folder, int(request.args.get("id_")))
 
     return render_template("folder.html", folder=folder_)
 
@@ -44,7 +44,7 @@ def folder_edit():
 @folders.route("/folder_delete")
 @login_required
 def folder_delete():
-    _: Folder = database.get(Folder, request.args.get("id_"))
+    _: Folder = database.get(Folder, int(request.args.get("id_")))
     database.delete(_)
 
     return redirect(request.referrer)

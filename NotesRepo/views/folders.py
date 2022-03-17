@@ -45,6 +45,7 @@ def folder_edit():
 @login_required
 def folder_delete():
     _: Folder = database.get(Folder, int(request.args.get("id_")))
+    database.delete_multiple([i for i in _.get_notes()])
     database.delete(_)
 
     return redirect(request.referrer)

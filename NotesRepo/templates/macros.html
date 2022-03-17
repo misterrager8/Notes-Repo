@@ -204,7 +204,7 @@
   {% if request.url_rule.endpoint != "notes.note" %}<a class="mx-1" data-bs-toggle="modal" data-bs-target="#previewNote{{ note.id }}">{{ view_icon() }}</a>{% endif %}
   <a class="mx-1" onclick="noteFavorite({{ note.id }})">{{ star_icon(note.favorited) }}</a>
   <a href="{{ url_for('notes.editor', id_=note.id) }}" class="mx-1">{{ edit_icon() }}</a>
-  <a class="mx-1" onclick="$('#deleteNote' + {{ note.id }}).toggle()">{{ delete_icon() }}</a>
+  <a class="mx-1" onclick="toggleDiv('deleteNote' + {{ note.id }})">{{ delete_icon() }}</a>
   <a class="font-custom text-danger" style="display:none" id="deleteNote{{ note.id }}" onclick="noteDelete({{ note.id }})">Delete?</a>
 </div>
 

@@ -5,7 +5,7 @@ from flask_login import login_required, current_user
 
 from NotesRepo import db
 from NotesRepo.ctrla import Database
-from NotesRepo.models import Note, Folder
+from NotesRepo.models import Note
 
 notes = Blueprint("notes", __name__)
 database = Database()
@@ -35,11 +35,13 @@ def note():
 @notes.route("/note_create", methods=["POST"])
 @login_required
 def note_create():
-    folder_: Folder = database.get(Folder, int(request.args.get("id_")))
-
-    _ = Note(title=request.form["title"],
+    if request.args.get("id_"):
+        id_ = int(request.args.get("id_"))
+    else:
+        id_ = None
+    _ = Note(title=request.form["title"] or datetime.now().strftime("%F"),
              content="",
-             folder_id=folder_.id,
+             folder_id=id_,
              date_created=datetime.now(),
              last_modified=datetime.now(),
              user_id=current_user.id)
@@ -71,9 +73,13 @@ def note_favorite():
 def editor():
     if request.method == "POST":
         note_: Note = database.get(Note, int(request.form["id_"]))
+        if request.form["folder_id"]:
+            folder_id = int(request.form["folder_id"])
+        else:
+            folder_id = None
 
         note_.title = request.form["title"]
-        note_.folder_id = int(request.form["folder_id"])
+        note_.folder_id = folder_id
         note_.content = request.form["content"]
         note_.last_modified = datetime.now()
         database.update()

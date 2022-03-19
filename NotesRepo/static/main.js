@@ -133,3 +133,23 @@ function linkDelete(linkId) {
 function getTitle() {
     $.post("get_title", { url : $('#url').val() }, function(data) { $('#title').val(data); });
 }
+
+function changePassword() {
+    $('#spinner').show();
+    $.post('change_password', {
+        old_password: $('#oldPassword').val(),
+        new_password: $('#newPassword').val(),
+        new_password_confirm: $('#newPasswordConfirm').val()
+    }, function(data) {
+        refreshPage();
+    });
+}
+
+function changeUsername() {
+    $('#spinner').show();
+    $.post('account', {
+        username: $('#username').val()
+    }, function(data) {
+        refreshPage();
+    });
+}

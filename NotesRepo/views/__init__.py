@@ -1,5 +1,5 @@
 from flask import request, url_for, render_template, current_app
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import redirect
 
@@ -48,3 +48,28 @@ def signup():
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+
+@current_app.route("/account", methods=["GET", "POST"])
+def account():
+    if request.method == "GET":
+        return render_template("account.html")
+    else:
+        current_user.username = request.form["username"]
+        database.update()
+        return redirect(request.referrer)
+
+
+@current_app.route("/change_password", methods=["POST"])
+def change_password():
+    old_password = request.form["old_password"]
+    new_password = request.form["new_password"]
+    new_password_confirm = request.form["new_password_confirm"]
+
+    if check_password_hash(current_user.password, old_password) and new_password == new_password_confirm:
+        current_user.password = generate_password_hash(new_password)
+        database.update()
+    else:
+        return "Try again."
+
+    return redirect(request.referrer)

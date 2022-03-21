@@ -209,7 +209,8 @@
 </div>
 
 {% call modal('previewNote'+note.id|string, large=true) %}
-<p>{{ note.content | safe }}</p>
+<a class="font-custom text-danger" data-bs-dismiss="modal">close</a>
+<p class="mt-4">{{ note.content | safe }}</p>
 {% endcall %}
 
 {% endmacro %}

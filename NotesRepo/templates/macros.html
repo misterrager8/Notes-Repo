@@ -288,9 +288,9 @@
 {% else %}
 {{ url_for('notes.note_create') }}
 {% endif %}
-" method="POST">
-  <input autocomplete="off" class="input-custom w-100 mb-2" name="title" placeholder="Title" type="text">
-  <button type="submit" class="btn-custom w-100">create note</button>
+" method="POST" class="input-group">
+  <input autocomplete="off" class="input-custom" name="title" placeholder="Title" type="text">
+  <button type="submit" class="btn-custom">create note</button>
 </form>
 {% endmacro %}
 

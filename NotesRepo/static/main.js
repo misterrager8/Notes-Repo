@@ -4,7 +4,7 @@ function refreshPage() {
 }
 
 function toggleDiv(divId) {
-    $('#' + divId).toggle(150);
+    $('#' + divId).fadeToggle(250);
 }
 
 function format(cmd, val) {

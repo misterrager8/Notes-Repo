@@ -45,6 +45,7 @@ body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-item:ho
 .navbar, .btn-custom, .badge-custom {
     background-color: $navbar-bg;
     color: $navbar-txt;
+    transition: background-color .5s;
 }
 
 .heading1, .heading2, .heading3 { font-weight: bold; }

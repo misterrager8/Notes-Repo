@@ -39,7 +39,7 @@ def note_create():
         id_ = int(request.args.get("id_"))
     else:
         id_ = None
-    _ = Note(title=request.form["title"] or datetime.now().strftime("%F"),
+    _ = Note(title=request.form["title"] or "Untitled %s" % datetime.now().strftime("%F"),
              content="",
              folder_id=id_,
              date_created=datetime.now(),

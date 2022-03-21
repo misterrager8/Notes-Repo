@@ -19,16 +19,16 @@ a, a:hover {
           margin-bottom: 20px; }
 
           .input-custom, .card-body, .btn-custom:hover {
-            border: 1px solid white;
+            border: 1px solid #d9d9d9;
             border-radius: 5px; }
 
             body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-item:hover {
-              background-color: black;
-              color: white; }
+              background-color: #1a1a1a;
+              color: #d9d9d9; }
 
               .navbar, .btn-custom, .badge-custom {
-                background-color: white;
-                color: black; }
+                background-color: #d9d9d9;
+                color: #1a1a1a; }
 
                 .heading1, .heading2, .heading3 {
                   font-weight: bold; }

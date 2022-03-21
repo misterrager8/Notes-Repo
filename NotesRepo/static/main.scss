@@ -1,7 +1,7 @@
-$navbar-bg: white;
-$navbar-txt: black;
-$body-bg: black;
-$body-txt: white;
+$navbar-bg: darken(white, 15%);
+$navbar-txt: lighten(black, 10%);
+$body-bg: lighten(black, 10%);
+$body-txt: darken(white, 15%);
 
 a, a:hover {
     color: inherit;

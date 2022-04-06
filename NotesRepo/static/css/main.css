@@ -18,27 +18,30 @@ a, a:hover {
         .card-body {
           margin-bottom: 20px; }
 
-          .input-custom, .card-body, .btn-custom:hover {
-            border: 1px solid #d9d9d9;
-            border-radius: 5px; }
+          .card {
+            border: 0; }
 
-            body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-item:hover {
-              background-color: #1a1a1a;
-              color: #d9d9d9; }
+            .input-custom, .card-body, .btn-custom:hover {
+              border: 1px solid #d9d9d9;
+              border-radius: 5px; }
 
-              .navbar, .btn-custom, .badge-custom {
-                background-color: #d9d9d9;
-                color: #1a1a1a;
-                transition: background-color 0.5s; }
+              body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-item:hover {
+                background-color: #1a1a1a;
+                color: #d9d9d9; }
 
-                .heading1, .heading2, .heading3 {
-                  font-weight: bold; }
+                .navbar, .btn-custom, .badge-custom {
+                  background-color: #d9d9d9;
+                  color: #1a1a1a;
+                  transition: background-color 0.5s; }
 
-                  .heading1 {
-                    font-size: 2.5em; }
+                  .heading1, .heading2, .heading3 {
+                    font-weight: bold; }
 
-                    .heading2 {
-                      font-size: 1.5em; }
+                    .heading1 {
+                      font-size: 2.5em; }
 
-                      .heading3 {
-                        font-size: 1em; }
+                      .heading2 {
+                        font-size: 1.5em; }
+
+                        .heading3 {
+                          font-size: 1em; }

@@ -34,6 +34,7 @@ a, a:hover {
 }
 
 .card-body { margin-bottom: 20px; }
+.card { border: 0; }
 
 .input-custom, .card-body, .btn-custom:hover { @include border-custom; }
 

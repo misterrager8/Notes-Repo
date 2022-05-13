@@ -1,7 +1,6 @@
 import pymysql
 from flask import Flask
 from flask_login import LoginManager
-from flask_scss import Scss
 from flask_sqlalchemy import SQLAlchemy
 
 pymysql.install_as_MySQLdb()
@@ -16,7 +15,6 @@ def create_app(config):
 
     db.init_app(app)
     login_manager.init_app(app)
-    Scss(app, asset_dir="NotesRepo/static")
 
     with app.app_context():
         from NotesRepo.views.folders import folders

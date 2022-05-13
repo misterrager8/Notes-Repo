@@ -1,3 +1,21 @@
+$(document).ready(function() {
+    if (localStorage.getItem('notes_repo_theme') == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+});
+
+function changeTheme() {
+    if (localStorage.getItem('notes_repo_theme') == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('notes_repo_theme', 'light');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('notes_repo_theme', 'dark');
+    }
+}
+
 function refreshPage() {
     $('#pageContent').load(location.href + ' #pageContent');
     $('#navContent').load(location.href + ' #navContent');

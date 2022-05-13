@@ -1,162 +1,4 @@
 <!--suppress ALL -->
-
-<!--ICONS-->
-{% macro navbar_brand_icon(size=20, color='currentcolor') %}
-<svg class="bi bi-stickies-fill" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
-  <path d="M0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5A1.5 1.5 0 0 0 0 1.5z"/>
-  <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zm6 8.5a1 1 0 0 1 1-1h4.396a.25.25 0 0 1 .177.427l-5.146 5.146a.25.25 0 0 1-.427-.177V10.5z"/>
-</svg>
-{% endmacro %}
-
-{% macro note_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-file-ruled-fill" viewBox="0 0 16 16">
-  <path d="M12 0H4a2 2 0 0 0-2 2v4h12V2a2 2 0 0 0-2-2zm2 7H6v2h8V7zm0 3H6v2h8v-2zm0 3H6v3h6a2 2 0 0 0 2-2v-1zm-9 3v-3H2v1a2 2 0 0 0 2 2h1zm-3-4h3v-2H2v2zm0-3h3V7H2v2z"/>
-</svg>
-{% endmacro %}
-
-{% macro folder_icon(size=20, color='currentcolor') %}
-<svg class="bi bi-folder-fill" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
-  <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
-</svg>
-{% endmacro %}
-
-{% macro add_icon(size=20, color='green') %}
-<svg class="bi bi-plus-circle" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-</svg>
-{% endmacro %}
-
-{% macro delete_icon(size=20, color='red') %}
-<svg class="bi bi-x-circle" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-</svg>
-{% endmacro %}
-
-{% macro edit_icon(size=20, color='currentcolor') %}
-<svg class="bi bi-pencil" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
-  <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-</svg>
-{% endmacro %}
-
-{% macro download_icon(size=20, color='currentcolor') %}
-<svg class="bi bi-download" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
-  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-</svg>
-{% endmacro %}
-
-{% macro view_icon(size=20, color='currentcolor') %}
-<svg class="bi bi-eye" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
-  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-</svg>
-{% endmacro %}
-
-{% macro star_icon(bookmarked, size=20) %}
-{% if bookmarked == true %}
-<svg class="bi bi-star-fill" fill="orange" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-{% else %}
-<svg class="bi bi-star" fill="currentcolor" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
-  <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-</svg>
-{% endif %}
-{% endmacro %}
-
-{% macro search_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-search" viewBox="0 0 16 16">
-  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-</svg>
-{% endmacro %}
-
-{% macro theme_icon(size=20, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-circle-half {{ class }}" viewBox="0 0 16 16">
-  <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
-</svg>
-{% endmacro %}
-
-{% macro user_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-person-fill {{ class }}" viewBox="0 0 16 16">
-  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-</svg>
-{% endmacro %}
-
-{% macro bold_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-type-bold" viewBox="0 0 16 16">
-  <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z"/>
-</svg>
-{% endmacro %}
-
-{% macro italic_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-type-italic" viewBox="0 0 16 16">
-  <path d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z"/>
-</svg>
-{% endmacro %}
-
-{% macro bullet_list_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-list-ul" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-</svg>
-{% endmacro %}
-
-{% macro number_list_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-123 {{ class }}" viewBox="0 0 16 16">
-  <path d="M2.873 11.297V4.142H1.699L0 5.379v1.137l1.64-1.18h.06v5.961h1.174Zm3.213-5.09v-.063c0-.618.44-1.169 1.196-1.169.676 0 1.174.44 1.174 1.106 0 .624-.42 1.101-.807 1.526L4.99 10.553v.744h4.78v-.99H6.643v-.069L8.41 8.252c.65-.724 1.237-1.332 1.237-2.27C9.646 4.849 8.723 4 7.308 4c-1.573 0-2.36 1.064-2.36 2.15v.057h1.138Zm6.559 1.883h.786c.823 0 1.374.481 1.379 1.179.01.707-.55 1.216-1.421 1.21-.77-.005-1.326-.419-1.379-.953h-1.095c.042 1.053.938 1.918 2.464 1.918 1.478 0 2.642-.839 2.62-2.144-.02-1.143-.922-1.651-1.551-1.714v-.063c.535-.09 1.347-.66 1.326-1.678-.026-1.053-.933-1.855-2.359-1.845-1.5.005-2.317.88-2.348 1.898h1.116c.032-.498.498-.944 1.206-.944.703 0 1.206.435 1.206 1.07.005.64-.504 1.106-1.2 1.106h-.75v.96Z"/>
-</svg>
-{% endmacro %}
-
-{% macro heading_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-type-h2" viewBox="0 0 16 16">
-  <path d="M7.638 13V3.669H6.38V7.62H1.759V3.67H.5V13h1.258V8.728h4.62V13h1.259zm3.022-6.733v-.048c0-.889.63-1.668 1.716-1.668.957 0 1.675.608 1.675 1.572 0 .855-.554 1.504-1.067 2.085l-3.513 3.999V13H15.5v-1.094h-4.245v-.075l2.481-2.844c.875-.998 1.586-1.784 1.586-2.953 0-1.463-1.155-2.556-2.919-2.556-1.941 0-2.966 1.326-2.966 2.74v.049h1.223z"/>
-</svg>
-{% endmacro %}
-
-{% macro hyperlink_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-link-45deg" viewBox="0 0 16 16">
-  <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
-  <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
-</svg>
-{% endmacro %}
-
-{% macro code_icon(size=20, color='currentcolor') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-code-slash" viewBox="0 0 16 16">
-  <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/>
-</svg>
-{% endmacro %}
-
-{% macro indent_icon(size=20, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-text-indent-left {{ class }}" viewBox="0 0 16 16">
-  <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-</svg>
-{% endmacro %}
-
-{% macro outdent_icon(size=20, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-text-indent-right {{ class }}" viewBox="0 0 16 16">
-  <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2zM2 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-</svg>
-{% endmacro %}
-
-{% macro clear_icon(size=20, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-eraser {{ class }}" viewBox="0 0 16 16">
-  <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm2.121.707a1 1 0 0 0-1.414 0L4.16 7.547l5.293 5.293 4.633-4.633a1 1 0 0 0 0-1.414l-3.879-3.879zM8.746 13.547 3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
-</svg>
-{% endmacro %}
-
-{% macro check_icon(size=20, color='green', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-check-lg {{ class }}" viewBox="0 0 16 16">
-  <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-</svg>
-{% endmacro %}
-
-{% macro circle_icon(size, color, class='') %}
-<svg class="bi bi-circle-fill {{ class }}" fill="{{ color }}" height="{{ size }}" viewBox="0 0 16 16" width="{{ size }}" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="8" cy="8" r="8"/>
-</svg>
-{% endmacro %}
-
 <!--BOXES-->
 {% macro modal(modal_id, class='', large=false) %}
 <div class="modal {{ class }}" id="{{ modal_id }}">
@@ -172,7 +14,7 @@
 <div class="card col-xl-3">
   <div class="card-body text-center" style="border-color:{{ folder.color }}">
     <a href="{{ url_for('folders.folder', id_=folder.id) }}">
-      {{ folder_icon(size=50, color=folder.color) }}
+      <i class="bi bi-folder-fill h1" style="color:{{ folder.color }}"></i>
       <div class="heading1 text-truncate">{{ folder.name }}</div>
       <p class="font-custom mb-2">{{ '%s note(s)' % folder.get_notes().count() }}</p>
     </a>
@@ -201,10 +43,10 @@
 
 {% macro note_options(note) %}
 <div>
-  {% if request.url_rule.endpoint != "notes.note" %}<a class="mx-1" data-bs-toggle="modal" data-bs-target="#previewNote{{ note.id }}">{{ view_icon() }}</a>{% endif %}
-  <a class="mx-1" onclick="noteFavorite({{ note.id }})">{{ star_icon(note.favorited) }}</a>
-  <a href="{{ url_for('notes.editor', id_=note.id) }}" class="mx-1">{{ edit_icon() }}</a>
-  <a class="mx-1" onclick="toggleDiv('deleteNote' + {{ note.id }})">{{ delete_icon() }}</a>
+  {% if request.url_rule.endpoint != "notes.note" %}<a class="mx-1" data-bs-toggle="modal" data-bs-target="#previewNote{{ note.id }}"><i class="bi bi-eye"></i></a>{% endif %}
+  <a class="mx-1" onclick="noteFavorite({{ note.id }})"><i class="bi bi-{% if note.favorited %}star-fill text-warning{% else %}star{% endif %}"></i></a>
+  <a href="{{ url_for('notes.editor', id_=note.id) }}" class="mx-1"><i class="bi bi-pen"></i></a>
+  <a class="mx-1" onclick="toggleDiv('deleteNote' + {{ note.id }})"><i class="bi bi-x-circle text-danger"></i></a>
   <a class="font-custom text-danger" style="display:none" id="deleteNote{{ note.id }}" onclick="noteDelete({{ note.id }})">Delete?</a>
 </div>
 
@@ -217,9 +59,9 @@
 
 {% macro folder_options(folder) %}
 <div>
-  <a class="mx-1" onclick="toggleDiv('addToFolder' + {{ folder.id }}) ">{{ add_icon() }}</a>
-  <a class="mx-1" onclick="toggleDiv('editFolder' + {{ folder.id }}) ">{{ edit_icon() }}</a>
-  <a class="mx-1" onclick="toggleDiv('deleteFolder' + {{ folder.id }}) ">{{ delete_icon() }}</a>
+  <a class="mx-1" onclick="toggleDiv('addToFolder' + {{ folder.id }}) "><i class="bi bi-plus-circle text-success"></i></a>
+  <a class="mx-1" onclick="toggleDiv('editFolder' + {{ folder.id }}) "><i class="bi bi-pen"></i></a>
+  <a class="mx-1" onclick="toggleDiv('deleteFolder' + {{ folder.id }}) "> <i class="bi bi-x-circle text-danger"></i></a>
   <div class="mt-3">
     <div id="addToFolder{{ folder.id }}" style="display:none">{{ note_create_form(folder) }}</div>
     <div id="editFolder{{ folder.id }}" style="display:none">{{ folder_edit_form(folder) }}</div>
@@ -238,8 +80,8 @@
     </a>
     <span class="small d-block mt-2">{{ 'Added %s' % link.date_added.strftime('%B %m, %Y %I:%M %p') }}</span>
     <div class="mt-2">
-      <a class="mx-1" onclick="toggleDiv('edit' + {{ link.id }})">{{ edit_icon() }}</a>
-      <a class="mx-1" onclick="toggleDiv('delete' + {{ link.id }})">{{ delete_icon() }}</a>
+      <a class="mx-1" onclick="toggleDiv('edit' + {{ link.id }})"><i class="bi bi-pen"></i></a>
+      <a class="mx-1" onclick="toggleDiv('delete' + {{ link.id }})"><i class="bi bi-x-circle text-danger"></i></a>
       <a id="delete{{ link.id }}" style="display:none" class="font-custom text-danger" onclick="linkDelete({{ link.id }})">Delete?</a>
       <div class="mt-3" id="edit{{ link.id }}" style="display:none">{{ link_edit_form(link) }}</div>
     </div>
@@ -304,21 +146,21 @@
     <option value="{{ i.id }}" {% if i.id== note.folder_id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
-  <ul class="list-inline mb-2 sticky-top">
+  <ul class="list-inline mb-2 sticky-top" style="font-size:1.5em">
     <button type="submit" class="btn-custom bg-success">
-      <span id="done">{{ check_icon(color='white', size=25) }}</span>
+      <span id="done"> <i class="bi bi-check text-white"></i></span>
       <span id="loading" style="display: none" class="spinner-border spinner-border-sm"></span>
     </button>
-    <a class="float-end m-1" href="{{ url_for('notes.note', id_=note.id) }}">{{ view_icon(size=25) }}</a>
-    <button type="button" class="btn-custom" onclick="format('bold')">{{ bold_icon(size=25) }}</button>
-    <button type="button" class="btn-custom" onclick="format('italic')">{{ italic_icon(size=25) }}</button>
-    <button type="button" class="btn-custom" onclick="format('insertUnorderedList')">{{ bullet_list_icon(size=25) }}</button>
-    <button type="button" class="btn-custom" onclick="format('insertOrderedList')">{{ number_list_icon(size=25) }}</button>
-    <button type="button" class="btn-custom" onclick="format('formatBlock', 'a')">{{ hyperlink_icon(size=25) }}</button>
-    <button type="button" class="btn-custom" onclick="format('fontName', 'monospace')">{{ code_icon(size=25) }}</button>
-    <button type="button" class="btn-custom" onclick="format('removeFormat')">{{ clear_icon(size=25) }}</button>
-    <button type="button" class="btn-custom" onclick="format('indent')">{{ indent_icon(size=25) }}</button>
-    <button type="button" class="btn-custom" onclick="format('outdent')">{{ outdent_icon(size=25) }}</button>
+    <a class="float-end m-1" href="{{ url_for('notes.note', id_=note.id) }}"><i class="bi bi-eye"></i></a>
+    <button type="button" class="btn-custom" onclick="format('bold')"><i class="bi bi-type-bold"></i></button>
+    <button type="button" class="btn-custom" onclick="format('italic')"><i class="bi bi-type-italic"></i></button>
+    <button type="button" class="btn-custom" onclick="format('insertUnorderedList')"><i class="bi bi-list-ul"></i></button>
+    <button type="button" class="btn-custom" onclick="format('insertOrderedList')"><i class="bi bi-123"></i></button>
+    <button type="button" class="btn-custom" onclick="format('formatBlock', 'a')"><i class="bi bi-link-45deg"></i></button>
+    <button type="button" class="btn-custom" onclick="format('fontName', 'monospace')"><i class="bi bi-code-slash"></i></button>
+    <button type="button" class="btn-custom" onclick="format('removeFormat')"><i class="bi bi-eraser"></i></button>
+    <button type="button" class="btn-custom" onclick="format('indent')"><i class="bi bi-text-indent-left"></i></button>
+    <button type="button" class="btn-custom" onclick="format('outdent')"><i class="bi bi-text-indent-right"></i></button>
   </ul>
   <div contenteditable="true" id="content" class="input-custom mb-2" style="white-space: pre-wrap;" onkeydown="shortcut(event)">{{ note.content | safe }}</div>
 </form>

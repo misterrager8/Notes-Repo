@@ -15,10 +15,14 @@ database = Database()
 @links.route("/link_create", methods=["POST"])
 @login_required
 def link_create():
-    database.create(Link(url=request.form["url"],
-                         title=request.form["title"],
-                         user_id=current_user.id,
-                         date_added=datetime.now()))
+    database.create(
+        Link(
+            url=request.form["url"],
+            title=request.form["title"],
+            user_id=current_user.id,
+            date_added=datetime.now(),
+        )
+    )
 
     return redirect(request.referrer)
 
@@ -70,6 +74,8 @@ def export_all():
 @links.route("/get_title", methods=["POST"])
 def get_title():
     url = request.form["url"]
-    title = BeautifulSoup(requests.get(url).content, "html.parser").find('title').get_text()
+    title = (
+        BeautifulSoup(requests.get(url).content, "html.parser").find("title").get_text()
+    )
 
     return title

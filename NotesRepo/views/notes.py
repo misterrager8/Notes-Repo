@@ -39,12 +39,14 @@ def note_create():
         id_ = int(request.args.get("id_"))
     else:
         id_ = None
-    _ = Note(title=request.form["title"] or "Untitled %s" % datetime.now().strftime("%F"),
-             content="",
-             folder_id=id_,
-             date_created=datetime.now(),
-             last_modified=datetime.now(),
-             user_id=current_user.id)
+    _ = Note(
+        title=request.form["title"] or "Untitled %s" % datetime.now().strftime("%F"),
+        content="",
+        folder_id=id_,
+        date_created=datetime.now(),
+        last_modified=datetime.now(),
+        user_id=current_user.id,
+    )
     database.create(_)
     return redirect(url_for("notes.editor", id_=_.id))
 
@@ -99,4 +101,6 @@ def search():
         search_term = request.form["search_term"]
         results = db.session.query(Note).filter(Note.title.ilike(f"%{search_term}%"))
 
-        return render_template("search.html", results=results, header="\"%s\"" % search_term)
+        return render_template(
+            "search.html", results=results, header='"%s"' % search_term
+        )

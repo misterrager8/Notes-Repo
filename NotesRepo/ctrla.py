@@ -27,7 +27,8 @@ class Database:
 
     @staticmethod
     def delete_multiple(objects: list):
-        for i in objects: db.session.delete(i)
+        for i in objects:
+            db.session.delete(i)
         db.session.commit()
 
     @staticmethod

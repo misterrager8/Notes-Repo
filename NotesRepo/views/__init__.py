@@ -36,8 +36,10 @@ def login():
 
 @current_app.route("/signup", methods=["POST"])
 def signup():
-    _ = User(username=request.form["username"],
-             password=generate_password_hash(request.form["password"]))
+    _ = User(
+        username=request.form["username"],
+        password=generate_password_hash(request.form["password"]),
+    )
 
     database.create(_)
     login_user(_)
@@ -66,7 +68,10 @@ def change_password():
     new_password = request.form["new_password"]
     new_password_confirm = request.form["new_password_confirm"]
 
-    if check_password_hash(current_user.password, old_password) and new_password == new_password_confirm:
+    if (
+        check_password_hash(current_user.password, old_password)
+        and new_password == new_password_confirm
+    ):
         current_user.password = generate_password_hash(new_password)
         database.update()
     else:

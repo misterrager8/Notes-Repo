@@ -1,19 +1,10 @@
 $(document).ready(function() {
-    if (localStorage.getItem('notes_repo_theme') == 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }
+    document.documentElement.setAttribute('data-theme', localStorage.getItem('test_theme'));
 });
 
-function changeTheme() {
-    if (localStorage.getItem('notes_repo_theme') == 'dark') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('notes_repo_theme', 'light');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('notes_repo_theme', 'dark');
-    }
+function changeTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('test_theme', theme);
 }
 
 function refreshPage() {

@@ -1,10 +1,10 @@
 $(document).ready(function() {
-    document.documentElement.setAttribute('data-theme', localStorage.getItem('test_theme'));
+    document.documentElement.setAttribute('data-theme', localStorage.getItem('notesrepo_theme'));
 });
 
 function changeTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('test_theme', theme);
+    localStorage.setItem('notesrepo_theme', theme);
 }
 
 function refreshPage() {
@@ -38,12 +38,11 @@ function shortcut(event) {
 
 function noteEdit(noteId) {
     $('#loading').toggle();
-    $('#done').toggle();
     $.post('editor', {
         id_: noteId,
         title: $('#title').val(),
         folder_id: $('#folderId').val(),
-        content: $('#content').html()
+        content: $('#content').val()
     }, function(data) {
         refreshPage();
     });

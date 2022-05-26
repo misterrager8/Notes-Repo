@@ -8,5 +8,5 @@
   <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" style="background-color:{{ note.folders.color }}" class="badge link my-2">{{ note.folders.name }}</a>
   {{ macros.note_options(note) }}
 </div>
-<div>{{ note.content | safe }}</div>
+<div style="white-space:pre-wrap">{{ note.get_markdown() | safe }}</div>
 {% endblock %}

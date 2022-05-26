@@ -1,7 +1,7 @@
 from flask_login import UserMixin
 from sqlalchemy import Column, Text, Integer, DateTime, ForeignKey, Boolean, text
 from sqlalchemy.orm import relationship
-
+import markdown
 from NotesRepo import db
 
 
@@ -59,6 +59,9 @@ class Note(db.Model):
 
     def __init__(self, **kwargs):
         super(Note, self).__init__(**kwargs)
+
+    def get_markdown(self):
+        return markdown.markdown(self.content)
 
 
 class Link(db.Model):

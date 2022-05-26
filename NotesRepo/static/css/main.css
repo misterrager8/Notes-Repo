@@ -60,7 +60,7 @@ a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
     font-size: 0.75em;
 }
 
-.border-custom, .input-custom, .card-body, .btn-custom:hover {
+.border-custom, .input-custom, .card-body, .btn-custom {
     border: 1px solid var(--body-txt);
     border-radius: 5px;
 }
@@ -78,7 +78,7 @@ a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
 .card { border: 0; }
 
 body, .btn-custom:hover, .input-custom, .card, .modal-content {
-    background-color: var(--body-bg);
+    background-color: var(--body-bg) !important;
     color: var(--body-txt);
 }
 
@@ -91,3 +91,9 @@ body, .btn-custom:hover, .input-custom, .card, .modal-content {
 .heading1 { font-size: 2.5em; }
 .heading2 { font-size: 1.5em; }
 .heading3 { font-size: 1em; }
+
+.btn-custom.bg-success {
+    background-color: green;
+    color: white;
+    transition: background-color .5s;
+}

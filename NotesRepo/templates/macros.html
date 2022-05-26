@@ -52,7 +52,7 @@
 
 {% call modal('previewNote'+note.id|string, large=true) %}
 <a class="font-custom text-danger" data-bs-dismiss="modal">close</a>
-<p class="mt-4">{{ note.content | safe }}</p>
+<p class="mt-4" style="white-space:pre-wrap">{{ note.get_markdown() | safe }}</p>
 {% endcall %}
 
 {% endmacro %}
@@ -146,23 +146,11 @@
     <option value="{{ i.id }}" {% if i.id== note.folder_id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
-  <ul class="list-inline mb-2 sticky-top" style="font-size:1.5em">
-    <button type="submit" class="btn-custom bg-success">
-      <span id="done"> <i class="bi bi-check text-white"></i></span>
-      <span id="loading" style="display: none" class="spinner-border spinner-border-sm"></span>
-    </button>
-    <a class="float-end m-1" href="{{ url_for('notes.note', id_=note.id) }}"><i class="bi bi-eye"></i></a>
-    <button type="button" class="btn-custom" onclick="format('bold')"><i class="bi bi-type-bold"></i></button>
-    <button type="button" class="btn-custom" onclick="format('italic')"><i class="bi bi-type-italic"></i></button>
-    <button type="button" class="btn-custom" onclick="format('insertUnorderedList')"><i class="bi bi-list-ul"></i></button>
-    <button type="button" class="btn-custom" onclick="format('insertOrderedList')"><i class="bi bi-123"></i></button>
-    <button type="button" class="btn-custom" onclick="format('formatBlock', 'a')"><i class="bi bi-link-45deg"></i></button>
-    <button type="button" class="btn-custom" onclick="format('fontName', 'monospace')"><i class="bi bi-code-slash"></i></button>
-    <button type="button" class="btn-custom" onclick="format('removeFormat')"><i class="bi bi-eraser"></i></button>
-    <button type="button" class="btn-custom" onclick="format('indent')"><i class="bi bi-text-indent-left"></i></button>
-    <button type="button" class="btn-custom" onclick="format('outdent')"><i class="bi bi-text-indent-right"></i></button>
-  </ul>
-  <div contenteditable="true" id="content" class="input-custom mb-2" style="white-space: pre-wrap;" onkeydown="shortcut(event)">{{ note.content | safe }}</div>
+  <textarea rows=20 class="input-custom w-100 mb-2" id="content" style="white-space:pre-wrap">{{ note.content | safe }}</textarea>
+  <div class="d-flex">
+    <a class="btn-custom text-center me-1" href="{{ url_for('notes.note', id_=note.id) }}"><i class="bi bi-eye"></i> preview</a>
+    <button class="btn-custom bg-success flex-grow-1" type="submit"><i class="bi bi-save"></i> save</button>
+  </div>
 </form>
 {% endmacro %}
 

@@ -13,9 +13,7 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
     <a class="navbar-brand" href="{{ url_for('index') }}"><i class="bi bi-stickies-fill" style="font-size:1.25em"></i></a>
-    <button class="navbar-toggler" data-bs-target="#navContent" data-bs-toggle="collapse" type="button">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <a data-bs-target="#navContent" data-bs-toggle="collapse" class="bi bi-three-dots"></a>
     <div class="collapse navbar-collapse" id="navContent">
       <ul class="navbar-nav me-auto">
         {% if not current_user.is_anonymous %}

@@ -41,7 +41,7 @@ html[data-theme="red"] {
 }
 
 a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
-    color: inherit;
+    color: inherit !important;
     cursor: pointer;
     text-decoration: none;
 }
@@ -77,7 +77,7 @@ body, .btn-custom:hover, .input-custom, .card, .modal-content {
 
 .navbar, .btn-custom, .badge-custom {
     background-color: var(--navbar-bg);
-    color: var(--navbar-txt);
+    color: var(--navbar-txt) !important;
 }
 
 .heading1, .heading2, .heading3 { font-weight: bold; }

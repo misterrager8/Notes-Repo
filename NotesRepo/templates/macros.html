@@ -131,6 +131,13 @@
 {% macro note_create_form() %}
 <form onsubmit="event.preventDefault(); noteCreate();" class="input-group">
   <input autocomplete="off" class="input-custom" id="title" placeholder="Title" type="text">
+  <select class="input-custom w-100 mb-2" id="folderId">
+    <option value="">None</option>
+    {% for i in current_user.get_folders() %}
+    <option value="{{ i.id }}">{{ i.name }}</option>
+    {% endfor %}
+  </select>
+
   <button type="submit" class="btn-custom">create note</button>
 </form>
 {% endmacro %}

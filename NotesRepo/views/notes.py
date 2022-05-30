@@ -30,6 +30,7 @@ def note():
 def note_create():
     _ = Note(
         title=request.form["title"] or "%s" % datetime.now().strftime("%F %T"),
+        folder_id=request.form["folder_id"],
         content="",
         date_created=datetime.now(),
         last_modified=datetime.now(),

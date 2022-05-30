@@ -5,14 +5,14 @@
 <title>Notes-Repo</title>
 {% if not current_user.is_anonymous %}
 <div>
-  {{ macros.folder_sorter(class='mb-3') }}
-  <a class="btn-custom" onclick="toggleDiv('folderCreate')">+ New Folder</a>
+  {{ macros.note_sorter(class='my-3') }}
   <a class="btn-custom" onclick="toggleDiv('noteCreate')">+ New Note</a>
-  <div id="noteCreate" style="display:none" class="my-3">{{ macros.note_create_form() }}</div>
-  <div class="my-3" id="folderCreate" style="display:none">{{ macros.folder_create_form() }}</div>
+  <div id="noteCreate" style="display:none" class="mt-3">{{ macros.note_create_form() }}</div>
+  <a class="btn-custom" onclick="toggleDiv('folderCreate')">+ New Folder</a>
+  <div id="folderCreate" style="display:none" class="mt-3">{{ macros.folder_create_form() }}</div>
   <div class="row mt-3">
-    {% for i in current_user.get_folders(order_by=order_by) %}
-    {{ macros.folder_card(i) }}
+    {% for i in current_user.get_notes(order_by=order_by) %}
+    {{ macros.note_card(i) }}
     {% endfor %}
   </div>
 </div>

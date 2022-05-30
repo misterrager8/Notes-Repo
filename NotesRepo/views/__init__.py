@@ -12,7 +12,7 @@ database = Database()
 
 @current_app.route("/")
 def index():
-    order_by = request.args.get("order_by", default="date_created desc")
+    order_by = request.args.get("order_by", default="last_modified desc")
     return render_template("index.html", order_by=order_by)
 
 

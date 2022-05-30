@@ -11,31 +11,35 @@
 {% endmacro %}
 
 {% macro folder_card(folder) %}
-<div class="card col-xl-3">
-  <div class="card-body text-center" style="border-color:{{ folder.color }}">
+<div class="card col-xl-12 border-0">
+  <div class="border-bottom card-body d-flex justify-content-between">
     <a href="{{ url_for('folders.folder', id_=folder.id) }}">
-      <i class="bi bi-folder-fill h1" style="color:{{ folder.color }}"></i>
-      <div class="heading1 text-truncate">{{ folder.name }}</div>
-      <p class="font-custom mb-2">{{ '%s note(s)' % folder.get_notes().count() }}</p>
+      <i class="bi bi-folder-fill me-2" style="color:{{ folder.color }}"> ({{ folder.get_notes().count() }})</i>
+      <span class="text-truncate fw-bold">{{ folder.name }}</span>
     </a>
-    {{ folder_options(folder) }}
+    <div>{{ folder_options(folder) }}</div>
   </div>
 </div>
 {% endmacro %}
 
 {% macro note_card(note) %}
-<div class="card col-xl-4">
-  <div class="card-body note-card">
+<div class="card col-xl-12 border-0">
+  <div class="card-body border-bottom">
     <div class="d-flex justify-content-between">
-      <a class="heading3 text-truncate" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
-      <a class="badge m-1 text-white" href="{{ url_for('folders.folder', id_=note.folder_id) }}" style="background-color:{{ note.folders.color }}">{{ note.folders.name or 'Unsorted' }}</a>
+      <div>
+        <a class="badge me-2" data-bs-target="#changeFolder{{ note.id }}" data-bs-toggle="dropdown" style="background-color:{{ note.folders.color }}">{{ note.folders.name or 'Unsorted' }}</a>
+        <div class="dropdown-menu p-0" id="changeFolder{{ note.id }}">
+            {% for i in current_user.get_folders() %}
+            <a onclick="changeFolder({{ note.id }}, {{ i.id }})" class="badge d-block" style="background-color:{{ i.color }}">{{ i.name }}</a>
+            {% endfor %}
+        </div>
+        <a class="heading3 text-truncate" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
+      </div>
+      <div>{{ note_options(note) }}</div>
     </div>
-    <div class="mt-3">
+    <div class="mt-3" style="display:none">
       <small class="text-truncate"><span class="font-custom">Last Modified:</span> {{ note.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
       <small class="text-truncate"><span class="font-custom">Date Created:</span> {{ note.date_created.strftime("%B %d, %Y %I:%M %p") }}</small>
-    </div>
-    <div class="mt-3">
-      {{ note_options(note) }}
     </div>
   </div>
 </div>
@@ -46,8 +50,8 @@
   {% if request.url_rule.endpoint != "notes.note" %}<a class="mx-1" data-bs-toggle="modal" data-bs-target="#previewNote{{ note.id }}"><i class="bi bi-eye"></i></a>{% endif %}
   <a class="mx-1" onclick="noteFavorite({{ note.id }})"><i class="bi bi-{% if note.favorited %}star-fill text-warning{% else %}star{% endif %}"></i></a>
   <a href="{{ url_for('notes.editor', id_=note.id) }}" class="mx-1"><i class="bi bi-pen"></i></a>
-  <a class="mx-1" onclick="toggleDiv('deleteNote' + {{ note.id }})"><i class="bi bi-x-circle text-danger"></i></a>
   <a class="font-custom text-danger" style="display:none" id="deleteNote{{ note.id }}" onclick="noteDelete({{ note.id }})">Delete?</a>
+  <a class="mx-1" onclick="toggleDiv('deleteNote' + {{ note.id }})"><i class="bi bi-x-circle text-danger"></i></a>
 </div>
 
 {% call modal('previewNote'+note.id|string, large=true) %}
@@ -62,8 +66,8 @@
   <a class="mx-1" onclick="toggleDiv('addToFolder' + {{ folder.id }}) "><i class="bi bi-plus-circle text-success"></i></a>
   <a class="mx-1" onclick="toggleDiv('editFolder' + {{ folder.id }}) "><i class="bi bi-pen"></i></a>
   <a class="mx-1" onclick="toggleDiv('deleteFolder' + {{ folder.id }}) "> <i class="bi bi-x-circle text-danger"></i></a>
-  <div class="mt-3">
-    <div id="addToFolder{{ folder.id }}" style="display:none">{{ note_create_form(folder) }}</div>
+  <div class="">
+    <div id="addToFolder{{ folder.id }}" style="display:none">{{ note_create_form() }}</div>
     <div id="editFolder{{ folder.id }}" style="display:none">{{ folder_edit_form(folder) }}</div>
     <a class="font-custom text-danger" id="deleteFolder{{ folder.id }}" style="display:none" onclick="folderDelete({{ folder.id }})">Delete?</a>
   </div>
@@ -124,15 +128,9 @@
 </form>
 {% endmacro %}
 
-{% macro note_create_form(folder) %}
-<form action="
-{% if folder %}
-{{ url_for('notes.note_create', id_=folder.id) }}
-{% else %}
-{{ url_for('notes.note_create') }}
-{% endif %}
-" method="POST" class="input-group">
-  <input autocomplete="off" class="input-custom" name="title" placeholder="Title" type="text">
+{% macro note_create_form() %}
+<form onsubmit="event.preventDefault(); noteCreate();" class="input-group">
+  <input autocomplete="off" class="input-custom" id="title" placeholder="Title" type="text">
   <button type="submit" class="btn-custom">create note</button>
 </form>
 {% endmacro %}
@@ -175,15 +173,15 @@
 {% macro note_sorter(class='') %}
 <div class="{{ class }}">
   <span class="font-custom py-2">Sort: </span>
-  {% if order_by != 'last_modified desc' %}<a class="btn-custom" href="{{ url_for('notes.notes_', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
-  {% if order_by != 'date_created desc' %}<a class="btn-custom" href="{{ url_for('notes.notes_', order_by='date_created desc') }}">Date Created</a>{% endif %}
+  {% if order_by != 'last_modified desc' %}<a class="btn-custom" href="{{ url_for('index', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
+  {% if order_by != 'date_created desc' %}<a class="btn-custom" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
 </div>
 {% endmacro %}
 
 {% macro folder_sorter(class='') %}
 <div class="{{ class }}">
   <span class="font-custom py-2">Sort: </span>
-  {% if order_by != 'date_created desc' %}<a class="btn-custom" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
-  {% if order_by != 'name' %}<a class="btn-custom" href="{{ url_for('index', order_by='name') }}">Name</a>{% endif %}
+  {% if order_by != 'date_created desc' %}<a class="btn-custom" href="{{ url_for('folders.folders_', order_by='date_created desc') }}">Date Created</a>{% endif %}
+  {% if order_by != 'name' %}<a class="btn-custom" href="{{ url_for('folders.folders_', order_by='name') }}">Name</a>{% endif %}
 </div>
 {% endmacro %}

@@ -11,13 +11,6 @@ notes = Blueprint("notes", __name__)
 database = Database()
 
 
-@notes.route("/notes_")
-@login_required
-def notes_():
-    order_by = request.args.get("order_by", default="last_modified desc")
-    return render_template("notes.html", order_by=order_by)
-
-
 @notes.route("/favorites")
 @login_required
 def favorites():
@@ -35,20 +28,15 @@ def note():
 @notes.route("/note_create", methods=["POST"])
 @login_required
 def note_create():
-    if request.args.get("id_"):
-        id_ = int(request.args.get("id_"))
-    else:
-        id_ = None
     _ = Note(
-        title=request.form["title"] or "Untitled %s" % datetime.now().strftime("%F"),
+        title=request.form["title"] or "%s" % datetime.now().strftime("%F %T"),
         content="",
-        folder_id=id_,
         date_created=datetime.now(),
         last_modified=datetime.now(),
         user_id=current_user.id,
     )
     database.create(_)
-    return redirect(url_for("notes.editor", id_=_.id))
+    return redirect(request.referrer)
 
 
 @notes.route("/note_delete")
@@ -65,6 +53,16 @@ def note_delete():
 def note_favorite():
     _: Note = database.get(Note, int(request.args.get("id_")))
     _.favorited = not _.favorited
+    database.update()
+
+    return redirect(request.referrer)
+
+
+@notes.route("/change_folder")
+@login_required
+def change_folder():
+    _: Note = database.get(Note, int(request.args.get("id_")))
+    _.folder_id = int(request.args.get("folder"))
     database.update()
 
     return redirect(request.referrer)

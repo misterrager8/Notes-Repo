@@ -53,7 +53,7 @@ a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
     font-size: 0.75em;
 }
 
-.border-custom, .input-custom, .card-body, .btn-custom {
+.border-custom, .input-custom, .btn-custom {
     border: 1px solid var(--body-txt);
     border-radius: 5px;
 }
@@ -66,9 +66,6 @@ a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
 .input-custom, .btn-custom, .badge-custom {
     padding: 5px 10px;
 }
-
-.card-body { margin-bottom: 20px; }
-.card { border: 0; }
 
 body, .btn-custom:hover, .input-custom, .card, .modal-content {
     background-color: var(--body-bg) !important;

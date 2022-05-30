@@ -11,6 +11,12 @@ folders = Blueprint("folders", __name__)
 database = Database()
 
 
+@folders.route("/folders_")
+def folders_():
+    order_by = request.args.get("order_by", default="date_created desc")
+    return render_template("folders.html", order_by=order_by)
+
+
 @folders.route("/folder_create", methods=["POST"])
 @login_required
 def folder_create():

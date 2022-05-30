@@ -28,9 +28,15 @@ def note():
 @notes.route("/note_create", methods=["POST"])
 @login_required
 def note_create():
+
+    if request.form["folder_id"]:
+        id_ = int(request.form["folder_id"])
+    else:
+        id_ = None
+
     _ = Note(
         title=request.form["title"] or "%s" % datetime.now().strftime("%F %T"),
-        folder_id=request.form["folder_id"],
+        folder_id=id_,
         content="",
         date_created=datetime.now(),
         last_modified=datetime.now(),
@@ -54,16 +60,6 @@ def note_delete():
 def note_favorite():
     _: Note = database.get(Note, int(request.args.get("id_")))
     _.favorited = not _.favorited
-    database.update()
-
-    return redirect(request.referrer)
-
-
-@notes.route("/change_folder")
-@login_required
-def change_folder():
-    _: Note = database.get(Note, int(request.args.get("id_")))
-    _.folder_id = int(request.args.get("folder"))
     database.update()
 
     return redirect(request.referrer)

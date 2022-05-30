@@ -13,7 +13,9 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
     <a class="navbar-brand" href="{{ url_for('index') }}"><i class="bi bi-stickies-fill" style="font-size:1.25em"></i></a>
-    <a data-bs-target="#navContent" data-bs-toggle="collapse" class="bi bi-three-dots"></a>
+    <button class="navbar-toggler" data-bs-target="#navContent" data-bs-toggle="collapse" type="button">
+        <span class="bi bi-list"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navContent">
       <ul class="navbar-nav me-auto">
         {% if not current_user.is_anonymous %}
@@ -50,9 +52,9 @@
                 <a class="dropdown-item" onclick="changeTheme('dark')">dark</a>
                 <a class="dropdown-item" onclick="changeTheme('light')">light</a>
                 <a class="dropdown-item" onclick="changeTheme('teal')">teal</a>
-                <a class="dropdown-item" onclick="changeTheme('orange')">orange</a>
                 <a class="dropdown-item" onclick="changeTheme('purple')">purple</a>
                 <a class="dropdown-item" onclick="changeTheme('red')">red</a>
+                <a class="dropdown-item" onclick="changeTheme('brown')">brown</a>
             </div>
         </li>
         <li class="nav-item">

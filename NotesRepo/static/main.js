@@ -58,15 +58,6 @@ function noteFavorite(noteId) {
     });
 }
 
-function changeFolder(noteId, folderId) {
-    $('#spinner').show();
-    $.get('change_folder', {
-        id_: noteId,
-        folder: folderId
-    }, function(data) {
-        refreshPage();
-    });
-}
 
 // Folders
 

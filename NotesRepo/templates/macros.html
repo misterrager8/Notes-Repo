@@ -25,15 +25,10 @@
 {% macro note_card(note) %}
 <div class="card col-xl-12 border-0">
   <div class="card-body border-bottom">
-    <div class="d-flex justify-content-between">
-      <div>
-        <a class="badge me-2" data-bs-target="#changeFolder{{ note.id }}" data-bs-toggle="dropdown" style="background-color:{{ note.folders.color }}">{{ note.folders.name or 'Unsorted' }}</a>
-        <div class="dropdown-menu p-0" id="changeFolder{{ note.id }}">
-            {% for i in current_user.get_folders() %}
-            <a onclick="changeFolder({{ note.id }}, {{ i.id }})" class="badge d-block" style="background-color:{{ i.color }}">{{ i.name }}</a>
-            {% endfor %}
-        </div>
-        <a class="heading3 text-truncate" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
+    <div class="d-flex justify-content-between text-truncate">
+      <div class="text-truncate">
+        <a class="badge me-2" href="{{ url_for('folders.folder', id_=note.folder_id) }}" style="background-color:{{ note.folders.color }}">{{ note.folders.name or 'Unsorted' }}</a>
+        <a class="heading3" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
       </div>
       <div>{{ note_options(note) }}</div>
     </div>
@@ -131,7 +126,7 @@
 {% macro note_create_form() %}
 <form onsubmit="event.preventDefault(); noteCreate();" class="input-group">
   <input autocomplete="off" class="input-custom" id="title" placeholder="Title" type="text">
-  <select class="input-custom w-100 mb-2" id="folderId">
+  <select class="input-custom" id="folderId">
     <option value="">None</option>
     {% for i in current_user.get_folders() %}
     <option value="{{ i.id }}">{{ i.name }}</option>
@@ -154,7 +149,10 @@
   <textarea rows=20 class="input-custom w-100 mb-2" id="content" style="white-space:pre-wrap">{{ note.content | safe }}</textarea>
   <div class="d-flex">
     <a class="btn-custom text-center me-1" href="{{ url_for('notes.note', id_=note.id) }}"><i class="bi bi-eye"></i> preview</a>
-    <button class="btn-custom bg-success flex-grow-1" type="submit"><i class="bi bi-save"></i> save</button>
+    <button class="btn-custom bg-success flex-grow-1" type="submit">
+        <span class="spinner-border spinner-border-sm" id="loading" style="display:none"></span>
+        <i class="bi bi-save"></i> save
+    </button>
   </div>
 </form>
 {% endmacro %}

@@ -13,17 +13,10 @@ html[data-theme="light"] {
 }
 
 html[data-theme="teal"] {
-    --navbar-bg: #9FFCDF;
-    --navbar-txt: #47624F;
-    --body-bg: #47624F;
-    --body-txt: #9FFCDF;
-}
-
-html[data-theme="orange"] {
-    --navbar-bg: #EDF060;
-    --navbar-txt: #F0803C;
-    --body-bg: #F0803C;
-    --body-txt: #EDF060;
+    --navbar-bg: #9EE5DD;
+    --navbar-txt: #264653;
+    --body-bg: #264653;
+    --body-txt: #9EE5DD;
 }
 
 html[data-theme="purple"] {
@@ -40,17 +33,24 @@ html[data-theme="red"] {
     --body-txt: #E3D3E4;
 }
 
+html[data-theme="brown"] {
+    --navbar-bg: #E0D0CD;
+    --navbar-txt: #7B3E19;
+    --body-bg: #7B3E19;
+    --body-txt: #E0D0CD;
+}
+
 a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
     color: inherit !important;
     cursor: pointer;
     text-decoration: none;
 }
 
-.font-custom, .btn-custom, .badge-custom {
+.font-custom, .btn-custom, .badge-custom, .dropdown-item, ::placeholder {
     font-weight: bold;
     letter-spacing: 3px;
     text-transform: uppercase;
-    font-size: 0.75em;
+    font-size: 0.8em;
 }
 
 .border-custom, .input-custom, .btn-custom {
@@ -67,12 +67,12 @@ a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
     padding: 5px 10px;
 }
 
-body, .btn-custom:hover, .input-custom, .card, .modal-content {
+body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-menu {
     background-color: var(--body-bg) !important;
-    color: var(--body-txt);
+    color: var(--body-txt) !important;
 }
 
-.navbar, .btn-custom, .badge-custom {
+.navbar, .btn-custom, .badge-custom, .dropdown-item:hover {
     background-color: var(--navbar-bg);
     color: var(--navbar-txt) !important;
 }
@@ -86,4 +86,12 @@ body, .btn-custom:hover, .input-custom, .card, .modal-content {
     background-color: green;
     color: white;
     transition: background-color .5s;
+}
+
+.dropdown-item {
+    transition: background-color .5s;
+}
+
+.navbar-toggler {
+    color: inherit !important;
 }

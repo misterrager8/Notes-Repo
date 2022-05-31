@@ -139,8 +139,8 @@
 
 {% macro note_editor_form(note) %}
 <form class="form-group" onsubmit="event.preventDefault(); noteEdit({{ note.id }});">
-  <input onchange="noteEdit({{ note.id }})" id="title" autocomplete="off" class="input-custom w-100 mb-2" placeholder="Title" type="text" value="{{ note.title }}">
-  <select onchange="noteEdit({{ note.id }})" class="input-custom w-100 mb-2" id="folderId" style="border: 3px solid {{ note.folders.color }}">
+  <input onchange="noteEdit({{ note.id }})" id="title" autocomplete="off" class="input-custom text-center w-100 mb-2" placeholder="Title" type="text" style="font-size:1.5em" value="{{ note.title }}">
+  <select onchange="noteEdit({{ note.id }})" class="font-custom input-custom w-100 mb-2" id="folderId"i style="font-size:1.25em; border: 3px solid {{ note.folders.color }}">
     <option value="">None</option>
     {% for i in current_user.get_folders() %}
     <option value="{{ i.id }}" {% if i.id== note.folder_id %}selected{% endif %}>{{ i.name }}</option>

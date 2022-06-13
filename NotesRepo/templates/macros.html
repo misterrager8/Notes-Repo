@@ -23,20 +23,13 @@
 {% endmacro %}
 
 {% macro note_card(note) %}
-<div class="card col-xl-12 border-0">
-  <div class="card-body border-bottom">
-    <div class="d-flex justify-content-between text-truncate">
-      <div class="text-truncate">
-        <a class="badge me-2" href="{{ url_for('folders.folder', id_=note.folder_id) }}" style="background-color:{{ note.folders.color }}">{{ note.folders.name or 'Unsorted' }}</a>
-        <a class="heading3" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
-      </div>
-      <div>{{ note_options(note) }}</div>
-    </div>
-    <div class="mt-3" style="display:none">
-      <small class="text-truncate"><span class="font-custom">Last Modified:</span> {{ note.last_modified.strftime("%B %d, %Y %I:%M %p") }}</small><br>
-      <small class="text-truncate"><span class="font-custom">Date Created:</span> {{ note.date_created.strftime("%B %d, %Y %I:%M %p") }}</small>
-    </div>
-  </div>
+<div class="row">
+    <a class="heading3 col text-truncate" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
+    <a class="col font-custom" href="{{ url_for('folders.folder', id_=note.folder_id) }}">
+      <i class="bi bi-circle-fill" style="color:{{ note.folders.color }}"></i>
+      {{ note.folders.name or 'Unsorted' }}
+    </a>
+    <div class="col text-end">{{ note_options(note) }}</div>
 </div>
 {% endmacro %}
 

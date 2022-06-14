@@ -68,12 +68,12 @@ a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
     font-size: 0.8em;
 }
 
-.border-custom, .input-custom, .btn-custom {
+.border-custom, .input-custom, .btn-custom, .card-body, .badge-custom {
     border: 1px solid var(--body-txt);
     border-radius: 5px;
 }
 
-.btn-custom, .badge-custom {
+.btn-custom {
     border-radius: 5px;
     transition: background-color .5s;
 }
@@ -82,12 +82,12 @@ a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
     padding: 5px 10px;
 }
 
-body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-menu {
+body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-menu, .badge-custom {
     background-color: var(--body-bg) !important;
     color: var(--body-txt) !important;
 }
 
-.navbar, .btn-custom, .badge-custom, .dropdown-item:hover {
+.navbar, .btn-custom, .badge-custom:hover, .dropdown-item:hover {
     background-color: var(--navbar-bg);
     color: var(--navbar-txt) !important;
 }

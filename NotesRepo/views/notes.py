@@ -43,7 +43,7 @@ def note_create():
         user_id=current_user.id,
     )
     database.create(_)
-    return redirect(request.referrer)
+    return redirect(url_for("notes.editor", id_=_.id))
 
 
 @notes.route("/note_delete")

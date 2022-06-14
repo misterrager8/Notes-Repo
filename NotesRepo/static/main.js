@@ -18,16 +18,6 @@ function toggleDiv(divId) {
 
 // Notes
 
-function noteCreate() {
-    $('#spinner').show();
-    $.post('note_create', {
-        title: $('#title').val(),
-        folder_id: $('#folderId').val(),
-    }, function(data) {
-        refreshPage();
-    });
-}
-
 function noteEdit(noteId) {
     $('#loading').toggle();
     $.post('editor', {

@@ -6,7 +6,7 @@
 {% if not current_user.is_anonymous %}
 <div>
   {{ macros.folder_sorter(class='mb-3') }}
-  <a class="btn-custom" onclick="toggleDiv('folderCreate')">+ New Folder</a>
+  <a class="btn-custom" onclick="toggleDiv('folderCreate')"><i class="bi bi-plus-lg"></i> New Folder</a>
   <div class="my-3" id="folderCreate" style="display:none">{{ macros.folder_create_form() }}</div>
   <div class="row mt-3">
     {% for i in current_user.get_folders(order_by=order_by) %}

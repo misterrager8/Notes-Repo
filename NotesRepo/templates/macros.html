@@ -11,25 +11,29 @@
 {% endmacro %}
 
 {% macro folder_card(folder) %}
-<div class="card col-xl-12 border-0">
-  <div class="border-bottom card-body d-flex justify-content-between">
-    <a href="{{ url_for('folders.folder', id_=folder.id) }}">
-      <i class="bi bi-folder-fill me-2" style="color:{{ folder.color }}"> ({{ folder.get_notes().count() }})</i>
-      <span class="text-truncate fw-bold">{{ folder.name }}</span>
-    </a>
-    <div>{{ folder_options(folder) }}</div>
-  </div>
+<div class="card col-xl-6 border-0">
+    <div class="text-center mb-4">
+        <a href="{{ url_for('folders.folder', id_=folder.id) }}" class="h5">
+            <div class="bi bi-folder-fill" style="color: {{ folder.color }}; font-size: 4em"></div>
+            <span class="font-custom">{{ folder.name }}</span><br>
+            <small class="font-custom" style="color: {{ folder.color }}">{{ folder.get_notes().count() }} note(s)</small>
+        </a>
+        <div class="mt-3">{{ folder_options(folder) }}</div>
+    </div>
 </div>
 {% endmacro %}
 
 {% macro note_card(note) %}
-<div class="row">
-    <a class="heading3 col text-truncate" data-placement="top" data-toggle="tooltip" href="{{ url_for('notes.note', id_=note.id) }}" title="{{ note.title }}">{{ note.title }}</a>
-    <a class="col font-custom" href="{{ url_for('folders.folder', id_=note.folder_id) }}">
-      <i class="bi bi-circle-fill" style="color:{{ note.folders.color }}"></i>
-      {{ note.folders.name or 'Unsorted' }}
-    </a>
-    <div class="col text-end">{{ note_options(note) }}</div>
+<div class="card col-xl-4 border-0">
+    <div class="card-body mb-4">
+        <div class="mb-3">
+            <a href="{{ url_for('notes.note', id_=note.id) }}" class="fw-bold">{{ note.title }}</a>
+            <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" class="float-end font-custom"><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i> {{ note.folders.name or 'unsorted' }}</a>
+        </div>
+        <span class="font-custom">Created {{ note.date_created.strftime('%F %T') }}</span><br>
+        <span class="font-custom">Modified {{ note.last_modified.strftime('%F %T') }}</span><br>
+        <div class="mt-3">{{ note_options(note) }}</div>
+    </div>
 </div>
 {% endmacro %}
 
@@ -55,7 +59,7 @@
   <a class="mx-1" onclick="toggleDiv('editFolder' + {{ folder.id }}) "><i class="bi bi-pen"></i></a>
   <a class="mx-1" onclick="toggleDiv('deleteFolder' + {{ folder.id }}) "> <i class="bi bi-x-circle text-danger"></i></a>
   <div class="">
-    <div id="addToFolder{{ folder.id }}" style="display:none">{{ note_create_form() }}</div>
+    <div id="addToFolder{{ folder.id }}" style="display:none">{{ note_create_form(folder) }}</div>
     <div id="editFolder{{ folder.id }}" style="display:none">{{ folder_edit_form(folder) }}</div>
     <a class="font-custom text-danger" id="deleteFolder{{ folder.id }}" style="display:none" onclick="folderDelete({{ folder.id }})">Delete?</a>
   </div>
@@ -116,13 +120,13 @@
 </form>
 {% endmacro %}
 
-{% macro note_create_form() %}
-<form onsubmit="event.preventDefault(); noteCreate();" class="input-group">
-  <input autocomplete="off" class="input-custom" id="title" placeholder="Title" type="text">
-  <select class="input-custom" id="folderId">
+{% macro note_create_form(folder) %}
+<form method="POST" action="{{ url_for('notes.note_create') }}" class="input-group">
+  <input autocomplete="off" class="input-custom" name="title" placeholder="Title" type="text">
+  <select class="input-custom" name="folder_id">
     <option value="">None</option>
     {% for i in current_user.get_folders() %}
-    <option value="{{ i.id }}">{{ i.name }}</option>
+    <option value="{{ i.id }}" {% if folder and i.id==folder.id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
 

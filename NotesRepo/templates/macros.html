@@ -143,15 +143,24 @@
     <option value="{{ i.id }}" {% if i.id== note.folder_id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
-  <textarea rows=20 class="input-custom w-100 mb-2" id="content" style="white-space:pre-wrap">{{ note.content | safe }}</textarea>
-  <div class="d-flex">
-    <a class="btn-custom text-center me-1" href="{{ url_for('notes.note', id_=note.id) }}"><i class="bi bi-eye"></i> preview</a>
-    <button class="btn-custom bg-success flex-grow-1" type="submit">
-        <span class="spinner-border spinner-border-sm" id="loading" style="display:none"></span>
-        <i class="bi bi-save"></i> save
-    </button>
-  </div>
+  <button class="btn-custom bg-success w-100 mb-2 sticky-top" type="submit">
+    <span class="spinner-border spinner-border-sm" id="loading" style="display:none"></span>
+    <i class="bi bi-save"></i> save
+  </button>
+  <textarea rows=20 class="input-custom w-100" id="content" style="white-space:pre-wrap">{{ note.content | safe }}</textarea>
+  {{ toolbar() }}
 </form>
+{% endmacro %}
+
+{% macro toolbar() %}
+<div style="font-size: 1.5em">
+    <a class="bi bi-type-bold btn-custom" onclick="formatText('bold')"></a>
+    <a class="bi bi-type-italic btn-custom" onclick="formatText('italic')"></a>
+    <a class="bi bi-link-45deg btn-custom" onclick="formatText('link')"></a>
+    <a class="bi bi-type-h1 btn-custom" onclick="formatText('heading')"></a>
+    <a class="bi bi-text-indent-left btn-custom" onclick="formatText('indent')"></a>
+    <a class="bi bi-code-slash btn-custom" onclick="formatText('code')"></a>
+</div>
 {% endmacro %}
 
 {% macro link_create_form() %}

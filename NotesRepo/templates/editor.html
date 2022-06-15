@@ -4,4 +4,8 @@
 {% block body %}
 <title>Edit | {{ note.title }}</title>
 {{ macros.note_editor_form(note) }}
+<div>
+    <div class="text-center font-custom my-3"><i class="bi bi-eye"></i> preview</div>
+    <div style="white-space: pre-wrap">{{ note.get_markdown() | safe }}</div>
+</div>
 {% endblock %}

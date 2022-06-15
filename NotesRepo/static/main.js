@@ -48,6 +48,22 @@ function noteFavorite(noteId) {
     });
 }
 
+function formatText(format) {
+    if (format=='bold') {
+        document.getElementById('content').value += '\n**bold**';
+    } else if (format=='italic') {
+        document.getElementById('content').value += '\n*italic*';
+    } else if (format=='link') {
+        document.getElementById('content').value += '\n[url](text)';
+    } else if (format=='heading') {
+        document.getElementById('content').value += '\n### ';
+    } else if (format=='indent') {
+        document.getElementById('content').value += '    ';
+    } else if (format=='code') {
+        document.getElementById('content').value += '\n<code>\n</code>';
+    }
+}
+
 
 // Folders
 

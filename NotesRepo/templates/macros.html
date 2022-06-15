@@ -30,8 +30,8 @@
             <a href="{{ url_for('notes.note', id_=note.id) }}" class="fw-bold">{{ note.title }}</a>
             <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" class="float-end font-custom"><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i> {{ note.folders.name or 'unsorted' }}</a>
         </div>
-        <span class="font-custom">Created {{ note.date_created.strftime('%F %T') }}</span><br>
-        <span class="font-custom">Modified {{ note.last_modified.strftime('%F %T') }}</span><br>
+        <span class="font-custom">Created {{ note.date_created.strftime('%B %d, %Y %I:%M %p') }}</span><br>
+        <span class="font-custom">Modified {{ note.last_modified.strftime('%B %d, %Y %I:%M %p') }}</span><br>
         <div class="mt-3">{{ note_options(note) }}</div>
     </div>
 </div>

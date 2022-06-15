@@ -4,9 +4,9 @@
 {% block body %}
 <title>{{ note.title }}</title>
 <div class="text-center mb-5">
-  <p class="h1">{{ note.title }}</p>
-  <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" style="background-color:{{ note.folders.color }}" class="badge link my-2">{{ note.folders.name }}</a>
-  {{ macros.note_options(note) }}
+  <span class="h2">{{ note.title }}</span><br>
+  <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" class="font-custom"><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i> {{ note.folders.name or 'unsorted' }}</a>
+  <div class="mt-3">{{ macros.note_options(note) }}</div>
 </div>
 <div style="white-space:pre-wrap">{{ note.get_markdown() | safe }}</div>
 {% endblock %}

@@ -11,12 +11,6 @@ notes = Blueprint("notes", __name__)
 database = Database()
 
 
-@notes.route("/favorites")
-@login_required
-def favorites():
-    return render_template("favorites.html")
-
-
 @notes.route("/note")
 @login_required
 def note():

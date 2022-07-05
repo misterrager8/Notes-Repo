@@ -30,15 +30,6 @@ function noteEdit(noteId) {
     });
 }
 
-function noteDelete(noteId) {
-    $('#spinner').show();
-    $.get('note_delete', {
-        id_: noteId
-    }, function(data) {
-        refreshPage();
-    });
-}
-
 function noteFavorite(noteId) {
     $('#spinner').show();
     $.get('note_favorite', {
@@ -67,30 +58,12 @@ function formatText(format) {
 
 // Folders
 
-function folderCreate() {
-    $('#spinner').show();
-    $.post('folder_create', {
-        name: $('#name').val()
-    }, function(data) {
-        refreshPage();
-    });
-}
-
 function folderEdit(folderId) {
     $('#spinner').show();
     $.post('folder_edit', {
         id_: folderId,
-        name: $('#name' + folderId).val(),
-        color: $('#color' + folderId).val()
-    }, function(data) {
-        refreshPage();
-    });
-}
-
-function folderDelete(folderId) {
-    $('#spinner').show();
-    $.get('folder_delete', {
-        id_: folderId
+        name: $('#name').val(),
+        color: $('#color').val()
     }, function(data) {
         refreshPage();
     });
@@ -159,4 +132,10 @@ function changeUsername() {
     }, function(data) {
         refreshPage();
     });
+}
+
+function hideNav() {
+    $('.nav-vertical').toggleClass('collapsed');
+    $('body').toggleClass('collapsed');
+    $('#screen').toggleClass('bi-arrows-fullscreen bi-fullscreen-exit');
 }

@@ -3,9 +3,19 @@
 
 {% block body %}
 <title>Edit | {{ note.title }}</title>
-{{ macros.note_editor_form(note) }}
-<div>
-    <div class="text-center font-custom my-3"><i class="bi bi-eye"></i> preview</div>
-    <div style="white-space: pre-wrap">{{ note.get_markdown() | safe }}</div>
-</div>
+<nav class="nav-horizontal sticky-top">
+    <a id="screen" class="bi bi-arrows-fullscreen me-3" onclick="hideNav()"></a>
+    <i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i>
+    <select class="input-hidden border-end mx-2 pe-1" id="folderId" onchange="noteEdit({{ note.id }})">
+        {% for i in current_user.get_folders() %}
+        <option value="{{ i.id }}" {% if i.id == note.folder_id %}selected{% endif %}>{{ i.name }}</option>
+        {% endfor %}
+    </select>
+    <input autocomplete="off" class="input-hidden" value="{{ note.title }}" id="title" onchange="noteEdit({{ note.id }})">
+    <a onclick="noteEdit({{ note.id }})" class="font-custom float-end text-success">
+        <i class="bi bi-save"></i> save
+        <span class="spinner-border spinner-border-sm" id="loading" style="display: none"></span>
+    </a>
+</nav>
+<textarea rows="40" class="input-content" id="content">{{ note.content }}</textarea>
 {% endblock %}

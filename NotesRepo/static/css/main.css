@@ -12,49 +12,6 @@ html[data-theme="light"] {
     --body-txt: #1a1a1a;
 }
 
-html[data-theme="gray"] {
-    --navbar-bg: #D6D6D6;
-    --navbar-txt: #595959;
-    --body-bg: #595959;
-    --body-txt: #D6D6D6;
-}
-
-html[data-theme="red"] {
-    --navbar-bg: #F7AFA1;
-    --navbar-txt: #4C2B36;
-    --body-bg: #4C2B36;
-    --body-txt: #F7AFA1;
-}
-
-html[data-theme="green"] {
-    --navbar-bg: #94A187;
-    --navbar-txt: #3E5641;
-    --body-bg: #3E5641;
-    --body-txt: #94A187;
-}
-
-html[data-theme="blue"] {
-    --navbar-bg: #9ABDD5;
-    --navbar-txt: #064789;
-    --body-bg: #064789;
-    --body-txt: #9ABDD5;
-}
-
-html[data-theme="purple"] {
-    --navbar-bg: #BB9BB0;
-    --navbar-txt: #4E4187;
-    --body-bg: #4E4187;
-    --body-txt: #BB9BB0;
-}
-
-html[data-theme="brown"] {
-    --navbar-bg: #B9B5A2;
-    --navbar-txt: #704E2E;
-    --body-bg: #704E2E;
-    --body-txt: #B9B5A2;
-}
-
-
 a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
     color: inherit !important;
     cursor: pointer;
@@ -65,6 +22,12 @@ a, a:hover, .nav-link, .nav-link:hover, .nav-link:link {
     font-weight: bold;
     letter-spacing: 3px;
     text-transform: uppercase;
+    font-size: 0.8em;
+}
+
+.font-custom-2, .input-hidden {
+    font-weight: bold;
+    letter-spacing: 3px;
     font-size: 0.8em;
 }
 
@@ -87,7 +50,7 @@ body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-menu, .
     color: var(--body-txt) !important;
 }
 
-.navbar, .btn-custom, .badge-custom:hover, .dropdown-item:hover {
+nav, .btn-custom, .badge-custom:hover, .dropdown-item:hover {
     background-color: var(--navbar-bg);
     color: var(--navbar-txt) !important;
 }
@@ -109,4 +72,57 @@ body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-menu, .
 
 .navbar-toggler {
     color: inherit !important;
+}
+
+nav.nav-vertical {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    overflow-x: hidden;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    padding: 20px;
+    border-right: 1px solid var(--navbar-txt);
+    transition: width .5s, padding .5s;
+}
+
+nav.nav-horizontal {
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.nav-vertical.collapsed {
+    width: 0px;
+    padding: 0;
+}
+
+body.collapsed {
+    margin-left: 0px;
+}
+
+body {
+    margin-left: 250px;
+}
+
+.input-hidden {
+    border: 0;
+    background-color: inherit;
+    color: inherit;
+}
+
+.input-content {
+    border: 0;
+    width: 100%;
+    white-space: pre-wrap;
+    padding: 20px;
+    background-color: inherit;
+    color: inherit;
+}
+
+input[type="color"] {
+    height: 1em;
+    width: 1em;
+    border: 0;
+    padding: 0;
 }

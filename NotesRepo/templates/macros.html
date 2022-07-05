@@ -10,19 +10,6 @@
 </div>
 {% endmacro %}
 
-{% macro folder_card(folder) %}
-<div class="card col-xl-6 border-0">
-    <div class="text-center mb-4">
-        <a href="{{ url_for('folders.folder', id_=folder.id) }}" class="h5">
-            <div class="bi bi-folder-fill" style="color: {{ folder.color }}; font-size: 4em"></div>
-            <span class="font-custom">{{ folder.name }}</span><br>
-            <small class="font-custom" style="color: {{ folder.color }}">{{ folder.get_notes().count() }} note(s)</small>
-        </a>
-        <div class="mt-3">{{ folder_options(folder) }}</div>
-    </div>
-</div>
-{% endmacro %}
-
 {% macro note_card(note) %}
 <div class="card col-xl-4 border-0">
     <div class="card-body mb-4">
@@ -42,7 +29,7 @@
   {% if request.url_rule.endpoint != "notes.note" %}<a class="mx-1" data-bs-toggle="modal" data-bs-target="#previewNote{{ note.id }}"><i class="bi bi-eye"></i></a>{% endif %}
   <a class="mx-1" onclick="noteFavorite({{ note.id }})"><i class="bi bi-{% if note.favorited %}star-fill text-warning{% else %}star{% endif %}"></i></a>
   <a href="{{ url_for('notes.editor', id_=note.id) }}" class="mx-1"><i class="bi bi-pen"></i></a>
-  <a class="font-custom text-danger" style="display:none" id="deleteNote{{ note.id }}" onclick="noteDelete({{ note.id }})">Delete?</a>
+  <a class="font-custom text-danger" style="display:none" id="deleteNote{{ note.id }}" href="{{ url_for('notes.note_delete', id_=note.id) }}">Delete?</a>
   <a class="mx-1" onclick="toggleDiv('deleteNote' + {{ note.id }})"><i class="bi bi-x-circle text-danger"></i></a>
 </div>
 
@@ -51,19 +38,6 @@
 <p class="mt-4" style="white-space:pre-wrap">{{ note.get_markdown() | safe }}</p>
 {% endcall %}
 
-{% endmacro %}
-
-{% macro folder_options(folder) %}
-<div>
-  <a class="mx-1" onclick="toggleDiv('addToFolder' + {{ folder.id }}) "><i class="bi bi-plus-circle text-success"></i></a>
-  <a class="mx-1" onclick="toggleDiv('editFolder' + {{ folder.id }}) "><i class="bi bi-pen"></i></a>
-  <a class="mx-1" onclick="toggleDiv('deleteFolder' + {{ folder.id }}) "> <i class="bi bi-x-circle text-danger"></i></a>
-  <div class="">
-    <div id="addToFolder{{ folder.id }}" style="display:none">{{ note_create_form(folder) }}</div>
-    <div id="editFolder{{ folder.id }}" style="display:none">{{ folder_edit_form(folder) }}</div>
-    <a class="font-custom text-danger" id="deleteFolder{{ folder.id }}" style="display:none" onclick="folderDelete({{ folder.id }})">Delete?</a>
-  </div>
-</div>
 {% endmacro %}
 
 {% macro link_card(link) %}
@@ -104,19 +78,9 @@
 {% endmacro %}
 
 {% macro folder_create_form() %}
-<form class="input-group" onsubmit="event.preventDefault(); folderCreate();">
-  <input autocomplete="off" class="input-custom" placeholder="Name" type="text" id="name">
+<form class="input-group" method="post" action="{{ url_for('folders.folder_create') }}">
+  <input autocomplete="off" class="input-custom" placeholder="Name" type="text" name="name">
   <button type="submit" class="btn-custom">Create Folder</button>
-</form>
-{% endmacro %}
-
-{% macro folder_edit_form(folder) %}
-<form onsubmit="event.preventDefault(); folderEdit({{ folder.id }});">
-  <div class="input-group mb-2">
-    <input autocomplete="off" class="input-custom col" placeholder="Name" type="text" value="{{ folder.name }}" id="name{{ folder.id }}">
-    <input class="input-custom col" type="color" value="{{ folder.color }}" id="color{{ folder.id }}" style="height:inherit">
-  </div>
-  <button type="submit" class="btn-custom w-100">Edit</button>
 </form>
 {% endmacro %}
 
@@ -131,24 +95,6 @@
   </select>
 
   <button type="submit" class="btn-custom">create note</button>
-</form>
-{% endmacro %}
-
-{% macro note_editor_form(note) %}
-<form class="form-group" onsubmit="event.preventDefault(); noteEdit({{ note.id }});">
-  <input onchange="noteEdit({{ note.id }})" id="title" autocomplete="off" class="input-custom text-center w-100 mb-2" placeholder="Title" type="text" style="font-size:1.5em" value="{{ note.title }}">
-  <select onchange="noteEdit({{ note.id }})" class="font-custom input-custom w-100 mb-2" id="folderId"i style="font-size:1.25em; border: 3px solid {{ note.folders.color }}">
-    <option value="">None</option>
-    {% for i in current_user.get_folders() %}
-    <option value="{{ i.id }}" {% if i.id== note.folder_id %}selected{% endif %}>{{ i.name }}</option>
-    {% endfor %}
-  </select>
-  <button class="btn-custom bg-success w-100 mb-2 sticky-top" type="submit">
-    <span class="spinner-border spinner-border-sm" id="loading" style="display:none"></span>
-    <i class="bi bi-save"></i> save
-  </button>
-  <textarea rows=20 class="input-custom w-100" id="content" style="white-space:pre-wrap">{{ note.content | safe }}</textarea>
-  {{ toolbar() }}
 </form>
 {% endmacro %}
 
@@ -186,13 +132,5 @@
   <span class="font-custom py-2">Sort: </span>
   {% if order_by != 'last_modified desc' %}<a class="btn-custom" href="{{ url_for('index', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
   {% if order_by != 'date_created desc' %}<a class="btn-custom" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
-</div>
-{% endmacro %}
-
-{% macro folder_sorter(class='') %}
-<div class="{{ class }}">
-  <span class="font-custom py-2">Sort: </span>
-  {% if order_by != 'date_created desc' %}<a class="btn-custom" href="{{ url_for('folders.folders_', order_by='date_created desc') }}">Date Created</a>{% endif %}
-  {% if order_by != 'name' %}<a class="btn-custom" href="{{ url_for('folders.folders_', order_by='name') }}">Name</a>{% endif %}
 </div>
 {% endmacro %}

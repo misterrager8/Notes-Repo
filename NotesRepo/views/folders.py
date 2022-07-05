@@ -1,7 +1,7 @@
 import random
 from datetime import datetime
 
-from flask import Blueprint, request, redirect, render_template
+from flask import Blueprint, request, redirect, render_template, url_for
 from flask_login import login_required, current_user
 
 from NotesRepo.ctrla import Database
@@ -11,25 +11,18 @@ folders = Blueprint("folders", __name__)
 database = Database()
 
 
-@folders.route("/folders_")
-def folders_():
-    order_by = request.args.get("order_by", default="date_created desc")
-    return render_template("folders.html", order_by=order_by)
-
-
 @folders.route("/folder_create", methods=["POST"])
 @login_required
 def folder_create():
-    database.create(
-        Folder(
+    _ =         Folder(
             name=request.form["name"],
             color="#{:06x}".format(random.randint(0, 0xFFFFFF)),
             date_created=datetime.now(),
             user_id=current_user.id,
         )
-    )
+    database.create(_)
 
-    return redirect(request.referrer)
+    return redirect(url_for("folders.folder", id_=_.id))
 
 
 @folders.route("/folder")
@@ -59,4 +52,4 @@ def folder_delete():
     database.delete_multiple([i for i in _.get_notes()])
     database.delete(_)
 
-    return redirect(request.referrer)
+    return redirect(url_for("index"))

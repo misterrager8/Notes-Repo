@@ -2,16 +2,22 @@
 {% import "macros.html" as macros with context %}
 
 {% block body %}
-<title>{{ folder.name }}</title>
-<div class="text-center mb-3">
-  <p class="font-custom" style="font-size: 2em">{{ folder.name }}</p>
-  {{ macros.folder_options(folder) }}
+<nav class="nav-horizontal d-flex justify-content-between">
+    <div>
+        <input type="color" value="{{ folder.color }}" class="me-1" id="color" onchange="folderEdit({{ folder.id }})">
+        <input autocomplete="off" value="{{ folder.name }}" class="input-hidden" id="name" onchange="folderEdit({{ folder.id }})">
+    </div>
+    <div>
+        <a href="{{ url_for('folders.folder_delete', id_=folder.id) }}" class="text-danger font-custom" id="delete" style="display: none">delete?</a>
+        <a class="text-danger bi bi-trash3" onclick="toggleDiv('delete')"></a>
+    </div>
+</nav>
+<div class="p-4">
+    <title>{{ folder.name }}</title>
+    <div class="row">
+      {% for i in folder.get_notes() %}
+      {{ macros.note_card(i) }}
+      {% endfor %}
+    </div>
 </div>
-
-<div class="row">
-  {% for i in folder.get_notes() %}
-  {{ macros.note_card(i) }}
-  {% endfor %}
-</div>
-
 {% endblock %}

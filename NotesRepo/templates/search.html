@@ -3,10 +3,12 @@
 
 {% block body %}
 <title>Notes</title>
-<p class="h1 mb-3 text-center">{{ header }}</p>
-<div class="row">
-  {% for i in results %}
-  {{ macros.note_card(i) }}
-  {% endfor %}
+<div class="p-4">
+    <p class="h1 mb-3 text-center">{{ header }}</p>
+    <div class="row">
+      {% for i in results %}
+      {{ macros.note_card(i) }}
+      {% endfor %}
+    </div>
 </div>
 {% endblock %}

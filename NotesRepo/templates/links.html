@@ -3,12 +3,14 @@
 
 {% block body %}
 <title>Links</title>
-<a class="btn-custom mb-3" onclick="toggleDiv('linkCreate')">+ New Link</a>
-<div id="linkCreate" style="display:none" class="mt-3">{{ macros.link_create_form() }}</div>
-<div class="row mt-3">
-  {% for i in current_user.get_links() %}
-  {{ macros.link_card(i) }}
-  {% endfor %}
+<div class="p-4">
+    <a class="btn-custom mb-3" onclick="toggleDiv('linkCreate')">+ New Link</a>
+    <div id="linkCreate" style="display:none" class="mt-3">{{ macros.link_create_form() }}</div>
+    <div class="row mt-3">
+      {% for i in current_user.get_links() %}
+      {{ macros.link_card(i) }}
+      {% endfor %}
+    </div>
+    <a href="{{ url_for('links.export_all') }}" class="btn-custom" download="links.csv">Export All</a>
 </div>
-<a href="{{ url_for('links.export_all') }}" class="btn-custom" download="links.csv">Export All</a>
 {% endblock %}

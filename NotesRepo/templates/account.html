@@ -3,12 +3,14 @@
 
 {% block body %}
 <title>{{ current_user.username }}</title>
-<input autocomplete="off" id="username" class="input-custom mb-2" placeholder="Username" value="{{ current_user.username }}">
-<button class="btn-custom" onclick="changeUsername()">Change Username</button>
-<form onsubmit="event.preventDefault(); changePassword();">
-  <input autocomplete="off" id="oldPassword" class="input-custom" placeholder="Current Password" type="password">
-  <input autocomplete="off" id="newPassword" class="input-custom" placeholder="New Password" type="password">
-  <input autocomplete="off" id="newPasswordConfirm" class="input-custom" placeholder="New Password Again" type="password">
-  <button class="btn-custom" type="submit">Change Password</button>
-</form>
+<div class="p-4">
+    <input autocomplete="off" id="username" class="input-custom mb-2" placeholder="Username" value="{{ current_user.username }}">
+    <button class="btn-custom" onclick="changeUsername()">Change Username</button>
+    <form onsubmit="event.preventDefault(); changePassword();">
+      <input autocomplete="off" id="oldPassword" class="input-custom" placeholder="Current Password" type="password">
+      <input autocomplete="off" id="newPassword" class="input-custom" placeholder="New Password" type="password">
+      <input autocomplete="off" id="newPasswordConfirm" class="input-custom" placeholder="New Password Again" type="password">
+      <button class="btn-custom" type="submit">Change Password</button>
+    </form>
+</div>
 {% endblock %}

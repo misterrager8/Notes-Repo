@@ -35,28 +35,28 @@
         </div>
         
         <div class="my-3">
-            <a onclick="toggleDiv('favorites')" class="dropdown-toggle font-custom text-warning"><i class="bi bi-star-fill"></i> favorites <small>{{ current_user.get_notes(filter_='favorited').count() }}</small></a>
+            <a onclick="toggleDiv('favorites')" class="dropdown-toggle font-custom text-warning"><i class="bi bi-star-fill"></i> favorites <small>- {{ current_user.get_notes(filter_='favorited').count() }}</small></a>
             <div class="ps-3" id="favorites">
             {% for i in current_user.get_notes(filter_='favorited') %}
-                <div>
-                    <a href="{{ url_for('notes.note', id_=i.id) }}" class="font-custom-2"><i style="color: {{ i.folders.color }}" class="bi bi-sticky-fill"></i> {{ i.title }}</a>
-                </div>
+            <div>
+                <a href="{{ url_for('notes.note', id_=i.id) }}" class="font-custom-2"><i style="color: {{ i.folders.color }}" class="bi bi-sticky-fill"></i> {{ i.title }}</a>
+            </div>
             {% endfor %}
             </div>
         </div>
         <div class="my-3">
-            <a onclick="toggleDiv('folders')" class="dropdown-toggle font-custom"><i class="bi bi-folder-fill"></i> folders <small>{{ current_user.get_folders().count() }}</small></a>
+            <a onclick="toggleDiv('folders')" class="dropdown-toggle font-custom"><i class="bi bi-folder-fill"></i> folders <small>- {{ current_user.get_folders().count() }}</small></a>
             <div class="ps-3" id="folders">
             {% for i in current_user.get_folders() %}
-                <div>
-                    <a href="{{ url_for('folders.folder', id_=i.id) }}" class="font-custom-2"><i style="color: {{ i.color }}" class="bi bi-folder-fill"></i> {{ i.name }} <small>{{ i.get_notes().count() }}</small></a>
-                </div>
+            <div>
+                <a href="{{ url_for('folders.folder', id_=i.id) }}" class="font-custom-2"><i style="color: {{ i.color }}" class="bi bi-folder-fill"></i> {{ i.name }} <small>- {{ i.get_notes().count() }}</small></a>
+            </div>
             {% endfor %}
             <a class="text-success font-custom" data-bs-toggle="modal" data-bs-target="#newFolder"><i class="bi bi-folder-fill"></i> + new folder</a>
             </div>
         </div>
         <div class="my-3">
-            <a href="{{ url_for('links.links_') }}" class="font-custom"><i class="bi bi-link-45deg"></i> links</a>
+            <a href="{{ url_for('links.links_') }}" class="font-custom"><i class="bi bi-link-45deg"></i> links <small>- {{ current_user.get_links(filter_='not been_read').count() }}</small></a>
         </div>
         {% endif %}
                 

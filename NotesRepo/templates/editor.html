@@ -4,7 +4,6 @@
 {% block body %}
 <title>Edit | {{ note.title }}</title>
 <nav class="nav-horizontal sticky-top">
-    <a id="screen" class="bi bi-arrows-fullscreen me-3" onclick="hideNav()"></a>
     <i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i>
     <select class="input-hidden border-end mx-2 pe-1" id="folderId" onchange="noteEdit({{ note.id }})">
         {% for i in current_user.get_folders() %}

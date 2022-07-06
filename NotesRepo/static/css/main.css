@@ -71,14 +71,13 @@ body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-menu, .
 
 nav.nav-vertical {
     height: 100%;
-    width: 250px;
+    width: 20%;
     position: fixed;
     overflow-x: hidden;
     top: 0;
     left: 0;
     z-index: 1;
     padding: 20px;
-    border-right: 1px solid var(--navbar-txt);
     transition: width .5s, padding .5s;
 }
 
@@ -97,7 +96,7 @@ body.collapsed {
 }
 
 body {
-    margin-left: 250px;
+    margin-left: 20%;
     transition: margin-left .5s;
 }
 

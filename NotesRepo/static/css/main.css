@@ -55,11 +55,6 @@ nav, .btn-custom, .badge-custom:hover, .dropdown-item:hover {
     color: var(--navbar-txt) !important;
 }
 
-.heading1, .heading2, .heading3 { font-weight: bold; }
-.heading1 { font-size: 2.5em; }
-.heading2 { font-size: 1.5em; }
-.heading3 { font-size: 1em; }
-
 .btn-custom.bg-success {
     background-color: green;
     color: white;

@@ -71,7 +71,7 @@ body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-menu, .
 
 nav.nav-vertical {
     height: 100%;
-    width: 20%;
+    width: 250px;
     position: fixed;
     overflow-x: hidden;
     top: 0;
@@ -96,7 +96,7 @@ body.collapsed {
 }
 
 body {
-    margin-left: 20%;
+    margin-left: 250px;
     transition: margin-left .5s;
 }
 
@@ -120,4 +120,18 @@ input[type="color"] {
     width: 1em;
     border: 0;
     padding: 0;
+}
+
+@media screen and (max-width: 600px) {
+    nav.nav-vertical {
+        display: none;
+    }
+    
+    .expand-this {
+        display: block !important;
+    }
+    
+    body {
+        margin-left: 0;
+    }
 }

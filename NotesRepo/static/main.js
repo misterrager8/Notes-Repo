@@ -133,9 +133,3 @@ function changeUsername() {
         refreshPage();
     });
 }
-
-function hideNav() {
-    $('.nav-vertical').toggleClass('collapsed');
-    $('body').toggleClass('collapsed');
-    $('#screen').toggleClass('bi-arrows-fullscreen bi-fullscreen-exit');
-}

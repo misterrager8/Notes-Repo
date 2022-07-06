@@ -60,10 +60,8 @@
         </div>
         {% endif %}
                 
-        <div class="fixed-bottom p-4">
-            <a onclick="hideNav()" class="bi bi-arrows-fullscreen me-2" id="screen"></a>
-            <a class="dropdown-toggle font-custom" data-bs-toggle="dropdown" data-bs-target="#themeDD"><i class="bi bi-circle-half"></i> change theme</a>
-        </div>
+        
+        <a class="dropdown-toggle font-custom" data-bs-toggle="dropdown" data-bs-target="#themeDD"><i class="bi bi-circle-half"></i> change theme</a>
         
         <div id="themeDD" class="dropdown-menu">
             <a class="dropdown-item" onclick="changeTheme('light')">light</a>
@@ -71,7 +69,6 @@
         </div>
     </div>
 </nav>
-    
     {% if not current_user.is_anonymous %}
     {% call macros.modal('newFolder') %}
     {{ macros.folder_create_form() }}
@@ -92,6 +89,7 @@
     
 <div class="" id="pageContent">
   <span class="spinner-border spinner-border-sm" id="spinner" style="display:none"></span>
+  <a class="expand-this bi bi-list sticky-top p-1" onclick="toggleDiv('navContent')" style="display: none; font-size: 2em"></a>
   {% block body %}
   {% endblock %}
   <script crossorigin="anonymous" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

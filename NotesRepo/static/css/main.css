@@ -1,13 +1,13 @@
 :root, html[data-theme="dark"] {
-    --navbar-bg: white;
-    --navbar-txt: #1a1a1a;
+    --navbar-bg: #333333;
+    --navbar-txt: white;
     --body-bg: #1a1a1a;
     --body-txt: white;
 }
 
 html[data-theme="light"] {
-    --navbar-bg: #1a1a1a;
-    --navbar-txt: white;
+    --navbar-bg: #CCCCCC;
+    --navbar-txt: #1a1a1a;
     --body-bg: white;
     --body-txt: #1a1a1a;
 }
@@ -50,7 +50,7 @@ body, .btn-custom:hover, .input-custom, .card, .modal-content, .dropdown-menu, .
     color: var(--body-txt) !important;
 }
 
-nav, .btn-custom, .badge-custom:hover, .dropdown-item:hover {
+.nav-vertical, .btn-custom, .badge-custom:hover, .dropdown-item:hover {
     background-color: var(--navbar-bg);
     color: var(--navbar-txt) !important;
 }
@@ -98,6 +98,7 @@ body.collapsed {
 
 body {
     margin-left: 250px;
+    transition: margin-left .5s;
 }
 
 .input-hidden {

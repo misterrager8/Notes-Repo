@@ -44,9 +44,10 @@ def note_create():
 @login_required
 def note_delete():
     _: Note = database.get(Note, int(request.args.get("id_")))
+    id_ = _.folder_id
     database.delete(_)
 
-    return redirect(request.referrer)
+    return redirect(url_for("folders.folder", id_=id_))
 
 
 @notes.route("/note_favorite")

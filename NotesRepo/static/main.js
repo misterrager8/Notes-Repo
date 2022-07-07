@@ -22,7 +22,7 @@ function noteEdit(noteId) {
     $('#loading').toggle();
     $.post('editor', {
         id_: noteId,
-        title: $('#title').val(),
+        title: $('#notetitle').val(),
         folder_id: $('#folderId').val(),
         content: $('#content').val()
     }, function(data) {

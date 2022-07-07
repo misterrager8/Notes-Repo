@@ -18,7 +18,7 @@ def link_create():
     database.create(
         Link(
             url=request.form["url"],
-            title=request.form["title"],
+            title=request.form["linktitle"],
             user_id=current_user.id,
             date_added=datetime.now(),
         )

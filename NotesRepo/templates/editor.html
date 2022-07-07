@@ -6,11 +6,12 @@
 <nav class="nav-horizontal sticky-top">
     <i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i>
     <select class="input-hidden border-end mx-2 pe-1" id="folderId" onchange="noteEdit({{ note.id }})">
+        <option value="">None</option>
         {% for i in current_user.get_folders() %}
         <option value="{{ i.id }}" {% if i.id == note.folder_id %}selected{% endif %}>{{ i.name }}</option>
         {% endfor %}
     </select>
-    <input autocomplete="off" class="input-hidden" value="{{ note.title }}" id="title" onchange="noteEdit({{ note.id }})">
+    <input autocomplete="off" class="input-hidden" value="{{ note.title }}" id="notetitle" onchange="noteEdit({{ note.id }})">
     <div class="float-end">
         <a class="me-2 bi bi-star{% if note.favorited %}-fill text-warning{% endif %}" onclick="noteFavorite({{ note.id }})"></a>
         <a class="text-danger font-custom" id="deleteNote" style="display: none" href="{{ url_for('notes.note_delete', id_=note.id) }}">delete?</a>

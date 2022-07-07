@@ -29,7 +29,7 @@
         <form action="{{ url_for('notes.search') }}" class="input-group" method="POST">
             <input autocomplete="off" class="input-custom" name="search_term" placeholder="Search" type="search">
         </form>
-        
+                
         <div class="my-3">
             <a class="bg-success btn-custom dropdown-toggle" onclick="toggleDiv('new')"><i class="bi bi-plus-lg"></i> new</a>
             <div id="new" class="ps-3 mt-2" style="display: none">
@@ -39,12 +39,14 @@
             </div>
         </div>
         
+        <div class="my-3"><a class="font-custom" href="{{ url_for('index') }}"><i class="bi bi-house-fill"></i> home</a></div>
+        
         <div class="my-3">
             <a onclick="toggleDiv('favorites')" class="dropdown-toggle font-custom text-warning"><i class="bi bi-star-fill"></i> favorites <small>- {{ current_user.get_notes(filter_='favorited').count() }}</small></a>
             <div class="ps-3" id="favorites">
             {% for i in current_user.get_notes(filter_='favorited') %}
-            <div>
-                <a href="{{ url_for('notes.note', id_=i.id) }}" class="font-custom-2"><i style="color: {{ i.folders.color }}" class="bi bi-sticky-fill"></i> {{ i.title }}</a>
+            <div class="text-truncate">
+                <a title="{{ i.title }}" href="{{ url_for('notes.note', id_=i.id) }}" class="font-custom-2"><i style="color: {{ i.folders.color }}" class="bi bi-sticky-fill"></i> {{ i.title }}</a>
             </div>
             {% endfor %}
             </div>
@@ -53,8 +55,8 @@
             <a onclick="toggleDiv('folders')" class="dropdown-toggle font-custom"><i class="bi bi-folder-fill"></i> folders <small>- {{ current_user.get_folders().count() }}</small></a>
             <div class="ps-3" id="folders">
             {% for i in current_user.get_folders() %}
-            <div>
-                <a href="{{ url_for('folders.folder', id_=i.id) }}" class="font-custom-2"><i style="color: {{ i.color }}" class="bi bi-folder-fill"></i> {{ i.name }} <small>- {{ i.get_notes().count() }}</small></a>
+            <div class="text-truncate">
+                <a title="{{ i.name }}" href="{{ url_for('folders.folder', id_=i.id) }}" class="font-custom-2"><i style="color: {{ i.color }}" class="bi bi-folder-fill"></i> {{ i.name }}</a>
             </div>
             {% endfor %}
             </div>

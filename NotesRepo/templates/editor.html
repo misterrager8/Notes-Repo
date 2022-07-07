@@ -11,10 +11,16 @@
         {% endfor %}
     </select>
     <input autocomplete="off" class="input-hidden" value="{{ note.title }}" id="title" onchange="noteEdit({{ note.id }})">
-    <a onclick="noteEdit({{ note.id }})" class="font-custom float-end text-success">
-        <i class="bi bi-save"></i> save
-        <span class="spinner-border spinner-border-sm" id="loading" style="display: none"></span>
-    </a>
+    <div class="float-end">
+        <a class="me-2 bi bi-star{% if note.favorited %}-fill text-warning{% endif %}" onclick="noteFavorite({{ note.id }})"></a>
+        <a class="text-danger font-custom" id="deleteNote" style="display: none" href="{{ url_for('notes.note_delete', id_=note.id) }}">delete?</a>
+        <a class="me-2 text-danger bi bi-trash3" onclick="toggleDiv('deleteNote')"></a>
+        <a onclick="noteEdit({{ note.id }})" class="font-custom text-success">
+            <i class="bi bi-save"></i> save
+            <span class="spinner-grow spinner-grow-sm text-warning" id="unsaved" style="display: none"></span>
+            <span class="spinner-border spinner-border-sm" id="loading" style="display: none"></span>
+        </a>
+    </div>
 </nav>
-<textarea placeholder="Note" rows="40" class="input-content" id="content">{{ note.content }}</textarea>
+<textarea onchange="$('#unsaved').show()" placeholder="Note" rows="40" class="input-content" id="content">{{ note.content }}</textarea>
 {% endblock %}

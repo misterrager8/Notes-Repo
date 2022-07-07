@@ -12,8 +12,8 @@
 </head>
 <nav id="navContent" class="nav-vertical">
     <div class="text-center mb-4 pb-4 border-bottom">
-        <a class="bi bi-stickies-fill" href="{{ url_for('index') }}" style="font-size: 3em"></a>
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=""><i class="bi bi-person-fill"></i> {{ current_user.username }}</a>
+        <a class="bi bi-stickies-fill" href="{{ url_for('index') }}" style="font-size: 3em"></a><br>
+        <a class="font-custom-2 dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-person-fill"></i> {{ current_user.username }}</a>
         <div class="dropdown-menu dropdown-menu-end text-center">
             {% if current_user.is_authenticated %}
             <a class="dropdown-item" href="{{ url_for('account') }}">Account</a>

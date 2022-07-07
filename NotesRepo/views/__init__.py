@@ -2,6 +2,7 @@ from flask import request, url_for, render_template, current_app
 from flask_login import login_user, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import redirect
+import markdown
 
 from NotesRepo import login_manager
 from NotesRepo.ctrla import Database
@@ -13,7 +14,8 @@ database = Database()
 @current_app.route("/")
 def index():
     order_by = request.args.get("order_by", default="last_modified desc")
-    return render_template("index.html", order_by=order_by)
+    with open("README.md", "r") as f: readme = f.read()
+    return render_template("index.html", order_by=order_by, readme=markdown.markdown(readme))
 
 
 @login_manager.user_loader

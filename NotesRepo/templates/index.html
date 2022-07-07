@@ -19,12 +19,15 @@
       </div>
     </div>
     {% else %}
-    <div class="text-center opacity-25">
-      <div class="bi bi-person-fill" style="font-size:5em"></div>
-      <span class="h4">
-        <a data-bs-toggle="modal" data-bs-target="#login" class="font-custom text-decoration-underline">Log in</a> or
-        <a data-bs-toggle="modal" data-bs-target="#signup" class="font-custom text-decoration-underline">sign up</a>
-      </span>
+    <div class="opacity-25">
+        <div class="text-center">
+          <div class="bi bi-person-fill" style="font-size:5em"></div>
+          <span class="h4">
+            <a data-bs-toggle="modal" data-bs-target="#login" class="font-custom text-decoration-underline">Log in</a> or
+            <a data-bs-toggle="modal" data-bs-target="#signup" class="font-custom text-decoration-underline">sign up</a>
+          </span>
+        </div>
+        <div class="p-5">{{ readme | safe }}</div>
     </div>
     {% endif %}
 </div>

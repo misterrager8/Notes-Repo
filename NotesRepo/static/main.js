@@ -71,16 +71,6 @@ function folderEdit(folderId) {
 
 // Links
 
-function linkCreate() {
-    $('#spinner').show();
-    $.post('link_create', {
-        url: $('#url').val(),
-        title: $('#title').val()
-    }, function(data) {
-        refreshPage();
-    });
-}
-
 function linkEdit(linkId) {
     $('#spinner').show();
     $.post('link_edit', {

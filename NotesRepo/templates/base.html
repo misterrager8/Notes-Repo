@@ -31,7 +31,12 @@
         </form>
         
         <div class="my-3">
-            <a class="text-success font-custom" data-bs-toggle="modal" data-bs-target="#newNote"><i class="bi bi-sticky-fill"></i> + new note</a>
+            <a class="bg-success btn-custom dropdown-toggle" onclick="toggleDiv('new')"><i class="bi bi-plus-lg"></i> new</a>
+            <div id="new" class="ps-3 mt-2" style="display: none">
+                <a data-bs-toggle="modal" data-bs-target="#newNote" class="font-custom"><i class="bi bi-sticky-fill"></i> + note</a><br>
+                <a data-bs-toggle="modal" data-bs-target="#newFolder" class="font-custom"><i class="bi bi-folder-fill"></i> + folder</a><br>
+                <a data-bs-toggle="modal" data-bs-target="#newLink" class="font-custom"><i class="bi bi-link-45deg"></i> + link</a>
+            </div>
         </div>
         
         <div class="my-3">
@@ -52,7 +57,6 @@
                 <a href="{{ url_for('folders.folder', id_=i.id) }}" class="font-custom-2"><i style="color: {{ i.color }}" class="bi bi-folder-fill"></i> {{ i.name }} <small>- {{ i.get_notes().count() }}</small></a>
             </div>
             {% endfor %}
-            <a class="text-success font-custom" data-bs-toggle="modal" data-bs-target="#newFolder"><i class="bi bi-folder-fill"></i> + new folder</a>
             </div>
         </div>
         <div class="my-3">
@@ -76,6 +80,10 @@
     
     {% call macros.modal('newNote') %}
     {{ macros.note_create_form() }}
+    {% endcall %}
+    
+    {% call macros.modal('newLink') %}
+    {{ macros.link_create_form() }}
     {% endcall %}
     {% endif %}
     

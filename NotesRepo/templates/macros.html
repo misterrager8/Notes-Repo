@@ -95,9 +95,9 @@
 {% endmacro %}
 
 {% macro link_create_form() %}
-<form onsubmit="event.preventDefault(); linkCreate(); this.reset();">
-  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="URL" type="url" id="url" onchange="getTitle();">
-  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="Title" type="text" id="title">
+<form method="POST" action="{{ url_for('links.link_create') }}">
+  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="URL" type="url" id="url" name="url" onchange="getTitle();">
+  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="Title" type="text" name="title" id="title">
   <button class="btn-custom w-100">Add Link</button>
 </form>
 {% endmacro %}

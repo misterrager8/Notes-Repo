@@ -28,8 +28,8 @@
 {% endmacro %}
 
 {% macro link_card(link) %}
-<div class="card col-xl-4">
-  <div class="card-body {% if not link.been_read %}border-warning{% else %}border-success{% endif %}">
+<div class="card border-0 col-xl-4">
+  <div class="card-body mb-3 {% if not link.been_read %}border-warning{% else %}border-success{% endif %}">
       <div class="text-truncate">
           <a onclick="toggleRead({{ link.id }})" class="me-2 bi {% if link.been_read %}bi-check-all text-success{% else %}bi-envelope-fill text-warning{% endif %}"></a>
           <a title="{{ link.title }}" target="_blank" class="font-custom-2" href="{{ link.url }}">{{ link.title }}</a>

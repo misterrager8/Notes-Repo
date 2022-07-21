@@ -14,12 +14,12 @@ database = Database()
 @folders.route("/folder_create", methods=["POST"])
 @login_required
 def folder_create():
-    _ =         Folder(
-            name=request.form["name"],
-            color="#{:06x}".format(random.randint(0, 0xFFFFFF)),
-            date_created=datetime.now(),
-            user_id=current_user.id,
-        )
+    _ = Folder(
+        name=request.form["name"],
+        color="#{:06x}".format(random.randint(0, 0xFFFFFF)),
+        date_created=datetime.now(),
+        user_id=current_user.id,
+    )
     database.create(_)
 
     return redirect(url_for("folders.folder", id_=_.id))

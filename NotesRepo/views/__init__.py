@@ -14,8 +14,11 @@ database = Database()
 @current_app.route("/")
 def index():
     order_by = request.args.get("order_by", default="last_modified desc")
-    with open("README.md", "r") as f: readme = f.read()
-    return render_template("index.html", order_by=order_by, readme=markdown.markdown(readme))
+    with open("README.md", "r") as f:
+        readme = f.read()
+    return render_template(
+        "index.html", order_by=order_by, readme=markdown.markdown(readme)
+    )
 
 
 @login_manager.user_loader

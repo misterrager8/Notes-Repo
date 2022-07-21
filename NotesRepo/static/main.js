@@ -15,9 +15,6 @@ function refreshPage() {
 function toggleDiv(divId) {
     $('#' + divId).fadeToggle(250);
 }
-
-// Notes
-
 function noteEdit(noteId) {
     $('#loading').toggle();
     $.post('editor', {
@@ -55,9 +52,6 @@ function formatText(format) {
     }
 }
 
-
-// Folders
-
 function folderEdit(folderId) {
     $('#spinner').show();
     $.post('folder_edit', {
@@ -68,9 +62,6 @@ function folderEdit(folderId) {
         refreshPage();
     });
 }
-
-// Links
-
 function linkEdit(linkId) {
     $('#spinner').show();
     $.post('link_edit', {

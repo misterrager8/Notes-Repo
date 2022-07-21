@@ -1,6 +1,14 @@
 from datetime import datetime
 
-from flask import Blueprint, request, render_template, redirect, url_for
+from flask import (
+    Blueprint,
+    request,
+    render_template,
+    redirect,
+    url_for,
+    send_from_directory,
+    current_app,
+)
 from flask_login import login_required, current_user
 
 from NotesRepo import db
@@ -48,6 +56,18 @@ def note_delete():
     database.delete(_)
 
     return redirect(url_for("folders.folder", id_=id_))
+
+
+@notes.route("/note_download", methods=["GET", "POST"])
+@login_required
+def note_download():
+    _: Note = database.get(Note, int(request.args.get("id_")))
+    full_path = "%s/%s.md" % (current_app.root_path, _.title)
+
+    with open(full_path, "w") as f:
+        f.write(_.content)
+
+    return send_from_directory(directory=current_app.root_path, path="%s.md" % _.title)
 
 
 @notes.route("/note_favorite")

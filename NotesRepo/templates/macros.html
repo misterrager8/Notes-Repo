@@ -19,7 +19,7 @@
         </div>
         <div>
             <a href="{{ url_for('notes.editor', id_=note.id) }}" class="bi bi-pen mx-1"></a>
-            <a href="{{ url_for('notes.note_download', id_=note.id) }}" class="bi bi-download mx-1"></a>
+            <a download href="{{ url_for('notes.note_download', id_=note.id) }}" class="bi bi-download mx-1"></a>
             <a onclick="noteFavorite({{ note.id }})" class="bi bi-star{% if note.favorited %}-fill text-warning{% endif %} mx-1"></a>
             <a href="{{ url_for('notes.note_delete', id_=note.id) }}" class="font-custom text-danger mx-1" id="deleteNote" style="display: none">delete?</a>
             <a onclick="toggleDiv('deleteNote')" class="bi bi-trash3 text-danger mx-1"></a>

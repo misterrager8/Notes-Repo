@@ -1,12 +1,3 @@
-$(document).ready(function() {
-    document.documentElement.setAttribute('data-theme', localStorage.getItem('notesrepo_theme'));
-});
-
-function changeTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('notesrepo_theme', theme);
-}
-
 function refreshPage() {
     $('#pageContent').load(location.href + ' #pageContent');
     $('#navContent').load(location.href + ' #navContent');

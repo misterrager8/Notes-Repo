@@ -11,8 +11,8 @@
 {% endmacro %}
 
 {% macro note_card(note) %}
-<div class="card col-xl-4 border-0">
-    <div class="card-body mb-4">
+<div class="card col-xl-4">
+    <div class="card-body">
         <div class="mb-3">
             <a href="{{ url_for('notes.note', id_=note.id) }}" class="fw-bold">{{ note.title }}</a>
             <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" class="float-end font-custom-2"><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i> {{ note.folders.name or 'unsorted' }}</a>
@@ -29,8 +29,8 @@
 {% endmacro %}
 
 {% macro link_card(link) %}
-<div class="card border-0 col-xl-4">
-  <div class="card-body mb-3 {% if not link.been_read %}border-warning{% else %}border-success{% endif %}">
+<div class="card col-xl-4">
+  <div class="card-body {% if not link.been_read %}border-warning{% else %}border-success{% endif %}">
       <div class="text-truncate">
           <a onclick="toggleRead({{ link.id }})" class="me-2 bi {% if link.been_read %}bi-check-all text-success{% else %}bi-envelope-fill text-warning{% endif %}"></a>
           <a title="{{ link.title }}" target="_blank" class="font-custom-2" href="{{ link.url }}">{{ link.title }}</a>
@@ -49,65 +49,65 @@
 <!--FORMS-->
 {% macro login_form() %}
 <form method="POST" action="{{ url_for('login') }}">
-  <input type="text" class="input-custom w-100 mb-2" autocomplete="off" placeholder="Username" name="username">
-  <input type="password" class="input-custom w-100 mb-2" autocomplete="off" placeholder="Password" name="password">
-  <button type="submit" class="btn-custom w-100">Log In</button>
+  <input type="text" class="form-control w-100 mb-2" autocomplete="off" placeholder="Username" name="username">
+  <input type="password" class="form-control w-100 mb-2" autocomplete="off" placeholder="Password" name="password">
+  <button type="submit" class="btn w-100">Log In</button>
 </form>
 {% endmacro %}
 
 {% macro signup_form() %}
 <form method="POST" action="{{ url_for('signup') }}">
-  <input autocomplete="off" class="input-custom w-100 mb-2" name="username" placeholder="Username">
-  <input autocomplete="off" class="input-custom w-100 mb-2" name="password" placeholder="Password" type="password">
-  <button class="btn-custom w-100">Sign Up</button>
+  <input autocomplete="off" class="form-control w-100 mb-2" name="username" placeholder="Username">
+  <input autocomplete="off" class="form-control w-100 mb-2" name="password" placeholder="Password" type="password">
+  <button class="btn w-100">Sign Up</button>
 </form>
 {% endmacro %}
 
 {% macro folder_create_form() %}
 <form class="input-group" method="post" action="{{ url_for('folders.folder_create') }}">
-  <input autocomplete="off" class="input-custom" placeholder="Name" type="text" name="name">
-  <button type="submit" class="btn-custom">Create Folder</button>
+  <input autocomplete="off" class="form-control" placeholder="Name" type="text" name="name">
+  <button type="submit" class="btn">Create Folder</button>
 </form>
 {% endmacro %}
 
 {% macro note_create_form(folder) %}
 <form method="POST" action="{{ url_for('notes.note_create') }}" class="input-group">
-  <input autocomplete="off" class="input-custom" name="title" placeholder="Title" type="text">
-  <select class="input-custom" name="folder_id">
+  <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text">
+  <select class="form-control" name="folder_id">
     <option value="">None</option>
     {% for i in current_user.get_folders() %}
     <option value="{{ i.id }}" {% if folder and i.id==folder.id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
 
-  <button type="submit" class="btn-custom">create note</button>
+  <button type="submit" class="btn">create note</button>
 </form>
 {% endmacro %}
 
 {% macro toolbar() %}
 <div style="font-size: 1.5em">
-    <a class="bi bi-type-bold btn-custom" onclick="formatText('bold')"></a>
-    <a class="bi bi-type-italic btn-custom" onclick="formatText('italic')"></a>
-    <a class="bi bi-link-45deg btn-custom" onclick="formatText('link')"></a>
-    <a class="bi bi-type-h1 btn-custom" onclick="formatText('heading')"></a>
-    <a class="bi bi-text-indent-left btn-custom" onclick="formatText('indent')"></a>
-    <a class="bi bi-code-slash btn-custom" onclick="formatText('code')"></a>
+    <a class="bi bi-type-bold btn" onclick="formatText('bold')"></a>
+    <a class="bi bi-type-italic btn" onclick="formatText('italic')"></a>
+    <a class="bi bi-link-45deg btn" onclick="formatText('link')"></a>
+    <a class="bi bi-type-h1 btn" onclick="formatText('heading')"></a>
+    <a class="bi bi-text-indent-left btn" onclick="formatText('indent')"></a>
+    <a class="bi bi-code-slash btn" onclick="formatText('code')"></a>
 </div>
 {% endmacro %}
 
 {% macro link_create_form() %}
 <form method="POST" action="{{ url_for('links.link_create') }}">
-  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="URL" type="url" id="url" name="url" onchange="getTitle();">
-  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="Title" type="text" name="linktitle" id="title">
-  <button class="btn-custom w-100">Add Link</button>
+  <input autocomplete="off" class="form-control w-100 mb-2" placeholder="URL" type="url" id="url" name="url" onchange="getTitle();">
+  <input autocomplete="off" class="form-control w-100 mb-2" placeholder="Title" type="text" name="linktitle" id="title">
+  <button class="btn w-100">Add Link</button>
 </form>
 {% endmacro %}
 
 {% macro link_edit_form(link) %}
 <form onsubmit="event.preventDefault(); linkEdit({{ link.id }});">
-  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="URL" type="url" id="url{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.url }}">
-  <input autocomplete="off" class="input-custom w-100 mb-2" placeholder="Title" type="text" id="title{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.title }}">
-  <button class="btn-custom w-100">Edit</button>
+  <input autocomplete="off" class="form-control w-100 mb-2" placeholder="URL" type="url" id="url{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.url }}">
+  <input autocomplete="off" class="form-control w-100 mb-2" placeholder="Title" type="text" id="title{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.title }}">
+  <button class="btn w-100">Edit</button>
 </form>
 {% endmacro %}
 
@@ -115,8 +115,8 @@
 
 {% macro note_sorter(class='') %}
 <div class="{{ class }}">
-  <span class="font-custom py-2">Sort: </span>
-  {% if order_by != 'last_modified desc' %}<a class="btn-custom" href="{{ url_for('index', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
-  {% if order_by != 'date_created desc' %}<a class="btn-custom" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
+  <span><i class="bi bi-filter-right"></i></span>
+  {% if order_by != 'last_modified desc' %}<a class="badge bg-secondary m-1" href="{{ url_for('index', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
+  {% if order_by != 'date_created desc' %}<a class="badge bg-secondary m-1" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
 </div>
 {% endmacro %}

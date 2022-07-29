@@ -3,25 +3,35 @@
 
 {% block body %}
 <title>Edit | {{ note.title }}</title>
-<nav class="nav-horizontal sticky-top">
-    <i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i>
-    <select class="input-hidden border-end mx-2 pe-1" id="folderId" onchange="noteEdit({{ note.id }})">
-        <option value="">None</option>
-        {% for i in current_user.get_folders() %}
-        <option value="{{ i.id }}" {% if i.id == note.folder_id %}selected{% endif %}>{{ i.name }}</option>
-        {% endfor %}
-    </select>
-    <input autocomplete="off" class="input-hidden" value="{{ note.title }}" id="notetitle" onchange="noteEdit({{ note.id }})">
-    <div class="float-end">
-        <a class="me-2 bi bi-star{% if note.favorited %}-fill text-warning{% endif %}" onclick="noteFavorite({{ note.id }})"></a>
-        <a class="text-danger font-custom" id="deleteNote" style="display: none" href="{{ url_for('notes.note_delete', id_=note.id) }}">delete?</a>
-        <a class="me-2 text-danger bi bi-trash3" onclick="toggleDiv('deleteNote')"></a>
-        <a onclick="noteEdit({{ note.id }})" class="font-custom text-success">
-            <i class="bi bi-save"></i> save
-            <span class="spinner-grow spinner-grow-sm text-warning" id="unsaved" style="display: none"></span>
-            <span class="spinner-border spinner-border-sm" id="loading" style="display: none"></span>
-        </a>
+<nav class="navbar navbar-expand bg-dark border-0">
+    <div class="container-fluid p-0">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item input-group">
+                <span class="input-group-text"><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i></span>
+                <select class="form-control" id="folderId" onchange="noteEdit({{ note.id }})">
+                    <option value="">None</option>
+                    {% for i in current_user.get_folders() %}
+                    <option value="{{ i.id }}" {% if i.id == note.folder_id %}selected{% endif %}>{{ i.name }}</option>
+                    {% endfor %}
+                </select>
+            </li>
+            <li class="nav-item">
+                <input autocomplete="off" class="form-control" value="{{ note.title }}" id="notetitle" onchange="noteEdit({{ note.id }})">
+            </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="me-2 bi bi-star{% if note.favorited %}-fill text-warning{% endif %}" onclick="noteFavorite({{ note.id }})"></a>
+                <a class="text-danger font-custom" id="deleteNote" style="display: none" href="{{ url_for('notes.note_delete', id_=note.id) }}">delete?</a>
+                <a class="me-2 text-danger bi bi-trash3" onclick="toggleDiv('deleteNote')"></a>
+                <a onclick="noteEdit({{ note.id }})" class="btn btn-success">
+                    <i class="bi bi-save"></i>
+                    <span class="spinner-grow spinner-grow-sm text-warning" id="unsaved" style="display: none"></span>
+                    <span class="spinner-border spinner-border-sm" id="loading" style="display: none"></span>
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>
-<textarea onchange="$('#unsaved').show()" placeholder="Note" rows="40" class="input-content" id="content">{{ note.content }}</textarea>
+<textarea onchange="$('#unsaved').show()" placeholder="Note" rows="40" class="form-control" id="content">{{ note.content }}</textarea>
 {% endblock %}

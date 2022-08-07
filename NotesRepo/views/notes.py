@@ -84,7 +84,7 @@ def note_favorite():
 @login_required
 def editor():
     if request.method == "POST":
-        note_: Note = database.get(Note, int(request.form["id_"]))
+        note_: Note = database.get(Note, int(request.args.get("id_")))
         if request.form["folder_id"]:
             folder_id = int(request.form["folder_id"])
         else:

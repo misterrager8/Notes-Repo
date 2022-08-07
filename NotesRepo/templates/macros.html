@@ -84,17 +84,6 @@
 </form>
 {% endmacro %}
 
-{% macro toolbar() %}
-<div style="font-size: 1.5em">
-    <a class="bi bi-type-bold btn" onclick="formatText('bold')"></a>
-    <a class="bi bi-type-italic btn" onclick="formatText('italic')"></a>
-    <a class="bi bi-link-45deg btn" onclick="formatText('link')"></a>
-    <a class="bi bi-type-h1 btn" onclick="formatText('heading')"></a>
-    <a class="bi bi-text-indent-left btn" onclick="formatText('indent')"></a>
-    <a class="bi bi-code-slash btn" onclick="formatText('code')"></a>
-</div>
-{% endmacro %}
-
 {% macro link_create_form() %}
 <form method="POST" action="{{ url_for('links.link_create') }}">
   <input autocomplete="off" class="form-control w-100 mb-2" placeholder="URL" type="url" id="url" name="url" onchange="getTitle();">

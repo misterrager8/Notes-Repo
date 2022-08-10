@@ -9,3 +9,4 @@ flask_login
 requests~=2.27.1
 beautifulsoup4~=4.10.0
 markdown
+html2text

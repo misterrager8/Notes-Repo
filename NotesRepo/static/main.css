@@ -1,14 +1,19 @@
 a, a:hover {
-    color: inherit;
+    color: inherit !important;
     text-decoration: none;
     cursor: pointer;
 }
 
+body, .modal-content {
+    background-color: #1a1a1a;
+    color: white;
+}
+
 .form-control, .form-control:focus {
-/*
-    background-color: var(--bs-body-bg);
-    color: var(--bs-white);
-*/
+    background-color: inherit;
+    color: inherit;
+    border: 0;
+    border-radius: 0;
     border: 1px solid;
 }
 
@@ -17,4 +22,13 @@ input[type="color"] {
     height: inherit;
     border: 0;
     padding: 0;
+}
+
+.CodeMirror, .editor-preview, .editor-toolbar {
+    background-color: #303030 !important;
+    color: white !important;
+}
+
+.fa {
+    color: white !important;
 }

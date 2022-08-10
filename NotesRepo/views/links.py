@@ -4,9 +4,10 @@ import requests
 from bs4 import BeautifulSoup
 from flask import Blueprint, request, render_template, redirect, url_for
 from flask_login import login_required, current_user
+import html2text
 
 from NotesRepo.ctrla import Database
-from NotesRepo.models import Link
+from NotesRepo.models import Link, Note
 
 links = Blueprint("links", __name__)
 database = Database()
@@ -15,12 +16,15 @@ database = Database()
 @links.route("/link_create", methods=["POST"])
 @login_required
 def link_create():
+    soup = BeautifulSoup(requests.get(request.form["url"]).text, "html.parser")
+
     database.create(
-        Link(
-            url=request.form["url"],
-            title=request.form["linktitle"],
+        Note(
+            title=soup.find("title").get_text(),
+            content=html2text.html2text(str(soup)),
+            date_created=datetime.now(),
+            last_modified=datetime.now(),
             user_id=current_user.id,
-            date_added=datetime.now(),
         )
     )
 

@@ -11,8 +11,8 @@
 {% endmacro %}
 
 {% macro note_card(note) %}
-<div class="card col-xl-4">
-    <div class="card-body">
+<div class="col-xl-4">
+    <div class="p-3">
         <div class="mb-3">
             <a href="{{ url_for('notes.note', id_=note.id) }}" class="fw-bold">{{ note.title }}</a>
             <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" class="float-end font-custom-2"><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i> {{ note.folders.name or 'unsorted' }}</a>
@@ -51,7 +51,7 @@
 <form method="POST" action="{{ url_for('login') }}">
   <input type="text" class="form-control w-100 mb-2" autocomplete="off" placeholder="Username" name="username">
   <input type="password" class="form-control w-100 mb-2" autocomplete="off" placeholder="Password" name="password">
-  <button type="submit" class="btn w-100">Log In</button>
+  <button type="submit" class="btn btn-outline-light w-100">Log In</button>
 </form>
 {% endmacro %}
 
@@ -59,14 +59,14 @@
 <form method="POST" action="{{ url_for('signup') }}">
   <input autocomplete="off" class="form-control w-100 mb-2" name="username" placeholder="Username">
   <input autocomplete="off" class="form-control w-100 mb-2" name="password" placeholder="Password" type="password">
-  <button class="btn w-100">Sign Up</button>
+  <button class="btn btn-outline-light w-100">Sign Up</button>
 </form>
 {% endmacro %}
 
 {% macro folder_create_form() %}
 <form class="input-group" method="post" action="{{ url_for('folders.folder_create') }}">
   <input autocomplete="off" class="form-control" placeholder="Name" type="text" name="name">
-  <button type="submit" class="btn">Create Folder</button>
+  <button type="submit" class="btn btn-outline-light">Create Folder</button>
 </form>
 {% endmacro %}
 
@@ -80,15 +80,14 @@
     {% endfor %}
   </select>
 
-  <button type="submit" class="btn">create note</button>
+  <button type="submit" class="btn btn-outline-light">create note</button>
 </form>
 {% endmacro %}
 
 {% macro link_create_form() %}
 <form method="POST" action="{{ url_for('links.link_create') }}">
   <input autocomplete="off" class="form-control w-100 mb-2" placeholder="URL" type="url" id="url" name="url" onchange="getTitle();">
-  <input autocomplete="off" class="form-control w-100 mb-2" placeholder="Title" type="text" name="linktitle" id="title">
-  <button class="btn w-100">Add Link</button>
+  <button class="btn btn-outline-light w-100">Add Link</button>
 </form>
 {% endmacro %}
 
@@ -96,7 +95,7 @@
 <form onsubmit="event.preventDefault(); linkEdit({{ link.id }});">
   <input autocomplete="off" class="form-control w-100 mb-2" placeholder="URL" type="url" id="url{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.url }}">
   <input autocomplete="off" class="form-control w-100 mb-2" placeholder="Title" type="text" id="title{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.title }}">
-  <button class="btn w-100">Edit</button>
+  <button class="btn btn-outline-light w-100">Edit</button>
 </form>
 {% endmacro %}
 

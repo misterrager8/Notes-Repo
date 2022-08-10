@@ -4,33 +4,23 @@
 {% block body %}
 <title>Edit | {{ note.title }}</title>
 <form method="POST" action="{{ url_for('notes.editor', id_=note.id) }}">
-    <nav class="navbar navbar-expand border-0">
-        <div class="container-fluid p-0">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item input-group">
-                    <span class="input-group-text"><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i></span>
-                    <select class="form-control" name="folder_id">
-                        <option value="">None</option>
-                        {% for i in current_user.get_folders() %}
-                        <option value="{{ i.id }}" {% if i.id == note.folder_id %}selected{% endif %}>{{ i.name }}</option>
-                        {% endfor %}
-                    </select>
-                </li>
-                <li class="nav-item">
-                    <input autocomplete="off" class="form-control" value="{{ note.title }}" name="title">
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="me-2 bi bi-star{% if note.favorited %}-fill text-warning{% endif %}" onclick="noteFavorite({{ note.id }})"></a>
-                    <a class="text-danger font-custom" id="deleteNote" style="display: none" href="{{ url_for('notes.note_delete', id_=note.id) }}">delete?</a>
-                    <a class="me-2 text-danger bi bi-trash3" onclick="toggleDiv('deleteNote')"></a>
-                    <button type="submit" class="btn btn-outline-success"><i class="bi bi-save"></i></button>
-                </li>
-            </ul>
+    <div class="input-group my-3">
+        <span class="input-group-text"><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i></span>
+        <select class="form-control" name="folder_id">
+            <option value="">None</option>
+            {% for i in current_user.get_folders() %}
+            <option value="{{ i.id }}" {% if i.id == note.folder_id %}selected{% endif %}>{{ i.name }}</option>
+            {% endfor %}
+        </select>
+        <input autocomplete="off" class="form-control" value="{{ note.title }}" name="title">
+        <div class="ps-4">
+            <a class="me-2 bi bi-star{% if note.favorited %}-fill text-warning{% endif %}" onclick="noteFavorite({{ note.id }})"></a>
+            <a class="text-danger font-custom" id="deleteNote" style="display: none" href="{{ url_for('notes.note_delete', id_=note.id) }}">Delete?</a>
+            <a class="me-2 text-danger bi bi-trash3" onclick="toggleDiv('deleteNote')"></a>
+            <button type="submit" class="btn btn-outline-success"><i class="bi bi-save"></i></button>
         </div>
-    </nav>
-    <textarea onchange="$('#unsaved').show()" placeholder="Note" rows="40" class="bg-light" name="content">{{ note.content }}</textarea>
+    </div>
+    <textarea placeholder="Note" rows="40" class="bg-light" name="content">{{ note.content }}</textarea>
 </form>
 
 <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">

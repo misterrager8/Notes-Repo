@@ -19,11 +19,9 @@ def create_app(config):
     with app.app_context():
         from NotesRepo.views.folders import folders
         from NotesRepo.views.notes import notes
-        from NotesRepo.views.links import links
 
         app.register_blueprint(folders)
         app.register_blueprint(notes)
-        app.register_blueprint(links)
 
         # db.drop_all()
         db.create_all()

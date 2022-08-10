@@ -4,7 +4,7 @@ a, a:hover {
     cursor: pointer;
 }
 
-body, .modal-content {
+body, .modal-content, .dropdown-menu {
     background-color: #1a1a1a;
     color: white;
 }

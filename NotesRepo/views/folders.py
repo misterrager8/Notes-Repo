@@ -39,7 +39,6 @@ def folder_edit():
     folder_: Folder = database.get(Folder, int(request.form["id_"]))
 
     folder_.name = request.form["name"]
-    folder_.color = request.form["color"]
     database.update()
 
     return redirect(request.referrer)

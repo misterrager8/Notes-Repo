@@ -12,7 +12,6 @@ class User(UserMixin, db.Model):
     password = Column(Text)
     folders = relationship("Folder", backref="users", lazy="dynamic")
     notes = relationship("Note", backref="users", lazy="dynamic")
-    links = relationship("Link", backref="users", lazy="dynamic")
     id = Column(Integer, primary_key=True)
 
     def __init__(self, **kwargs):
@@ -23,9 +22,6 @@ class User(UserMixin, db.Model):
 
     def get_notes(self, filter_: str = "", order_by: str = "last_modified desc"):
         return self.notes.filter(text(filter_)).order_by(text(order_by))
-
-    def get_links(self, filter_: str = "", order_by: str = "date_added desc"):
-        return self.links.filter(text(filter_)).order_by(text(order_by))
 
 
 class Folder(db.Model):
@@ -62,17 +58,3 @@ class Note(db.Model):
 
     def get_markdown(self):
         return markdown.markdown(self.content)
-
-
-class Link(db.Model):
-    __tablename__ = "links"
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    title = Column(Text)
-    url = Column(Text)
-    been_read = Column(Boolean, default=False)
-    date_added = Column(DateTime)
-
-    def __init__(self, **kwargs):
-        super(Link, self).__init__(**kwargs)

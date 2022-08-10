@@ -47,43 +47,10 @@ function folderEdit(folderId) {
     $('#spinner').show();
     $.post('folder_edit', {
         id_: folderId,
-        name: $('#name').val(),
-        color: $('#color').val()
+        name: $('#name').val()
     }, function(data) {
         refreshPage();
     });
-}
-function linkEdit(linkId) {
-    $('#spinner').show();
-    $.post('link_edit', {
-        id_: linkId,
-        url: $('#url' + linkId).val(),
-        title: $('#title' + linkId).val()
-    }, function(data) {
-        refreshPage();
-    });
-}
-
-function toggleRead(linkId) {
-    $('#spinner').show();
-    $.get('toggle_read', {
-        id_: linkId
-    }, function(data) {
-        refreshPage();
-    });
-}
-
-function linkDelete(linkId) {
-    $('#spinner').show();
-    $.get('link_delete', {
-        id_: linkId
-    }, function(data) {
-        refreshPage();
-    });
-}
-
-function getTitle() {
-    $.post("get_title", { url : $('#url').val() }, function(data) { $('#title').val(data); });
 }
 
 function changePassword() {

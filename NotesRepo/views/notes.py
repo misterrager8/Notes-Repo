@@ -1,4 +1,7 @@
 from datetime import datetime
+from bs4 import BeautifulSoup
+import html2text
+
 
 from flask import (
     Blueprint,
@@ -14,6 +17,7 @@ from flask_login import login_required, current_user
 from NotesRepo import db
 from NotesRepo.ctrla import Database
 from NotesRepo.models import Note
+import requests
 
 notes = Blueprint("notes", __name__)
 database = Database()
@@ -46,6 +50,29 @@ def note_create():
     )
     database.create(_)
     return redirect(url_for("notes.editor", id_=_.id))
+
+
+@notes.route("/note_create_from_url", methods=["POST"])
+@login_required
+def note_create_from_url():
+    soup = BeautifulSoup(requests.get(request.form["url"]).text, "html.parser")
+
+    if request.form["folder_id"]:
+        id_ = int(request.form["folder_id"])
+    else:
+        id_ = None
+
+    note_ = Note(
+        title=soup.find("title").get_text(),
+        folder_id=id_,
+        content=html2text.html2text(str(soup)),
+        date_created=datetime.now(),
+        last_modified=datetime.now(),
+        user_id=current_user.id,
+    )
+    database.create(note_)
+
+    return redirect(url_for("notes.editor", id_=note_.id))
 
 
 @notes.route("/note_delete")

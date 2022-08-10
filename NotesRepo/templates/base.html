@@ -12,13 +12,15 @@
     </head>
     <nav class="navbar navbar-expand-lg border-bottom">
         <div class="container-fluid">
-            <a href="{{ url_for('index') }}" class="navbar-brand"><i class="bi bi-stickies-fill"></i></a>
+            <a href="{{ url_for('index') }}" class="navbar-brand pe-4 border-end">
+                <i class="bi bi-stickies-fill"></i>
+            </a>
             <a class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navContent"><i class="bi bi-list"></i></a>
             <div class="collapse navbar-collapse" id="navContent">
                 {% if not current_user.is_anonymous %}
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-success" data-bs-toggle="dropdown" data-bs-target="#add"><i class="bi bi-plus-lg"></i></a>
+                        <a class="dropdown-toggle nav-link text-success" data-bs-toggle="dropdown" data-bs-target="#add"><i class="bi bi-plus-lg"></i></a>
                         <div class="dropdown-menu text-center" id="add">
                             <a class="dropdown-item" data-bs-target="#addNote" data-bs-toggle="modal">Note</a>
                             <a class="dropdown-item" data-bs-target="#addFolder" data-bs-toggle="modal">Folder</a>
@@ -26,27 +28,38 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-target="#folders"><i class="bi bi-folder-fill"></i> Folders</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-target="#folders">
+                            <i class="bi bi-folder-fill"></i>
+                            <span class="badge">{{ current_user.get_folders().count() }}</span>
+                        </a>
                         <div class="dropdown-menu" id="folders">
                             {% for i in current_user.get_folders() %}
-                            <a class="dropdown-item" href="{{ url_for('folders.folder', id_=i.id) }}"><i class="bi bi-folder-fill me-2" style="color: {{ i.color }}"></i> {{ i.name }}</a>
+                            <a class="dropdown-item" href="{{ url_for('folders.folder', id_=i.id) }}"><i class="bi bi-folder-fill me-2" style="color: {{ i.color }}"></i> {{ i.name }} <span class="badge">{{ i.get_notes().count() }}</span></a>
                             {% endfor %}
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-target="#favs"><i class="bi bi-star-fill text-warning"></i> Favorites</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-target="#favs">
+                            <i class="bi bi-star-fill text-warning"></i>
+                            <span class="badge">{{ current_user.get_notes(filter_='favorited').count() }}</span>
+                        </a>
                         <div class="dropdown-menu" id="favs">
                             {% for i in current_user.get_notes(filter_='favorited') %}
                             <a class="dropdown-item" href="{{ url_for('notes.note', id_=i.id) }}"><i class="bi bi-stickies-fill me-2" style="color: {{ i.folders.color }}"></i> {{ i.title }}</a>
                             {% endfor %}
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ url_for('links.links_') }}" class="nav-link"><i class="bi bi-link-45deg"></i> Links</a>
-                    </li>
                 </ul>
                 {% endif %}
                 <ul class="navbar-nav ms-auto">
+                    {% if not current_user.is_anonymous %}
+                    <li class="nav-item me-3">
+                        <form class="input-group" method="POST" action="{{ url_for('notes.search') }}">
+                            <input class="form-control py-0 border-0 border-bottom" name="search_term" autocomplete="off" placeholder="Search">
+                            <button type="submit" class="btn btn-sm btn-outline-light py-0 border-0"><i class="bi bi-search"></i></button>
+                        </form>
+                    </li>
+                    {% endif %}
                     <li class="nav-item dropdown">
                         <a class="dropdown-toggle" data-bs-toggle="dropdown" data-bs-target="#user"><i class="bi bi-person-fill"></i></a>
                         <div id="user" class="dropdown-menu dropdown-menu-end text-center">
@@ -106,7 +119,7 @@
     </div>
     {% endif %}
     
-    <div class="container" id="pageContent">
+    <div class="container my-5" id="pageContent">
         <span class="spinner-border spinner-border-sm" id="spinner" style="display: none"></span>
         {% block body %}
         {% endblock %}

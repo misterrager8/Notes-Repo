@@ -3,14 +3,14 @@
 
 {% block body %}
 <title>{{ current_user.username }}</title>
-<div class="p-4">
+<div class="">
     <input autocomplete="off" id="username" class="form-control mb-2" placeholder="Username" value="{{ current_user.username }}">
-    <button class="btn" onclick="changeUsername()">Change Username</button>
+    <button class="btn btn-outline-light" onclick="changeUsername()">Change Username</button>
     <form onsubmit="event.preventDefault(); changePassword();">
       <input autocomplete="off" id="oldPassword" class="form-control" placeholder="Current Password" type="password">
       <input autocomplete="off" id="newPassword" class="form-control" placeholder="New Password" type="password">
       <input autocomplete="off" id="newPasswordConfirm" class="form-control" placeholder="New Password Again" type="password">
-      <button class="btn" type="submit">Change Password</button>
+      <button class="btn btn-outline-light" type="submit">Change Password</button>
     </form>
 </div>
 {% endblock %}

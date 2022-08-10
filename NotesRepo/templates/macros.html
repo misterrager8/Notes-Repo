@@ -1,47 +1,17 @@
 <!--suppress ALL -->
-<!--BOXES-->
-{% macro modal(modal_id, class='', large=false) %}
-<div class="modal {{ class }}" id="{{ modal_id }}">
-  <div class="modal-dialog {% if large %}modal-lg{% endif %}">
-    <div class="modal-content p-3">
-      {{ caller() }}
-    </div>
-  </div>
-</div>
-{% endmacro %}
-
 {% macro note_card(note) %}
 <div class="col-xl-4">
-    <div class="p-3">
-        <div class="mb-3">
-            <a href="{{ url_for('notes.note', id_=note.id) }}" class="fw-bold">{{ note.title }}</a>
-            <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" class="float-end font-custom-2"><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i> {{ note.folders.name or 'unsorted' }}</a>
-        </div>
-        <div>
+    <div class="p-3 text-truncate border-bottom">
+        <a href="{{ url_for('notes.note', id_=note.id) }}" class="fs-5 fst-italic">{{ note.title }}</a><br>
+        <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" class=""><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i> {{ note.folders.name or 'Unsorted' }}</a>
+        <div class="mt-3">
             <a href="{{ url_for('notes.editor', id_=note.id) }}" class="bi bi-pen mx-1"></a>
             <a download href="{{ url_for('notes.note_download', id_=note.id) }}" class="bi bi-download mx-1"></a>
             <a onclick="noteFavorite({{ note.id }})" class="bi bi-star{% if note.favorited %}-fill text-warning{% endif %} mx-1"></a>
-            <a href="{{ url_for('notes.note_delete', id_=note.id) }}" class="font-custom text-danger mx-1" id="deleteNote" style="display: none">delete?</a>
-            <a onclick="toggleDiv('deleteNote')" class="bi bi-trash3 text-danger mx-1"></a>
+            <a href="{{ url_for('notes.note_delete', id_=note.id) }}" class="font-custom text-danger mx-1" id="deleteNote{{ note.id }}" style="display: none">Delete?</a>
+            <a onclick="toggleDiv('deleteNote' + {{ note.id }})" class="bi bi-trash3 text-danger mx-1"></a>
         </div>
     </div>
-</div>
-{% endmacro %}
-
-{% macro link_card(link) %}
-<div class="card col-xl-4">
-  <div class="card-body {% if not link.been_read %}border-warning{% else %}border-success{% endif %}">
-      <div class="text-truncate">
-          <a onclick="toggleRead({{ link.id }})" class="me-2 bi {% if link.been_read %}bi-check-all text-success{% else %}bi-envelope-fill text-warning{% endif %}"></a>
-          <a title="{{ link.title }}" target="_blank" class="font-custom-2" href="{{ link.url }}">{{ link.title }}</a>
-      </div>
-    <div class="mt-2">
-      <a class="mx-1" onclick="toggleDiv('edit' + {{ link.id }})"><i class="bi bi-pen"></i></a>
-      <a class="mx-1" onclick="toggleDiv('delete' + {{ link.id }})"><i class="bi bi-trash3 text-danger"></i></a>
-      <a id="delete{{ link.id }}" style="display:none" class="font-custom text-danger" onclick="linkDelete({{ link.id }})">Delete?</a>
-      <div class="mt-3" id="edit{{ link.id }}" style="display:none">{{ link_edit_form(link) }}</div>
-    </div>
-  </div>
 </div>
 {% endmacro %}
 
@@ -66,7 +36,7 @@
 {% macro folder_create_form() %}
 <form class="input-group" method="post" action="{{ url_for('folders.folder_create') }}">
   <input autocomplete="off" class="form-control" placeholder="Name" type="text" name="name">
-  <button type="submit" class="btn btn-outline-light">Create Folder</button>
+  <button type="submit" class="btn btn-outline-success"><i class="bi bi-folder"></i> Create Folder</button>
 </form>
 {% endmacro %}
 
@@ -74,28 +44,26 @@
 <form method="POST" action="{{ url_for('notes.note_create') }}" class="input-group">
   <input autocomplete="off" class="form-control" name="title" placeholder="Title" type="text">
   <select class="form-control" name="folder_id">
-    <option value="">None</option>
+    <option value="">Select Folder</option>
     {% for i in current_user.get_folders() %}
     <option value="{{ i.id }}" {% if folder and i.id==folder.id %}selected{% endif %}>{{ i.name }}</option>
     {% endfor %}
   </select>
 
-  <button type="submit" class="btn btn-outline-light">create note</button>
+  <button type="submit" class="btn btn-outline-success"><i class="bi bi-sticky"></i> Create Note</button>
 </form>
 {% endmacro %}
 
 {% macro link_create_form() %}
-<form method="POST" action="{{ url_for('links.link_create') }}">
-  <input autocomplete="off" class="form-control w-100 mb-2" placeholder="URL" type="url" id="url" name="url" onchange="getTitle();">
-  <button class="btn btn-outline-light w-100">Add Link</button>
-</form>
-{% endmacro %}
-
-{% macro link_edit_form(link) %}
-<form onsubmit="event.preventDefault(); linkEdit({{ link.id }});">
-  <input autocomplete="off" class="form-control w-100 mb-2" placeholder="URL" type="url" id="url{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.url }}">
-  <input autocomplete="off" class="form-control w-100 mb-2" placeholder="Title" type="text" id="title{{ link.id }}" onchange="linkEdit({{ link.id }})" value="{{ link.title }}">
-  <button class="btn btn-outline-light w-100">Edit</button>
+<form method="POST" action="{{ url_for('notes.note_create_from_url') }}" class="input-group">
+  <input autocomplete="off" class="form-control" placeholder="URL" name="url">
+  <select class="form-control" name="folder_id">
+    <option value="">Select Folder</option>
+    {% for i in current_user.get_folders() %}
+    <option value="{{ i.id }}" {% if folder and i.id==folder.id %}selected{% endif %}>{{ i.name }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-outline-success"><i class="bi bi-link-45deg"></i> Save Link</button>
 </form>
 {% endmacro %}
 
@@ -104,7 +72,7 @@
 {% macro note_sorter(class='') %}
 <div class="{{ class }}">
   <span><i class="bi bi-filter-right"></i></span>
-  {% if order_by != 'last_modified desc' %}<a class="badge bg-secondary m-1" href="{{ url_for('index', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
-  {% if order_by != 'date_created desc' %}<a class="badge bg-secondary m-1" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
+  {% if order_by != 'last_modified desc' %}<a class="btn btn-sm btn-outline-light m-1" href="{{ url_for('index', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
+  {% if order_by != 'date_created desc' %}<a class="btn btn-sm btn-outline-light m-1" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
 </div>
 {% endmacro %}

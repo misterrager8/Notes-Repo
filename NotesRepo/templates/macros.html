@@ -1,7 +1,7 @@
 <!--suppress ALL -->
 {% macro note_card(note) %}
 <div class="col-xl-4">
-    <div class="p-3 text-truncate border-bottom">
+    <div class="p-3 text-truncate" style="border-bottom: 5px solid {{ note.folders.color }}">
         <a href="{{ url_for('notes.note', id_=note.id) }}" class="fs-5 fst-italic">{{ note.title }}</a><br>
         <a href="{{ url_for('folders.folder', id_=note.folder_id) }}" class=""><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i> {{ note.folders.name or 'Unsorted' }}</a>
         <div class="mt-3">

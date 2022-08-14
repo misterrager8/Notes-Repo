@@ -73,6 +73,8 @@
 <div class="{{ class }}">
   <span><i class="bi bi-filter-right"></i></span>
   {% if order_by != 'last_modified desc' %}<a class="btn btn-sm btn-outline-light m-1" href="{{ url_for('index', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
+  {% if order_by != 'title' %}<a class="btn btn-sm btn-outline-light m-1" href="{{ url_for('index', order_by='title') }}">Title</a>{% endif %}
+  {% if order_by != 'folder_id desc' %}<a class="btn btn-sm btn-outline-light m-1" href="{{ url_for('index', order_by='folder_id desc') }}">Folder</a>{% endif %}
   {% if order_by != 'date_created desc' %}<a class="btn btn-sm btn-outline-light m-1" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
 </div>
 {% endmacro %}

@@ -5,6 +5,7 @@
 <title>Edit | {{ note.title }}</title>
 <form method="POST" action="{{ url_for('notes.editor', id_=note.id) }}">
     <div class="input-group my-3">
+        <a class="ps-0 btn input-group-text" href="{{ url_for('notes.note', id_=note.id) }}"><i class="bi bi-eye"></i></a>
         <span class="input-group-text"><i class="bi bi-folder-fill" style="color: {{ note.folders.color }}"></i></span>
         <select class="form-control" name="folder_id">
             <option value="">None</option>
@@ -22,9 +23,6 @@
     </div>
     <textarea placeholder="Note" rows="40" class="bg-light" name="content">{{ note.content }}</textarea>
 </form>
-
-<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
-<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 
 <script>
     const editor = new EasyMDE({

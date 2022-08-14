@@ -1,3 +1,12 @@
+$(document).ready(function() {
+    document.documentElement.setAttribute('data-theme', localStorage.getItem('NotesRepo'));
+});
+
+function changeTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('NotesRepo', theme);
+}
+
 function refreshPage() {
     $('#pageContent').load(location.href + ' #pageContent');
     $('#navContent').load(location.href + ' #navContent');
@@ -6,6 +15,7 @@ function refreshPage() {
 function toggleDiv(divId) {
     $('#' + divId).fadeToggle(250);
 }
+
 function noteEdit(noteId) {
     $('#loading').toggle();
     $.post('editor', {
@@ -25,22 +35,6 @@ function noteFavorite(noteId) {
     }, function(data) {
         refreshPage();
     });
-}
-
-function formatText(format) {
-    if (format=='bold') {
-        document.getElementById('content').value += '\n**bold**';
-    } else if (format=='italic') {
-        document.getElementById('content').value += '\n*italic*';
-    } else if (format=='link') {
-        document.getElementById('content').value += '\n[url](text)';
-    } else if (format=='heading') {
-        document.getElementById('content').value += '\n### ';
-    } else if (format=='indent') {
-        document.getElementById('content').value += '    ';
-    } else if (format=='code') {
-        document.getElementById('content').value += '\n<code>\n</code>';
-    }
 }
 
 function folderEdit(folderId) {

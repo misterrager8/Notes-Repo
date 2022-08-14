@@ -21,7 +21,7 @@
 <form method="POST" action="{{ url_for('login') }}">
   <input type="text" class="form-control w-100 mb-2" autocomplete="off" placeholder="Username" name="username">
   <input type="password" class="form-control w-100 mb-2" autocomplete="off" placeholder="Password" name="password">
-  <button type="submit" class="btn btn-outline-light w-100">Log In</button>
+  <button type="submit" class="btn btn-outline-secondary w-100">Log In</button>
 </form>
 {% endmacro %}
 
@@ -29,7 +29,7 @@
 <form method="POST" action="{{ url_for('signup') }}">
   <input autocomplete="off" class="form-control w-100 mb-2" name="username" placeholder="Username">
   <input autocomplete="off" class="form-control w-100 mb-2" name="password" placeholder="Password" type="password">
-  <button class="btn btn-outline-light w-100">Sign Up</button>
+  <button class="btn btn-outline-secondary w-100">Sign Up</button>
 </form>
 {% endmacro %}
 
@@ -72,9 +72,9 @@
 {% macro note_sorter(class='') %}
 <div class="{{ class }}">
   <span><i class="bi bi-filter-right"></i></span>
-  {% if order_by != 'last_modified desc' %}<a class="btn btn-sm btn-outline-light m-1" href="{{ url_for('index', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
-  {% if order_by != 'title' %}<a class="btn btn-sm btn-outline-light m-1" href="{{ url_for('index', order_by='title') }}">Title</a>{% endif %}
-  {% if order_by != 'folder_id desc' %}<a class="btn btn-sm btn-outline-light m-1" href="{{ url_for('index', order_by='folder_id desc') }}">Folder</a>{% endif %}
-  {% if order_by != 'date_created desc' %}<a class="btn btn-sm btn-outline-light m-1" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
+  {% if order_by != 'last_modified desc' %}<a class="btn btn-sm btn-outline-secondary m-1" href="{{ url_for('index', order_by='last_modified desc') }}">Last Modified</a>{% endif %}
+  {% if order_by != 'title' %}<a class="btn btn-sm btn-outline-secondary m-1" href="{{ url_for('index', order_by='title') }}">Title</a>{% endif %}
+  {% if order_by != 'folder_id desc' %}<a class="btn btn-sm btn-outline-secondary m-1" href="{{ url_for('index', order_by='folder_id desc') }}">Folder</a>{% endif %}
+  {% if order_by != 'date_created desc' %}<a class="btn btn-sm btn-outline-secondary m-1" href="{{ url_for('index', order_by='date_created desc') }}">Date Created</a>{% endif %}
 </div>
 {% endmacro %}
